@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="mmediting（未测试完全）该模块包含的内容主要有：  包括图像修复、扣图、超分辨率和四种图像生成四种类型的任务 可以对上述四种任务类型进行单图推断产生demo并可视化   命令行调用部分 训练  dist_train.sh(multi-gpu training)该文件位于&#x2F;mmlab&#x2F;mmediting&#x2F;tools&#x2F;dist_train.sh，其参数如下： 必要参数 WORK_DIR 参数为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mmedit">
+<meta property="og:url" content="http://example.com/2021/03/25/group_report/mmedit/index.html">
+<meta property="og:site_name" content="暴走白熊的小窝">
+<meta property="og:description" content="mmediting（未测试完全）该模块包含的内容主要有：  包括图像修复、扣图、超分辨率和四种图像生成四种类型的任务 可以对上述四种任务类型进行单图推断产生demo并可视化   命令行调用部分 训练  dist_train.sh(multi-gpu training)该文件位于&#x2F;mmlab&#x2F;mmediting&#x2F;tools&#x2F;dist_train.sh，其参数如下： 必要参数 WORK_DIR 参数为">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200909204649720.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpbnpoYW5neWFueGlhbmc=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdn.net/20181022112701766?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0ZKWV9zdW5zaGluZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="article:published_time" content="2021-03-25T14:43:19.067Z">
+<meta property="article:modified_time" content="2021-04-05T14:29:58.359Z">
+<meta property="article:author" content="杨熊">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200909204649720.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpbnpoYW5neWFueGlhbmc=,size_16,color_FFFFFF,t_70#pic_center">
+
+<link rel="canonical" href="http://example.com/2021/03/25/group_report/mmedit/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>mmedit | 暴走白熊的小窝</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">暴走白熊的小窝</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/25/group_report/mmedit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="杨熊">
+      <meta itemprop="description" content="善恶到头终有报，只争来早与来迟">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="暴走白熊的小窝">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          mmedit
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-25 22:43:19" itemprop="dateCreated datePublished" datetime="2021-03-25T22:43:19+08:00">2021-03-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-05 22:29:58" itemprop="dateModified" datetime="2021-04-05T22:29:58+08:00">2021-04-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="mmediting（未测试完全）"><a href="#mmediting（未测试完全）" class="headerlink" title="mmediting（未测试完全）"></a>mmediting（未测试完全）</h2><p>该模块包含的内容主要有：</p>
+<ul>
+<li>包括图像修复、扣图、超分辨率和四种图像生成四种类型的任务</li>
+<li>可以对上述四种任务类型进行单图推断产生demo并可视化</li>
+</ul>
+<hr>
+<h3 id="命令行调用部分"><a href="#命令行调用部分" class="headerlink" title="命令行调用部分"></a>命令行调用部分</h3><details data-markdown>
+<summary>训练</summary>
+
+<h4 id="dist-train-sh-multi-gpu-training"><a href="#dist-train-sh-multi-gpu-training" class="headerlink" title="dist_train.sh(multi-gpu training)"></a><code>dist_train.sh</code>(multi-gpu training)</h4><p>该文件位于<code>/mmlab/mmediting/tools/dist_train.sh</code>，其参数如下：</p>
+<h5 id="必要参数"><a href="#必要参数" class="headerlink" title="必要参数"></a>必要参数</h5><ul>
+<li><code>WORK_DIR</code> 参数为任务路径。</li>
+</ul>
+<h5 id="主要可选参数"><a href="#主要可选参数" class="headerlink" title="主要可选参数"></a>主要可选参数</h5><details data-markdown>
+
+<ul>
+<li><code>GPUS</code> 使用的GPU数量，默认值为1。</li>
+<li><code>CONFIG</code> 使用的config文件，默认使用工作路径下的<code>config.py</code>文件。</li>
+<li><code>PORT</code> （可选）使用的端口编号。格式为<code>PORT:-29500</code>。</li>
+</ul>
+</details>
+
+<h5 id="次要可选参数"><a href="#次要可选参数" class="headerlink" title="次要可选参数"></a>次要可选参数</h5><details data-markdown>
+
+<ul>
+<li><code>--resume-from</code> （可选）如果有之前中断的训练<code>xxx.pth</code>文件，参数为该<code>xxx.pth</code>文件的路径。从该模型继续训练。</li>
+<li><code>--no-validate</code> （可选）无参数。若有此选项，则训练时不显示验证集结果。</li>
+<li><code>--deterministic</code> （可选）无参数。<code>CUDNN</code>中backend中的某个选项。</li>
+<li><code>--launcher</code> （可选）参数为<code>none</code>, <code>pytorch</code>, <code>slurm</code>, <code>mpi</code>中的一个。选择job launcher的类型。</li>
+<li><code>--autoscale-lr</code> （可选）无参数。决定学习率是否根据使用的gpu数量自动调整。</li>
+</ul>
+</details>
+
+</details>
+
+<hr>
+<details data-markdown>
+<summary>测试</summary>
+
+<h4 id="dist-test-sh-multi-gpu-testing"><a href="#dist-test-sh-multi-gpu-testing" class="headerlink" title="dist_test.sh(multi-gpu testing)"></a><code>dist_test.sh</code>(multi-gpu testing)</h4><p>该文件位于<code>/mmlab/mmdetection/tools/dist_test.sh</code>，其参数如下：</p>
+<h5 id="必要参数-1"><a href="#必要参数-1" class="headerlink" title="必要参数"></a>必要参数</h5><ul>
+<li><code>WORK_DIR</code> 参数为任务路径。</li>
+</ul>
+<h5 id="主要可选参数-1"><a href="#主要可选参数-1" class="headerlink" title="主要可选参数"></a>主要可选参数</h5><details data-markdown>
+
+<ul>
+<li><code>GPUS</code> 使用的GPU数量，默认值为1。</li>
+<li><code>CONFIG</code> 使用的config文件，默认使用工作路径下的<code>config.py</code>文件。</li>
+<li><code>PORT</code> （可选）使用的端口编号。格式为<code>PORT:-29500</code>。</li>
+</ul>
+</details>
+
+<h5 id="次要可选参数-1"><a href="#次要可选参数-1" class="headerlink" title="次要可选参数"></a>次要可选参数</h5><details data-markdown>
+
+<ul>
+<li><code>--seed</code> （可选）选择的随机数种子。</li>
+<li><code>--deterministic</code> （可选）无参数。决定是否使用GPU收集结果。</li>
+<li><code>--gpu_collect</code> （可选）无参数。决定是否使用GPU收集结果。</li>
+<li><code>--save-path</code> （可选）存储结果图片的路径</li>
+<li><code>--launcher</code> （可选）参数为<code>none</code>, <code>pytorch</code>, <code>slurm</code>, <code>mpi</code>中的一个。选择job launcher的类型。</li>
+<li><code>--local_rank</code> （可选）参数是一个<code>int</code>。似乎与分布式训练相关。</li>
+</ul>
+</details>
+
+</details>
+
+<hr>
+<h3 id="几个样例"><a href="#几个样例" class="headerlink" title="几个样例"></a>几个样例</h3><h4 id="在DIV2K上训练SRGAN-图像超分辨率"><a href="#在DIV2K上训练SRGAN-图像超分辨率" class="headerlink" title="在DIV2K上训练SRGAN(图像超分辨率)"></a>在DIV2K上训练SRGAN(图像超分辨率)</h4><details data-markdown>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">训练：</span><br><span class="line">bash mmlab&#x2F;mmediting&#x2F;tools&#x2F;dist_train.sh task&#x2F;msrresnet_x4c64b16_g1_1000k_div2k_20210405-45uu78pq</span><br><span class="line"></span><br><span class="line">测试：</span><br><span class="line">bash mmlab&#x2F;mmediting&#x2F;tools&#x2F;dist_test.sh task&#x2F;msrresnet_x4c64b16_g1_1000k_div2k_20210405-45uu78pq</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h4 id="在Paired-Maps-上训练pix2pix-Paired图像生成"><a href="#在Paired-Maps-上训练pix2pix-Paired图像生成" class="headerlink" title="在Paired(Maps)上训练pix2pix(Paired图像生成)"></a>在Paired(Maps)上训练pix2pix(Paired图像生成)</h4><details data-markdown>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">训练：</span><br><span class="line">bash mmlab&#x2F;mmediting&#x2F;tools&#x2F;dist_train.sh task&#x2F;pix2pix_vanilla_unet_bn_a2b_1x1_219200_maps_20210405-4o8jkb65</span><br><span class="line"></span><br><span class="line">测试：</span><br><span class="line">bash mmlab&#x2F;mmediting&#x2F;tools&#x2F;dist_test.sh task&#x2F;pix2pix_vanilla_unet_bn_a2b_1x1_219200_maps_20210405-4o8jkb65</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h4 id="在Unpaired-summer2winter-上训练CycleGAN-Unpaired图像生成"><a href="#在Unpaired-summer2winter-上训练CycleGAN-Unpaired图像生成" class="headerlink" title="在Unpaired(summer2winter)上训练CycleGAN(Unpaired图像生成)"></a>在Unpaired(summer2winter)上训练CycleGAN(Unpaired图像生成)</h4><details data-markdown>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">训练：</span><br><span class="line">bash mmlab&#x2F;mmediting&#x2F;tools&#x2F;dist_train.sh task&#x2F;cyclegan_lsgan_resnet_in_1x1_246200_summer2winter</span><br><span class="line"></span><br><span class="line">测试：</span><br><span class="line">bash mmlab&#x2F;mmediting&#x2F;tools&#x2F;dist_test.sh task&#x2F;cyclegan_lsgan_resnet_in_1x1_246200_summer2winter</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+</details>
+
+<hr>
+<h3 id="目前出现的问题"><a href="#目前出现的问题" class="headerlink" title="目前出现的问题"></a>目前出现的问题</h3><ol>
+<li>暂无</li>
+</ol>
+<hr>
+<h3 id="一些其他的功能"><a href="#一些其他的功能" class="headerlink" title="一些其他的功能"></a>一些其他的功能</h3><h4 id="图像生成的单图推断"><a href="#图像生成的单图推断" class="headerlink" title="图像生成的单图推断"></a>图像生成的单图推断</h4><p>单图推断使用<code>demo/generation_demo.py</code>，一个具体例子如下：</p>
+<details data-markdown>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">基本格式为：</span><br><span class="line">python demo&#x2F;generation_demo.py \</span><br><span class="line">    $&#123;WORK_DIR&#125; \</span><br><span class="line">    [--img_path $&#123;IMAGE_FILE&#125;] \</span><br><span class="line">    [--save_path $&#123;SAVE_PATH&#125;] \</span><br><span class="line">    [--unpaired_path $&#123;UNPAIRED_IMAGE_FILE&#125;] \</span><br><span class="line">    [--device $&#123;GPU_ID&#125;]</span><br><span class="line"></span><br><span class="line">比如使用paired模型：</span><br><span class="line">python mmlab&#x2F;mmediting&#x2F;demo&#x2F;generation_demo.py task&#x2F;cyclegan_lsgan_resnet_in_1x1_246200_summer2winter --img_path mmlab&#x2F;mmediting&#x2F;demo&#x2F;paired_map_demo.jpg</span><br><span class="line"></span><br><span class="line">比如使用unpaired模型：</span><br><span class="line">python mmlab&#x2F;mmediting&#x2F;demo&#x2F;generation_demo.py task&#x2F;cyclegan_lsgan_resnet_in_1x1_246200_summer2winter --img_path mmlab&#x2F;mmediting&#x2F;demo&#x2F;unpaired_summer_demo2_A.jpg --unpaired_path mmlab&#x2F;mmediting&#x2F;demo&#x2F;unpaired_summer_demo2_B.jpg</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其中unpaired是指unpaired image translation中用到的两种风格的图像，本框架中只有CycleGAN中使用此法；Pix2Pix则不用。<br><img src="https://img-blog.csdnimg.cn/20200909204649720.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpbnpoYW5neWFueGlhbmc=,size_16,color_FFFFFF,t_70#pic_center" alt="Generation"></p>
+</details>
+
+<h4 id="图像修复的单图推断"><a href="#图像修复的单图推断" class="headerlink" title="图像修复的单图推断"></a>图像修复的单图推断</h4><p>单图推断使用<code>demo/inpainting_demo.py</code>，一个具体例子如下：</p>
+<details data-markdown>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">基本格式为：</span><br><span class="line">python demo&#x2F;inpainting_demo.py \</span><br><span class="line">    $&#123;CONFIG_FILE&#125; \</span><br><span class="line">    $&#123;CHECKPOINT_FILE&#125; \</span><br><span class="line">    $&#123;MASKED_IMAGE_FILE&#125; \</span><br><span class="line">    $&#123;MASK_FILE&#125; \</span><br><span class="line">    $&#123;SAVE_PATH&#125; \</span><br><span class="line">    [--device $&#123;GPU_ID&#125;]</span><br><span class="line"></span><br><span class="line">比如：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这里的MASK_FILE需要标注图像缺损的位置。</p>
+</details>
+
+<h4 id="扣图的单图推断"><a href="#扣图的单图推断" class="headerlink" title="扣图的单图推断"></a>扣图的单图推断</h4><p>单图推断使用<code>demo/matting_demo.py</code>，一个具体例子如下：</p>
+<details data-markdown>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">基本格式为：</span><br><span class="line">python demo&#x2F;matting_demo.py \</span><br><span class="line">    $&#123;CONFIG_FILE&#125; \</span><br><span class="line">    $&#123;CHECKPOINT_FILE&#125; \</span><br><span class="line">    $&#123;IMAGE_PATH&#125; \</span><br><span class="line">    $&#123;TRIMAP_PATH&#125; \</span><br><span class="line">    $&#123;SAVE_PATH&#125; \</span><br><span class="line">    [--device $&#123;GPU_ID&#125;]</span><br><span class="line"></span><br><span class="line">比如：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其中TRIMAP是对给定图像的一种粗略划分，将给定图像划分为前景、背景和未知区域；其他划分方法还有Strokes。<br><img src="https://img-blog.csdn.net/20181022112701766?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0ZKWV9zdW5zaGluZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="TRIMAP"></p>
+</details>
+
+<h4 id="超分辨率的单图推断"><a href="#超分辨率的单图推断" class="headerlink" title="超分辨率的单图推断"></a>超分辨率的单图推断</h4><p>单图推断使用<code>demo/restoration_demo.py</code>，一个具体例子如下：</p>
+<details data-markdown>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">基本格式为：</span><br><span class="line">python demo&#x2F;restoration_demo.py \</span><br><span class="line">    $&#123;WORK_DIR&#125; \</span><br><span class="line">    [--img_path $&#123;IMAGE_FILE&#125;]</span><br><span class="line">    [--save_path $&#123;SAVE_PATH&#125;] \</span><br><span class="line">    [--device $&#123;GPU_ID&#125;]</span><br><span class="line"></span><br><span class="line">比如：</span><br><span class="line">python mmlab&#x2F;mmediting&#x2F;demo&#x2F;restoration_demo.py task&#x2F;msrresnet_x4c64b16_g1_1000k_div2k_20210405-45uu78pq</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+</details>
+
+<hr>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><h4 id="目前主要使用或已部署的数据集"><a href="#目前主要使用或已部署的数据集" class="headerlink" title="目前主要使用或已部署的数据集"></a>目前主要使用或已部署的数据集</h4><h5 id="图像修复数据集"><a href="#图像修复数据集" class="headerlink" title="图像修复数据集"></a>图像修复数据集</h5><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/pathak22/context-encoder/issues/24">Paris Street View</a>（未部署）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/tkarras/progressive_growing_of_gans##preparing-datasets-for-training">CelebA-HQ</a>（未部署）</li>
+<li><a target="_blank" rel="noopener" href="http://places2.csail.mit.edu/download.html">Places365</a>（未部署）</li>
+</ul>
+<h5 id="抠图技术"><a href="#抠图技术" class="headerlink" title="抠图技术"></a>抠图技术</h5><ul>
+<li><a target="_blank" rel="noopener" href="https://sites.google.com/view/deepimagematting">Composition-1k</a>（未部署）</li>
+</ul>
+<h5 id="超分辨率技术"><a href="#超分辨率技术" class="headerlink" title="超分辨率技术"></a>超分辨率技术</h5><ul>
+<li><a target="_blank" rel="noopener" href="https://data.vision.ee.ethz.ch/cvl/DIV2K/">DIV2K</a>（图像数据）</li>
+<li><a target="_blank" rel="noopener" href="https://seungjunnah.github.io/Datasets/reds.html">REDS</a>（视频数据，未部署）</li>
+<li><a target="_blank" rel="noopener" href="http://toflow.csail.mit.edu/">Vimeo90K</a>（视频数据，未部署）</li>
+</ul>
+<h5 id="图像生成技术"><a href="#图像生成技术" class="headerlink" title="图像生成技术"></a>图像生成技术</h5><ul>
+<li><a target="_blank" rel="noopener" href="http://efrosgans.eecs.berkeley.edu/pix2pix/datasets/">Paired Dataset for Pix2pix</a></li>
+<li><a target="_blank" rel="noopener" href="https://people.eecs.berkeley.edu/~taesung_park/CycleGAN/datasets/">Unpaired Dataset for CycleGAN</a></li>
+</ul>
+<h4 id="目前可用的一些config文件"><a href="#目前可用的一些config文件" class="headerlink" title="目前可用的一些config文件"></a>目前可用的一些config文件</h4><p>目前可用的config及对应训练好的模型（可用于测试）有以下几种：</p>
+<h5 id="图像修复"><a href="#图像修复" class="headerlink" title="图像修复"></a>图像修复</h5><details data-markdown>
+<summary>Generative Image Inpainting with Contextual Attention(DeepFillv1)</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CelebA-HQ</td>
+<td><code>/home/psh/mmlab/mmediting/configs/inpainting/deepfillv1/deepfillv1_256x256_4x4_celeba.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/inpainting/deepfillv1/deepfillv1_256x256_4x4/deepfillv1_256x256_4x4_celeba_20200619-dd51a855.pth</code></td>
+</tr>
+<tr>
+<td>Places365</td>
+<td><code>/home/psh/mmlab/mmediting/configs/inpainting/deepfillv1/deepfillv1_256x256_8x2_places.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/inpainting/deepfillv1/deepfillv1_256x256_8x2/deepfillv1_256x256_8x2_places_20200619-c00a0e21.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>Free-form Image Inpainting with Gated Convolution(DeepFillv2)</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CelebA-HQ</td>
+<td><code>/home/psh/mmlab/mmediting/configs/inpainting/deepfillv2/deepfillv2_256x256_8x2_celeba.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/inpainting/deepfillv2/deepfillv2_256x256_8x2/deepfillv2_256x256_8x2_celeba_20200619-c96e5f12.pth</code></td>
+</tr>
+<tr>
+<td>Places365</td>
+<td><code>/home/psh/mmlab/mmediting/configs/inpainting/deepfillv2/deepfillv2_256x256_8x2_places.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/inpainting/deepfillv2/deepfillv2_256x256_8x2/deepfillv2_256x256_8x2_places_20200619-10d15793.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>Globally and Locally Consistent Image Completion</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CelebA-HQ</td>
+<td><code>/home/psh/mmlab/mmediting/configs/inpainting/global_local/gl_256x256_8x12_celeba.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/inpainting/global_local/gl_256x256_8x12/gl_256x256_8x12_celeba_20200619-5af0493f.pth</code></td>
+</tr>
+<tr>
+<td>Places365</td>
+<td><code>/home/psh/mmlab/mmediting/configs/inpainting/global_local/gl_256x256_8x12_places.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/inpainting/global_local/gl_256x256_8x12/gl_256x256_8x12_places_20200619-52a040a8.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>Image inpainting for Irregular Holes using Partial Convolutions</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CelebA-HQ</td>
+<td><code>/home/psh/mmlab/mmediting/configs/inpainting/partial_conv/pconv_256x256_stage1_8x1_celeba.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Places365</td>
+<td><code>/home/psh/mmlab/mmediting/configs/inpainting/partial_conv/pconv_256x256_stage1_8x1_places.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>CelebA-HQ</td>
+<td><code>/home/psh/mmlab/mmediting/configs/inpainting/partial_conv/pconv_256x256_stage2_4x2_celeba.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/inpainting/partial_conv/pconv_256x256_stage2_4x2/pconv_256x256_stage2_4x2_celeba_20200619-860f8b95.pth</code></td>
+</tr>
+<tr>
+<td>Places365</td>
+<td><code>/home/psh/mmlab/mmediting/configs/inpainting/partial_conv/pconv_256x256_stage2_4x2_places.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/inpainting/partial_conv/pconv_256x256_stage2_4x2/pconv_256x256_stage2_4x2_places_20200619-1ffed0e8.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<h5 id="扣图"><a href="#扣图" class="headerlink" title="扣图"></a>扣图</h5><details data-markdown>
+<summary>Deep Image Matting(DIM)</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Composition-1k</td>
+<td><code>/home/psh/mmlab/mmediting/configs/mattors/dim/dim_stage1_v16_1x1_1000k_comp1k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/mattors/dim/dim_stage1_v16_1x1_1000k_comp1k_SAD-53.8/dim_stage1_v16_1x1_1000k_comp1k_SAD-53.8_20200605_140257-979a420f.pth</code></td>
+</tr>
+<tr>
+<td>Composition-1k</td>
+<td><code>/home/psh/mmlab/mmediting/configs/mattors/dim/dim_stage2_v16_pln_1x1_1000k_comp1k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/mattors/dim/dim_stage2_v16_pln_1x1_1000k_comp1k_SAD-52.3/dim_stage2_v16_pln_1x1_1000k_comp1k_SAD-52.3_20200607_171909-d83c4775.pth</code></td>
+</tr>
+<tr>
+<td>Composition-1k</td>
+<td><code>/home/psh/mmlab/mmediting/configs/mattors/dim/dim_stage3_v16_pln_1x1_1000k_comp1k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/mattors/dim/dim_stage3_v16_pln_1x1_1000k_comp1k_SAD-50.6/dim_stage3_v16_pln_1x1_1000k_comp1k_SAD-50.6_20200609_111851-647f24b6.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>Guided Contextual Attention(GCA)</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Composition-1k</td>
+<td><code>/home/psh/mmlab/mmediting/configs/mattors/gca/baseline_dimaug_r34_4x10_200k_comp1k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/mattors/gca/baseline_dimaug_r34_4x10_200k_comp1k_SAD-49.95/baseline_dimaug_r34_4x10_200k_comp1k_SAD-49.95_20200626_231612-535c9a11.pth</code></td>
+</tr>
+<tr>
+<td>Composition-1k</td>
+<td><code>/home/psh/mmlab/mmediting/configs/mattors/gca/baseline_r34_4x10_200k_comp1k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/mattors/gca/baseline_r34_4x10_200k_comp1k_SAD-36.50/baseline_r34_4x10_200k_comp1k_SAD-36.50_20200614_105701-95be1750.pth</code></td>
+</tr>
+<tr>
+<td>Composition-1k</td>
+<td><code>/home/psh/mmlab/mmediting/configs/mattors/gca/gca_dimaug_r34_4x10_200k_comp1k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/mattors/gca/gca_dimaug_r34_4x10_200k_comp1k_SAD-49.42/gca_dimaug_r34_4x10_200k_comp1k_SAD-49.42_20200626_231422-8e9cc127.pth</code></td>
+</tr>
+<tr>
+<td>Composition-1k</td>
+<td><code>/home/psh/mmlab/mmediting/configs/mattors/gca/gca_r34_4x10_200k_comp1k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/mattors/gca/gca_r34_4x10_200k_comp1k_SAD-34.77/gca_r34_4x10_200k_comp1k_SAD-34.77_20200604_213848-4369bea0.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>Learning to Index for Deep Image Matting(DIM)</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Composition-1k</td>
+<td><code>/home/psh/mmlab/mmediting/configs/mattors/indexnet/indexnet_dimaug_mobv2_1x16_78k_comp1k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/mattors/indexnet/indexnet_dimaug_mobv2_1x16_78k_comp1k_SAD-50.1/indexnet_dimaug_mobv2_1x16_78k_comp1k_SAD-50.1_20200626_231857-af359436.pth</code></td>
+</tr>
+<tr>
+<td>Composition-1k</td>
+<td><code>/home/psh/mmlab/mmediting/configs/mattors/indexnet/indexnet_mobv2_1x16_78k_comp1k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/mattors/indexnet/indexnet_mobv2_1x16_78k_comp1k_SAD-45.6/indexnet_mobv2_1x16_78k_comp1k_SAD-45.6_20200618_173817-26dd258d.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<h5 id="超分辨率"><a href="#超分辨率" class="headerlink" title="超分辨率"></a>超分辨率</h5><details data-markdown>
+<summary>EDSR</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DIV2K</td>
+<td><code>/home/psh/mmlab/mmediting/configs/restorers/edsr/edsr_x2c64b16_g1_300k_div2k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/restorers/edsr/edsr_x2c64b16_1x16_300/edsr_x2c64b16_1x16_300k_div2k_20200604-19fe95ea.pth</code></td>
+</tr>
+<tr>
+<td>DIV2K</td>
+<td><code>/home/psh/mmlab/mmediting/configs/restorers/edsr/edsr_x3c64b16_g1_300k_div2k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/restorers/edsr/edsr_x3c64b16_1x16_300/edsr_x3c64b16_1x16_300k_div2k_20200608-36d896f4.pth</code></td>
+</tr>
+<tr>
+<td>DIV2K</td>
+<td><code>/home/psh/mmlab/mmediting/configs/restorers/edsr/edsr_x4c64b16_g1_300k_div2k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/restorers/edsr/edsr_x4c64b16_1x16_300/edsr_x4c64b16_1x16_300k_div2k_20200608-3c2af8a3.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>EDVR</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>REDS</td>
+<td><code>/home/psh/mmlab/mmediting/configs/restorers/edvr/edvrm_wotsa_x4_g8_600k_reds.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/restorers/edvr/edvrm_wotsa_x4_8x4_60/edvrm_wotsa_x4_8x4_600k_reds_20200522-0570e567.pth</code></td>
+</tr>
+<tr>
+<td>REDS</td>
+<td><code>/home/psh/mmlab/mmediting/configs/restorers/edvr/edvrm_x4_g8_600k_reds.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/restorers/edvr/edvrm_x4_8x4_60/edvrm_x4_8x4_600k_reds_20200622-ba4a43e4.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>ESRGAN</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DIV2K</td>
+<td><code>/home/psh/mmlab/mmediting/configs/restorers/esrgan/esrgan_psnr_x4c64b23g32_g1_1000k_div2k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/restorers/esrgan/esrgan_psnr_x4c64b23g32_1x16_1000/esrgan_psnr_x4c64b23g32_1x16_1000k_div2k_20200420-bf5c993c.pth</code></td>
+</tr>
+<tr>
+<td>DIV2K</td>
+<td><code>/home/psh/mmlab/mmediting/configs/restorers/esrgan/esrgan_x4c64b23g32_g1_400k_div2k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/restorers/esrgan/esrgan_x4c64b23g32_1x16_400/esrgan_x4c64b23g32_1x16_400k_div2k_20200508-f8ccaf3b.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>Image Super-Resolution Using Deep Convolutional Networks(SRCNN)</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DIV2K</td>
+<td><code>/home/psh/mmlab/mmediting/configs/restorers/srcnn/srcnn_x4k915_g1_1000k_div2k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/restorers/srcnn/srcnn_x4k915_1x16_1000/srcnn_x4k915_1x16_1000k_div2k_20200608-4186f232.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>Image Super-Resolution Using Deep Convolutional Networks(SRCNN)</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DIV2K</td>
+<td><code>/home/psh/mmlab/mmediting/configs/restorers/srcnn/srcnn_x4k915_g1_1000k_div2k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/restorers/srcnn/srcnn_x4k915_1x16_1000/srcnn_x4k915_1x16_1000k_div2k_20200608-4186f232.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network(SRGAN)</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DIV2K</td>
+<td><code>/home/psh/mmlab/mmediting/configs/restorers/srresnet_srgan/msrresnet_x4c64b16_g1_1000k_div2k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/restorers/srresnet_srgan/msrresnet_x4c64b16_1x16_300/msrresnet_x4c64b16_1x16_300k_div2k_20200521-61556be5.pth</code></td>
+</tr>
+<tr>
+<td>DIV2K</td>
+<td><code>/home/psh/mmlab/mmediting/configs/restorers/srresnet_srgan/srgan_x4c64b16_g1_1000k_div2k.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/restorers/srresnet_srgan/srgan_x4c64b16_1x16_1000/srgan_x4c64b16_1x16_1000k_div2k_20200606-a1f0810e.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>Task-oriented Flow(TOF)</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Vimeo90K</td>
+<td><code>/home/psh/mmlab/mmediting/configs/restorers/tof/tof_x4_vimeo90k_official.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/restorers/tof/tof_x4_v/tof_x4_vimeo90k_official-a569ff50.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<h5 id="图像生成"><a href="#图像生成" class="headerlink" title="图像生成"></a>图像生成</h5><details data-markdown>
+<summary>CycleGAN</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Unpaired Dataset for CycleGAN</td>
+<td><code>/home/psh/mmlab/mmediting/configs/synthesizers/cyclegan/cyclegan_lsgan_id0_resnet_in_1x1_80k_facades.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/synthesizers/cyclegan/cyclegan_lsgan_id0_resnet_in_1x1_80k_/cyclegan_lsgan_id0_resnet_in_1x1_80k_facades_20200524-438aa074.pth</code></td>
+</tr>
+<tr>
+<td>Unpaired Dataset for CycleGAN</td>
+<td><code>/home/psh/mmlab/mmediting/configs/synthesizers/cyclegan/cyclegan_lsgan_id0_resnet_in_1x1_246200_summer2winter.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/synthesizers/cyclegan/cyclegan_lsgan_id0_resnet_in_1x1_246200_summer/cyclegan_lsgan_id0_resnet_in_1x1_246200_summer2winter_20200524-f280ecdd.pth</code></td>
+</tr>
+<tr>
+<td>Unpaired Dataset for CycleGAN</td>
+<td><code>/home/psh/mmlab/mmediting/configs/synthesizers/cyclegan/cyclegan_lsgan_id0_resnet_in_1x1_266800_horse2zebra.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/synthesizers/cyclegan/cyclegan_lsgan_id0_resnet_in_1x1_266800_hors/cyclegan_lsgan_id0_resnet_in_1x1_266800_horse2zebra_20200524-470fb8da.pth</code></td>
+</tr>
+<tr>
+<td>Unpaired Dataset for CycleGAN</td>
+<td><code>/home/psh/mmlab/mmediting/configs/synthesizers/cyclegan/cyclegan_lsgan_resnet_in_1x1_80k_facades.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/synthesizers/cyclegan/cyclegan_lsgan_resnet_in_1x1_80k_/cyclegan_lsgan_resnet_in_1x1_80k_facades_20200524-0b877c2a.pth</code></td>
+</tr>
+<tr>
+<td>Unpaired Dataset for CycleGAN</td>
+<td><code>/home/psh/mmlab/mmediting/configs/synthesizers/cyclegan/cyclegan_lsgan_resnet_in_1x1_246200_summer2winter.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/synthesizers/cyclegan/cyclegan_lsgan_resnet_in_1x1_246200_summer/cyclegan_lsgan_resnet_in_1x1_246200_summer2winter_20200524-0baeaff6.pth</code></td>
+</tr>
+<tr>
+<td>Unpaired Dataset for CycleGAN</td>
+<td><code>/home/psh/mmlab/mmediting/configs/synthesizers/cyclegan/cyclegan_lsgan_resnet_in_1x1_266800_horse2zebra.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/synthesizers/cyclegan/cyclegan_lsgan_resnet_in_1x1_266800_hors/cyclegan_lsgan_resnet_in_1x1_266800_horse2zebra_20200524-1b3d5d3a.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>pix2pix</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Paired Dataset for Pix2pix</td>
+<td><code>/home/psh/mmlab/mmediting/configs/synthesizers/pix2pix/pix2pix_vanilla_unet_bn_1x1_80k_facades.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/synthesizers/pix2pix/pix2pix_vanilla_unet_bn_1x1_80k_/pix2pix_vanilla_unet_bn_1x1_80k_facades_20200524-6206de67.pth</code></td>
+</tr>
+<tr>
+<td>Paired Dataset for Pix2pix</td>
+<td><code>/home/psh/mmlab/mmediting/configs/synthesizers/pix2pix/pix2pix_vanilla_unet_bn_a2b_1x1_219200_maps.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/synthesizers/pix2pix/pix2pix_vanilla_unet_bn_a2b_1x1_2192/pix2pix_vanilla_unet_bn_a2b_1x1_219200_maps_20200524-b29c4538.pth</code></td>
+</tr>
+<tr>
+<td>Paired Dataset for Pix2pix</td>
+<td><code>/home/psh/mmlab/mmediting/configs/synthesizers/pix2pix/pix2pix_vanilla_unet_bn_b2a_1x1_219200_maps.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/synthesizers/pix2pix/pix2pix_vanilla_unet_bn_b2a_1x1_2192/pix2pix_vanilla_unet_bn_b2a_1x1_219200_maps_20200524-17882ec8.pth</code></td>
+</tr>
+<tr>
+<td>Paired Dataset for Pix2pix</td>
+<td><code>/home/psh/mmlab/mmediting/configs/synthesizers/pix2pix/pix2pix_vanilla_unet_bn_wo_jitter_flip_1x4_186840_edges2shoes.py</code></td>
+<td><code>/home/psh/mmlab/mmediting/checkpoints/synthesizers/pix2pix/pix2pix_vanilla_unet_bn_wo_jitter_flip_1x4_186840_edge/pix2pix_vanilla_unet_bn_wo_jitter_flip_1x4_186840_edges2shoes_20200524-b35fa9c0.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/22/group_report/mmseg/" rel="prev" title="mmseg">
+      <i class="fa fa-chevron-left"></i> mmseg
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/26/group_report/mmtrack/" rel="next" title="mmtrack">
+      mmtrack <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mmediting%EF%BC%88%E6%9C%AA%E6%B5%8B%E8%AF%95%E5%AE%8C%E5%85%A8%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">mmediting（未测试完全）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%B0%83%E7%94%A8%E9%83%A8%E5%88%86"><span class="nav-number">1.1.</span> <span class="nav-text">命令行调用部分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#dist-train-sh-multi-gpu-training"><span class="nav-number">1.1.1.</span> <span class="nav-text">dist_train.sh(multi-gpu training)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BF%85%E8%A6%81%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">必要参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8F%AF%E9%80%89%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">主要可选参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AC%A1%E8%A6%81%E5%8F%AF%E9%80%89%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">次要可选参数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dist-test-sh-multi-gpu-testing"><span class="nav-number">1.1.2.</span> <span class="nav-text">dist_test.sh(multi-gpu testing)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BF%85%E8%A6%81%E5%8F%82%E6%95%B0-1"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">必要参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8F%AF%E9%80%89%E5%8F%82%E6%95%B0-1"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">主要可选参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AC%A1%E8%A6%81%E5%8F%AF%E9%80%89%E5%8F%82%E6%95%B0-1"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">次要可选参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%A0%E4%B8%AA%E6%A0%B7%E4%BE%8B"><span class="nav-number">1.2.</span> <span class="nav-text">几个样例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8DIV2K%E4%B8%8A%E8%AE%AD%E7%BB%83SRGAN-%E5%9B%BE%E5%83%8F%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87"><span class="nav-number">1.2.1.</span> <span class="nav-text">在DIV2K上训练SRGAN(图像超分辨率)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8Paired-Maps-%E4%B8%8A%E8%AE%AD%E7%BB%83pix2pix-Paired%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90"><span class="nav-number">1.2.2.</span> <span class="nav-text">在Paired(Maps)上训练pix2pix(Paired图像生成)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8Unpaired-summer2winter-%E4%B8%8A%E8%AE%AD%E7%BB%83CycleGAN-Unpaired%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90"><span class="nav-number">1.2.3.</span> <span class="nav-text">在Unpaired(summer2winter)上训练CycleGAN(Unpaired图像生成)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.3.</span> <span class="nav-text">目前出现的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%85%B6%E4%BB%96%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">1.4.</span> <span class="nav-text">一些其他的功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90%E7%9A%84%E5%8D%95%E5%9B%BE%E6%8E%A8%E6%96%AD"><span class="nav-number">1.4.1.</span> <span class="nav-text">图像生成的单图推断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E4%BF%AE%E5%A4%8D%E7%9A%84%E5%8D%95%E5%9B%BE%E6%8E%A8%E6%96%AD"><span class="nav-number">1.4.2.</span> <span class="nav-text">图像修复的单图推断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A3%E5%9B%BE%E7%9A%84%E5%8D%95%E5%9B%BE%E6%8E%A8%E6%96%AD"><span class="nav-number">1.4.3.</span> <span class="nav-text">扣图的单图推断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E7%9A%84%E5%8D%95%E5%9B%BE%E6%8E%A8%E6%96%AD"><span class="nav-number">1.4.4.</span> <span class="nav-text">超分辨率的单图推断</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">1.5.</span> <span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E4%B8%BB%E8%A6%81%E4%BD%BF%E7%94%A8%E6%88%96%E5%B7%B2%E9%83%A8%E7%BD%B2%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.5.1.</span> <span class="nav-text">目前主要使用或已部署的数据集</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E4%BF%AE%E5%A4%8D%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">图像修复数据集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8A%A0%E5%9B%BE%E6%8A%80%E6%9C%AF"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">抠图技术</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E6%8A%80%E6%9C%AF"><span class="nav-number">1.5.1.3.</span> <span class="nav-text">超分辨率技术</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF"><span class="nav-number">1.5.1.4.</span> <span class="nav-text">图像生成技术</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E5%8F%AF%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9Bconfig%E6%96%87%E4%BB%B6"><span class="nav-number">1.5.2.</span> <span class="nav-text">目前可用的一些config文件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E4%BF%AE%E5%A4%8D"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">图像修复</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%A3%E5%9B%BE"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">扣图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87"><span class="nav-number">1.5.2.3.</span> <span class="nav-text">超分辨率</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90"><span class="nav-number">1.5.2.4.</span> <span class="nav-text">图像生成</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="杨熊"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">杨熊</p>
+  <div class="site-description" itemprop="description">善恶到头终有报，只争来早与来迟</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨熊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

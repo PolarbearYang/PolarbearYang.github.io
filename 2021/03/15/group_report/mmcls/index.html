@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="mmclassification该模块包含的内容主要有：  各种backbone和预训练模型 tricks的集合 可以对单图推断产生demo并可视化   命令行调用部分 训练  dist_train.sh(multi-gpu training)必要参数 WORK_DIR 参数为任务路径。  主要可选参数   GPUS 使用的GPU数量，默认值为1。 CONFIG 使用的config文件，默认使用工">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mmcls">
+<meta property="og:url" content="http://example.com/2021/03/15/group_report/mmcls/index.html">
+<meta property="og:site_name" content="暴走白熊的小窝">
+<meta property="og:description" content="mmclassification该模块包含的内容主要有：  各种backbone和预训练模型 tricks的集合 可以对单图推断产生demo并可视化   命令行调用部分 训练  dist_train.sh(multi-gpu training)必要参数 WORK_DIR 参数为任务路径。  主要可选参数   GPUS 使用的GPU数量，默认值为1。 CONFIG 使用的config文件，默认使用工">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-15T04:54:40.959Z">
+<meta property="article:modified_time" content="2021-04-08T13:55:05.660Z">
+<meta property="article:author" content="杨熊">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/03/15/group_report/mmcls/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>mmcls | 暴走白熊的小窝</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">暴走白熊的小窝</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/15/group_report/mmcls/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="杨熊">
+      <meta itemprop="description" content="善恶到头终有报，只争来早与来迟">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="暴走白熊的小窝">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          mmcls
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-15 12:54:40" itemprop="dateCreated datePublished" datetime="2021-03-15T12:54:40+08:00">2021-03-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-08 21:55:05" itemprop="dateModified" datetime="2021-04-08T21:55:05+08:00">2021-04-08</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="mmclassification"><a href="#mmclassification" class="headerlink" title="mmclassification"></a>mmclassification</h2><p>该模块包含的内容主要有：</p>
+<ul>
+<li>各种backbone和预训练模型</li>
+<li>tricks的集合</li>
+<li>可以对单图推断产生demo并可视化</li>
+</ul>
+<hr>
+<h3 id="命令行调用部分"><a href="#命令行调用部分" class="headerlink" title="命令行调用部分"></a>命令行调用部分</h3><details data-markdown>
+<summary>训练</summary>
+
+<h4 id="dist-train-sh-multi-gpu-training"><a href="#dist-train-sh-multi-gpu-training" class="headerlink" title="dist_train.sh(multi-gpu training)"></a><code>dist_train.sh</code>(multi-gpu training)</h4><h5 id="必要参数"><a href="#必要参数" class="headerlink" title="必要参数"></a>必要参数</h5><ul>
+<li><code>WORK_DIR</code> 参数为任务路径。</li>
+</ul>
+<h5 id="主要可选参数"><a href="#主要可选参数" class="headerlink" title="主要可选参数"></a>主要可选参数</h5><details data-markdown>
+
+<ul>
+<li><code>GPUS</code> 使用的GPU数量，默认值为1。</li>
+<li><code>CONFIG</code> 使用的config文件，默认使用工作路径下的<code>config.py</code>文件。</li>
+<li><code>PORT</code> （可选）使用的端口编号。格式为<code>PORT:-29500</code>。</li>
+</ul>
+</details>
+
+<h5 id="次要可选参数"><a href="#次要可选参数" class="headerlink" title="次要可选参数"></a>次要可选参数</h5><details data-markdown>
+
+<ul>
+<li><code>--resume-from</code> （可选）如果有之前中断的训练<code>xxx.pth</code>文件，参数为该<code>xxx.pth</code>文件的路径。从该模型继续训练。</li>
+<li><code>--no-validate</code> （可选）无参数。若有此选项，则训练时不显示验证集结果。</li>
+<li><code>--seed</code> （可选）参数为使用的随机数种子，<code>int</code>类型。</li>
+<li><code>--deterministic</code> （可选）无参数。<code>CUDNN</code>中backend中的某个选项。</li>
+<li><code>--options</code> （可选）参数为多个具有形式<code>xxx=yyy</code>的参数。这将被合并到<code>config.py</code>中。</li>
+<li><code>--local_rank</code> （可选）参数是一个<code>int</code>。似乎与分布式训练相关。</li>
+</ul>
+</details>
+
+</details>
+
+<hr>
+</details>
+
+<details data-markdown>
+<summary>测试</summary>
+
+<h4 id="dist-test-sh-multi-gpu-testing"><a href="#dist-test-sh-multi-gpu-testing" class="headerlink" title="dist_test.sh(multi-gpu testing)"></a><code>dist_test.sh</code>(multi-gpu testing)</h4><p>该文件位于<code>/mmlab/mmclassification/tools/dist_test.sh</code>，其参数如下：</p>
+<h5 id="必要参数-1"><a href="#必要参数-1" class="headerlink" title="必要参数"></a>必要参数</h5><ul>
+<li><code>WORK_DIR</code> 参数为任务路径。</li>
+<li><code>METRIC</code> 参数为使用的度量类型，可以使用多个。对单标签数据集可使用<code>accuracy</code>, <code>precision</code>, <code>recall</code>, <code>f1_score</code>, <code>support</code>，对多标签数据集可使用<code>mAP</code>, <code>CP</code>, <code>CR</code>, <code>CF1</code>, <code>OP</code>, <code>OR</code>, <code>OF1</code>。</li>
+</ul>
+<h5 id="主要可选参数-1"><a href="#主要可选参数-1" class="headerlink" title="主要可选参数"></a>主要可选参数</h5><details data-markdown>
+
+<ul>
+<li><code>GPUS</code> 使用的GPU数量，默认值为1。</li>
+<li><code>CONFIG</code> 使用的config文件，默认使用工作路径下的<code>config.py</code>文件。</li>
+<li><code>PORT</code> （可选）使用的端口编号。格式为<code>PORT:-29500</code>。</li>
+</ul>
+</details>
+
+<h5 id="次要可选参数-1"><a href="#次要可选参数-1" class="headerlink" title="次要可选参数"></a>次要可选参数</h5><details data-markdown>
+
+<ul>
+<li><code>--out</code> 参数为存储测试结果的<code>*.pkl</code>或<code>*.json</code>文件的路径。<br><code>recall</code>, <code>f1_score</code>中选择；多标签数据集可以在<code>mAP</code>, <code>CP</code>, <code>CR</code>, <code>CF1</code>, <code>OP</code>, <code>OR</code>, <code>OF1</code>中选择。</li>
+<li><code>--show</code> （可选，暂时无法使用）无参数。显示结果。</li>
+<li><code>--show-dir</code> （可选，暂时无法使用）用于显示结果图片存放的目录位置。</li>
+<li><code>--gpu_collect</code> （可选）无参数。决定是否使用GPU收集结果。</li>
+<li><code>--tmpdir</code> （可选）无参数。是否使用临时文件来写出一些结果</li>
+<li><code>--options</code> （可选）参数为一至多个<code>xxx=yyy</code>格式改写的config参数。这将被合并到config中。</li>
+<li><code>--metric-options</code> （可选）参数为一至多个<code>xxx=yyy</code>格式改写的度量选项。参考<code>dataset.evaluate()</code>。</li>
+<li><code>--show-options</code> 参数为一至多个<code>xxx=yyy</code>格式改写的用于显示结果的选项。参考<code>model.show_result</code>。</li>
+<li><code>--local_rank</code> （可选）参数是一个<code>int</code>。似乎与分布式训练相关。</li>
+</ul>
+</details>
+
+</details>
+
+<hr>
+<h3 id="几个样例"><a href="#几个样例" class="headerlink" title="几个样例"></a>几个样例</h3><h4 id="在ImageNet上训练ResNet-18-单标签"><a href="#在ImageNet上训练ResNet-18-单标签" class="headerlink" title="在ImageNet上训练ResNet-18(单标签)"></a>在ImageNet上训练ResNet-18(单标签)</h4><details data-markdown>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">训练：</span><br><span class="line">bash mmlab&#x2F;mmclassification&#x2F;tools&#x2F;dist_train.sh task&#x2F;resnet18_imagenet_20210309-3b2dc3af</span><br><span class="line"></span><br><span class="line">测试：</span><br><span class="line">bash &#x2F;home&#x2F;psh&#x2F;mmlab&#x2F;mmclassification&#x2F;tools&#x2F;dist_test.sh &#x2F;home&#x2F;psh&#x2F;task&#x2F;resnet18_imagenet_20210309-3b2dc3af accuracy</span><br><span class="line"></span><br><span class="line">log分析：</span><br><span class="line">python mmlab&#x2F;mmclassification&#x2F;tools&#x2F;analyze_logs.py plot_curve &#x2F;home&#x2F;psh&#x2F;task&#x2F;resnet18_imagenet_20210309-3b2dc3af</span><br><span class="line"></span><br><span class="line">结果分析：（暂不可用）</span><br><span class="line">python mmlab&#x2F;mmclassification&#x2F;tools&#x2F;analyze_results.py &#x2F;home&#x2F;psh&#x2F;task&#x2F;resnet18_imagenet_20210309-3b2dc3af</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h4 id="在Pascal-VOC2007上训练VGG16-多标签"><a href="#在Pascal-VOC2007上训练VGG16-多标签" class="headerlink" title="在Pascal VOC2007上训练VGG16(多标签)"></a>在Pascal VOC2007上训练VGG16(多标签)</h4><details data-markdown>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">训练：</span><br><span class="line">bash &#x2F;home&#x2F;psh&#x2F;mmlab&#x2F;mmclassification&#x2F;tools&#x2F;dist_train.sh &#x2F;home&#x2F;psh&#x2F;task&#x2F;vgg16_voc2007-20210315-a8j2kz1cc</span><br><span class="line"></span><br><span class="line">测试：</span><br><span class="line">bash &#x2F;home&#x2F;psh&#x2F;mmlab&#x2F;mmclassification&#x2F;tools&#x2F;dist_test.sh &#x2F;home&#x2F;psh&#x2F;task&#x2F;vgg16_voc2007-20210315-a8j2kz1cc mAP</span><br><span class="line"></span><br><span class="line">log分析：</span><br><span class="line">python mmlab&#x2F;mmclassification&#x2F;tools&#x2F;analyze_logs.py plot_curve &#x2F;home&#x2F;psh&#x2F;task&#x2F;vgg16_voc2007-20210315-a8j2kz1cc</span><br><span class="line"></span><br><span class="line">结果分析：（暂不可用）</span><br><span class="line">python mmlab&#x2F;mmclassification&#x2F;tools&#x2F;analyze_results.py &#x2F;home&#x2F;psh&#x2F;task&#x2F;vgg16_voc2007-20210315-a8j2kz1cc</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<hr>
+<h3 id="目前出现的问题"><a href="#目前出现的问题" class="headerlink" title="目前出现的问题"></a>目前出现的问题</h3><ol>
+<li>在test.py部分使<code>--show</code>选项以及<code>--show-dir</code>选项会导致报错，看起来这部分功能没有做完。</li>
+<li><code>analyze_results.py</code>暂时无法使用，这部分功能似乎没有做完。（<code>result.pkl中</code>只存了top-1 accuracy和top-5 accuracy两个度量，没有存储每张图片的得分和预测值，如果要做的话，后续改进这一点）</li>
+</ol>
+<hr>
+<h3 id="一些其他的功能"><a href="#一些其他的功能" class="headerlink" title="一些其他的功能"></a>一些其他的功能</h3><h4 id="对单张图片进行推断"><a href="#对单张图片进行推断" class="headerlink" title="对单张图片进行推断"></a>对单张图片进行推断</h4><p>单图推断使用<code>demo/image_demo.py</code>，一个具体例子如下：</p>
+<details data-markdown>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">基本格式为：</span><br><span class="line">python &#x2F;mmlab&#x2F;mmclassification&#x2F;demo&#x2F;image_demo.py \</span><br><span class="line">    $&#123;WORK_DIR&#125;</span><br><span class="line">    [--img $&#123;IMAGE_FILE&#125;] \</span><br><span class="line">    [--device $&#123;GPU_ID&#125;] \</span><br><span class="line">    [--path $&#123;OUT_FILE&#125;]</span><br><span class="line"></span><br><span class="line">比如：</span><br><span class="line">python &#x2F;home&#x2F;psh&#x2F;mmlab&#x2F;mmclassification&#x2F;demo&#x2F;image_demo.py &#x2F;home&#x2F;psh&#x2F;task&#x2F;resnet18_imagenet_20210309-3b2dc3af</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<hr>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><h4 id="目前主要使用或已部署的数据集"><a href="#目前主要使用或已部署的数据集" class="headerlink" title="目前主要使用或已部署的数据集"></a>目前主要使用或已部署的数据集</h4><ul>
+<li>CIFAR10</li>
+<li>CIFAR100</li>
+<li>ImageNet(ISLVRC2012)</li>
+<li>MNIST</li>
+<li>FashionMNIST</li>
+<li>PASCAL VOC 2007</li>
+</ul>
+<h4 id="目前可用的一些config文件"><a href="#目前可用的一些config文件" class="headerlink" title="目前可用的一些config文件"></a>目前可用的一些config文件</h4><h5 id="一些数据集配置文件"><a href="#一些数据集配置文件" class="headerlink" title="一些数据集配置文件"></a>一些数据集配置文件</h5><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>task</th>
+<th>config</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CIFAR10</td>
+<td>单标签</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/datasets/cifar10_bs16.py</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td>单标签</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/datasets/imagenet_bs32.py</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td>单标签</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/datasets/imagenet_bs32_pil_resize.py</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td>单标签</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/datasets/imagenet_bs64.py</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td>单标签</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/datasets/imagenet_bs64_pil_resize.py</code></td>
+</tr>
+<tr>
+<td>MNIST</td>
+<td>单标签</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/datasets/mnist_bs64.py</code></td>
+</tr>
+<tr>
+<td>PASCAL VOC 2007</td>
+<td>多标签</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/datasets/voc_bs16.py</code></td>
+</tr>
+</tbody></table>
+<h5 id="一些模型配置文件"><a href="#一些模型配置文件" class="headerlink" title="一些模型配置文件"></a>一些模型配置文件</h5><table>
+<thead>
+<tr>
+<th>model</th>
+<th>config</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MobileNet V2</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/mobilenet_v2_1x.py</code></td>
+</tr>
+<tr>
+<td>ResNest50</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnest50.py</code></td>
+</tr>
+<tr>
+<td>ResNest101</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnest101.py</code></td>
+</tr>
+<tr>
+<td>ResNest200</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnest200.py</code></td>
+</tr>
+<tr>
+<td>ResNest269</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnest269.py</code></td>
+</tr>
+<tr>
+<td>ResNet18</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnet18.py</code></td>
+</tr>
+<tr>
+<td>ResNet18</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnet18_cifar.py</code></td>
+</tr>
+<tr>
+<td>ResNet34</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnet34.py</code></td>
+</tr>
+<tr>
+<td>ResNet34</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnet34_cifar.py</code></td>
+</tr>
+<tr>
+<td>ResNet50</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnet50.py</code></td>
+</tr>
+<tr>
+<td>ResNet50</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnet50_cifar.py</code></td>
+</tr>
+<tr>
+<td>ResNet50</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnet50_cifar_mixup.py</code></td>
+</tr>
+<tr>
+<td>ResNet50</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnet50_mixup.py</code></td>
+</tr>
+<tr>
+<td>ResNet101</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnet101.py</code></td>
+</tr>
+<tr>
+<td>ResNet101</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnet101_cifar.py</code></td>
+</tr>
+<tr>
+<td>ResNet152</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnet152.py</code></td>
+</tr>
+<tr>
+<td>ResNet152</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnet152_cifar.py</code></td>
+</tr>
+<tr>
+<td>ResNetV1d 50</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnetv1d50.py</code></td>
+</tr>
+<tr>
+<td>ResNetV1d 101</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnetv1d101.py</code></td>
+</tr>
+<tr>
+<td>ResNetV1d 152</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnetv1d152.py</code></td>
+</tr>
+<tr>
+<td>ResNeXt50</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnext50_32x4d.py</code></td>
+</tr>
+<tr>
+<td>ResNeXt101</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnext101_32x4d.py</code></td>
+</tr>
+<tr>
+<td>ResNeXt101</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnext101_32x8d.py</code></td>
+</tr>
+<tr>
+<td>ResNeXt152</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/resnext152_32x4d.py</code></td>
+</tr>
+<tr>
+<td>SEResNet50</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/seresnet50.py</code></td>
+</tr>
+<tr>
+<td>SEResNet101</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/seresnet101.py</code></td>
+</tr>
+<tr>
+<td>SEResNeXt50</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/seresnext50_32x4d.py</code></td>
+</tr>
+<tr>
+<td>SEResNeXt101</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/seresnext101_32x4d.py</code></td>
+</tr>
+<tr>
+<td>ShuffleNet V1</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/shufflenet_v1_1x.py</code></td>
+</tr>
+<tr>
+<td>ShuffleNet V2</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/shufflenet_v2_1x.py</code></td>
+</tr>
+<tr>
+<td>VGG11</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/vgg11.py</code></td>
+</tr>
+<tr>
+<td>VGG11</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/vgg11bn.py</code></td>
+</tr>
+<tr>
+<td>VGG13</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/vgg13.py</code></td>
+</tr>
+<tr>
+<td>VGG13</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/vgg13bn.py</code></td>
+</tr>
+<tr>
+<td>VGG16</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/vgg16.py</code></td>
+</tr>
+<tr>
+<td>VGG16</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/vgg16bn.py</code></td>
+</tr>
+<tr>
+<td>VGG19</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/vgg19.py</code></td>
+</tr>
+<tr>
+<td>VGG19</td>
+<td><code>/home/psh/mmlab/mmclassification/configs/_base_/models/vgg19bn.py</code></td>
+</tr>
+</tbody></table>
+<h5 id="一些超参配置"><a href="#一些超参配置" class="headerlink" title="一些超参配置"></a>一些超参配置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;home&#x2F;psh&#x2F;mmlab&#x2F;mmclassification&#x2F;configs&#x2F;_base_&#x2F;schedules&#x2F;cifar10_bs128.py</span><br><span class="line">&#x2F;home&#x2F;psh&#x2F;mmlab&#x2F;mmclassification&#x2F;configs&#x2F;_base_&#x2F;schedules&#x2F;imagenet_bs256.py</span><br><span class="line">&#x2F;home&#x2F;psh&#x2F;mmlab&#x2F;mmclassification&#x2F;configs&#x2F;_base_&#x2F;schedules&#x2F;imagenet_bs256_140e.py</span><br><span class="line">&#x2F;home&#x2F;psh&#x2F;mmlab&#x2F;mmclassification&#x2F;configs&#x2F;_base_&#x2F;schedules&#x2F;imagenet_bs256_coslr.py</span><br><span class="line">&#x2F;home&#x2F;psh&#x2F;mmlab&#x2F;mmclassification&#x2F;configs&#x2F;_base_&#x2F;schedules&#x2F;imagenet_bs256_epochstep.py</span><br><span class="line">&#x2F;home&#x2F;psh&#x2F;mmlab&#x2F;mmclassification&#x2F;configs&#x2F;_base_&#x2F;schedules&#x2F;imagenet_bs1024_linearlr_bn_nowd.py</span><br><span class="line">&#x2F;home&#x2F;psh&#x2F;mmlab&#x2F;mmclassification&#x2F;configs&#x2F;_base_&#x2F;schedules&#x2F;imagenet_bs2048.py</span><br><span class="line">&#x2F;home&#x2F;psh&#x2F;mmlab&#x2F;mmclassification&#x2F;configs&#x2F;_base_&#x2F;schedules&#x2F;imagenet_bs2048_coslr.py</span><br><span class="line">&#x2F;home&#x2F;psh&#x2F;mmlab&#x2F;mmclassification&#x2F;configs&#x2F;_base_&#x2F;schedules&#x2F;mnist_bs64.py</span><br></pre></td></tr></table></figure>
+
+<h4 id="config文件的继承或组装"><a href="#config文件的继承或组装" class="headerlink" title="config文件的继承或组装"></a>config文件的继承或组装</h4><p>一般来说，可以继承data配置、model配置、schedule（即超参）配置以及default_runtime来合成一个完整的<code>config.py</code>文件。<br>也可以继承之后修改其中的部分值。一个例子如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这是ResNet18在ImageNet数据集上进行单标签分类的配置</span></span><br><span class="line">_base_ = [</span><br><span class="line">    <span class="string">&#x27;/home/psh/mmlab/mmclassification/configs/_base_/models/resnet18.py&#x27;</span>, </span><br><span class="line">    <span class="string">&#x27;/home/psh/mmlab/mmclassification/configs/_base_/datasets/imagenet_bs32.py&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;/home/psh/mmlab/mmclassification/configs/_base_/schedules/imagenet_bs256.py&#x27;</span>, </span><br><span class="line">    <span class="string">&#x27;/home/psh/mmlab/mmclassification/configs/_base_/default_runtime.py&#x27;</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h5 id="一些完整的配置文件"><a href="#一些完整的配置文件" class="headerlink" title="一些完整的配置文件"></a>一些完整的配置文件</h5><details data-markdown>
+<summary>LeNet5</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MNIST</td>
+<td><code>/mmlab/mmclassification/configs/lenet/lenet5_mnist.py</code></td>
+<td><code>None</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>MobileNetV2</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/mobilenet_v2/mobilenet_v2_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/mobilenet_v2/mobilenet_v2_batch256_imagenet_20200708-3b2dc3af.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>ResNet</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CIFAR10</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet101_b16x8_cifar10.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnet101_b16x8_cifar10_20200823-d9501bbc.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet101_b32x8_imagenet.py</code></td>
+<td><code>pretrained: /mmlab/mmclassification/pretrained/resnet/resnet101_batch256_imagenet_20200708-753f3608.pth</code></td>
+</tr>
+<tr>
+<td>CIFAR10</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet152_b16x8_cifar10.py</code></td>
+<td><code>pretrained: /mmlab/mmclassification/pretrained/resnet/resnet152_b16x8_cifar10_20200823-ad4d5d0c.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet152_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnet152_batch256_imagenet_20200708-ec25b1f9.pth</code></td>
+</tr>
+<tr>
+<td>CIFAR10</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet18_b16x8_cifar10.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnet18_b16x8_cifar10_20200823-f906fa4e.pth </code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet18_b32x8_imagenet.py </code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnet18_batch256_imagenet_20200708-34ab8f90.pth</code></td>
+</tr>
+<tr>
+<td>CIFAR10</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet34_b16x8_cifar10.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnet34_b16x8_cifar10_20200823-52d5d832.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet34_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnet34_batch256_imagenet_20200708-32ffb4f7.pth</code></td>
+</tr>
+<tr>
+<td>CIFAR10</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet50_b16x8_cifar10.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnet50_b16x8_cifar10_20200823-882aa7b1.pth</code></td>
+</tr>
+<tr>
+<td>CIFAR10</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet50_b16x8_cifar10_mixup.py </code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnet50_b16x8_cifar10_20200823-882aa7b1.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet50_b32x8_coslr_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnet50_batch256_imagenet_20200708-cfb998bf.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet50_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnet50_batch256_imagenet_20200708-cfb998bf.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet50_b32x8_label_smooth_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnet50_batch256_imagenet_20200708-cfb998bf.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet50_b32x8_mixup_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnet50_batch256_imagenet_20200708-cfb998bf.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet50_b64x32_warmup_coslr_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnet50_batch256_imagenet_20200708-cfb998bf.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet50_b64x32_warmup_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnet50_batch256_imagenet_20200708-cfb998bf.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnet50_b64x32_warmup_label_smooth_imagenet.py </code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnet50_batch256_imagenet_20200708-cfb998bf.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnetv1d101_b32x8_imagenet.py </code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnetv1d101_batch256_imagenet_20200708-9cb302ef.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnetv1d152_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnetv1d152_batch256_imagenet_20200708-e79cb6a2.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnet/resnetv1d50_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnet/resnetv1d50_batch256_imagenet_20200708-1ad0ce94.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>ResNeXt</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnext/resnext101_32x4d_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnext/resnext101_32x4d_batch256_imagenet_20200708-87f2d1c9.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnext/resnext101_32x8d_b32x8_imagenet.py </code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnext/resnext101_32x8d_batch256_imagenet_20200708-1ec34aa7.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnext/resnext152_32x4d_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnext/resnext152_32x4d_batch256_imagenet_20200708-aab5034c.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/resnext/resnext50_32x4d_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/resnext/resnext50_32x4d_batch256_imagenet_20200708-c07adbb7.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>SEResNet</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/seresnet/seresnet101_b32x8_imagenet.py </code></td>
+<td><code>/mmlab/mmclassification/pretrained/seresnet/se-resnet101_batch256_imagenet_20200804-ba5b51d4.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/seresnet/seresnet50_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/seresnet/se-resnet50_batch256_imagenet_20200804-ae206104.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>SEResNeXt</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/seresnext/seresnext101_32x4d_b32x8_imagenet.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/seresnext/seresnext50_32x4d_b32x8_imagenet.py</code></td>
+<td><code>None</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>ShuffleNetV1</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/shufflenet_v1/shufflenet_v1_1x_b64x16_linearlr_bn_nowd_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/shufflenet_v1/shufflenet_v1_batch1024_imagenet_20200804-5d6cec73.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>ShuffleNetV2</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/shufflenet_v2/shufflenet_v2_1x_b64x16_linearlr_bn_nowd_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/shufflenet_v2/shufflenet_v2_batch1024_imagenet_20200812-5bf4721e.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+<details data-markdown>
+<summary>VGG</summary>
+
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/shufflenet_v2/shufflenet_v2_1x_b64x16_linearlr_bn_nowd_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/shufflenet_v2/shufflenet_v2_batch1024_imagenet_20200812-5bf4721e.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/vgg/vgg11_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/vgg/vgg11_imagenet-01ecd97e.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/vgg/vgg11bn_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/vgg/vgg11_bn_imagenet-6fbbbf3f.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/vgg/vgg13_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/vgg/vgg13_imagenet-9ad3945d.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/vgg/vgg13bn_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/vgg/vgg13_bn_imagenet-4b5f9390.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/vgg/vgg16_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/vgg/vgg16_imagenet-91b6d117.pth</code></td>
+</tr>
+<tr>
+<td>VOC2007</td>
+<td><code>/mmlab/mmclassification/configs/vgg/vgg16_b32x8_voc.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/vgg/vgg16bn_b32x8_imagenet.py </code></td>
+<td><code>/mmlab/mmclassification/pretrained/vgg/vgg16_bn_imagenet-3ac6d8fd.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/vgg/vgg19_b32x8_imagenet.py </code></td>
+<td><code>/mmlab/mmclassification/pretrained/vgg/vgg19_imagenet-fee352a8.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>/mmlab/mmclassification/configs/vgg/vgg19bn_b32x8_imagenet.py</code></td>
+<td><code>/mmlab/mmclassification/pretrained/vgg/vgg19_bn_imagenet-7c058385.pth</code></td>
+</tr>
+</tbody></table>
+</details>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/14/test/Hexo-and-Github/" rel="prev" title="Hexo and Github">
+      <i class="fa fa-chevron-left"></i> Hexo and Github
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/15/group_report/mmdet/" rel="next" title="目标检测模块(mmdet)">
+      目标检测模块(mmdet) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mmclassification"><span class="nav-number">1.</span> <span class="nav-text">mmclassification</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%B0%83%E7%94%A8%E9%83%A8%E5%88%86"><span class="nav-number">1.1.</span> <span class="nav-text">命令行调用部分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#dist-train-sh-multi-gpu-training"><span class="nav-number">1.1.1.</span> <span class="nav-text">dist_train.sh(multi-gpu training)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BF%85%E8%A6%81%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">必要参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8F%AF%E9%80%89%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">主要可选参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AC%A1%E8%A6%81%E5%8F%AF%E9%80%89%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">次要可选参数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dist-test-sh-multi-gpu-testing"><span class="nav-number">1.1.2.</span> <span class="nav-text">dist_test.sh(multi-gpu testing)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BF%85%E8%A6%81%E5%8F%82%E6%95%B0-1"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">必要参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8F%AF%E9%80%89%E5%8F%82%E6%95%B0-1"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">主要可选参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AC%A1%E8%A6%81%E5%8F%AF%E9%80%89%E5%8F%82%E6%95%B0-1"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">次要可选参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%A0%E4%B8%AA%E6%A0%B7%E4%BE%8B"><span class="nav-number">1.2.</span> <span class="nav-text">几个样例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8ImageNet%E4%B8%8A%E8%AE%AD%E7%BB%83ResNet-18-%E5%8D%95%E6%A0%87%E7%AD%BE"><span class="nav-number">1.2.1.</span> <span class="nav-text">在ImageNet上训练ResNet-18(单标签)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8Pascal-VOC2007%E4%B8%8A%E8%AE%AD%E7%BB%83VGG16-%E5%A4%9A%E6%A0%87%E7%AD%BE"><span class="nav-number">1.2.2.</span> <span class="nav-text">在Pascal VOC2007上训练VGG16(多标签)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.3.</span> <span class="nav-text">目前出现的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%85%B6%E4%BB%96%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">1.4.</span> <span class="nav-text">一些其他的功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E5%8D%95%E5%BC%A0%E5%9B%BE%E7%89%87%E8%BF%9B%E8%A1%8C%E6%8E%A8%E6%96%AD"><span class="nav-number">1.4.1.</span> <span class="nav-text">对单张图片进行推断</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">1.5.</span> <span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E4%B8%BB%E8%A6%81%E4%BD%BF%E7%94%A8%E6%88%96%E5%B7%B2%E9%83%A8%E7%BD%B2%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.5.1.</span> <span class="nav-text">目前主要使用或已部署的数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E5%8F%AF%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9Bconfig%E6%96%87%E4%BB%B6"><span class="nav-number">1.5.2.</span> <span class="nav-text">目前可用的一些config文件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%95%B0%E6%8D%AE%E9%9B%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">一些数据集配置文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%A8%A1%E5%9E%8B%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">一些模型配置文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E8%B6%85%E5%8F%82%E9%85%8D%E7%BD%AE"><span class="nav-number">1.5.2.3.</span> <span class="nav-text">一些超参配置</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#config%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%A7%E6%89%BF%E6%88%96%E7%BB%84%E8%A3%85"><span class="nav-number">1.5.3.</span> <span class="nav-text">config文件的继承或组装</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%AE%8C%E6%95%B4%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.5.3.1.</span> <span class="nav-text">一些完整的配置文件</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="杨熊"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">杨熊</p>
+  <div class="site-description" itemprop="description">善恶到头终有报，只争来早与来迟</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨熊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
