@@ -8811,7 +8811,7 @@ pip install -v -e .
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-10 23:31:36" itemprop="dateModified" datetime="2021-04-10T23:31:36+08:00">2021-04-10</time>
+                <time title="修改时间：2021-04-10 23:33:40" itemprop="dateModified" datetime="2021-04-10T23:33:40+08:00">2021-04-10</time>
               </span>
 
           
@@ -9009,7 +9009,9 @@ pip install -v -e .
 <li><code>evaluation</code>部分增加对<code>segm</code>(segmentation mask)的度量</li>
 </ul>
 <h2 id="4-模型配置的制定（这一部分可以暂且略过，不推荐用户修改）"><a href="#4-模型配置的制定（这一部分可以暂且略过，不推荐用户修改）" class="headerlink" title="4. 模型配置的制定（这一部分可以暂且略过，不推荐用户修改）"></a>4. 模型配置的制定（这一部分可以暂且略过，不推荐用户修改）</h2><p><strong>如果要使用自己的数据集，且对模型内部其他细节一概不关心的话，在这一部分要修改的只有两项：bbox_head以及mask_head下的num_classes！</strong></p>
-<p>目标检测与实例分割模型的结构大致相似，可能有一些参数或部件上的差异，之后会举例说明。综合起来，这些模型可大致分为二阶段(two-stage)模型和一阶段模型(one-stage)。实际上还存在多阶段模型，这里目前不做讨论。这可能也是制定数据库最困难的一部分。</p>
+<p>目标检测与实例分割模型的结构大致相似，可能有一些参数或部件上的差异，之后会举例说明。综合起来，这些模型可大致分为二阶段(two-stage)模型和一阶段模型(one-stage)。实际上还存在多阶段模型，这里目前不做讨论。这可能也是制定数据库最困难的一部分。虽然之后想允许前端提供改造模型的接口，但以下内容可能还不够完善，请谨慎阅读！</p>
+<details data-markdown>
+
 <h3 id="4-1-二阶段-two-stage-模型"><a href="#4-1-二阶段-two-stage-模型" class="headerlink" title="4.1 二阶段(two-stage)模型"></a>4.1 二阶段(two-stage)模型</h3><p>对于二阶段(two-stage)模型，组件内容为：</p>
 <ul>
 <li>backbone</li>
@@ -9045,6 +9047,8 @@ pip install -v -e .
 <li>mask_head</li>
 <li>segm_head</li>
 </ul>
+</details>
+
 <h3 id="4-3-特别提醒"><a href="#4-3-特别提醒" class="headerlink" title="4.3 特别提醒"></a>4.3 特别提醒</h3><p><strong>如果要使用自己的数据集，在这一部分要修改的只有两项：bbox_head以及mask_head下的num_classes！</strong></p>
 <h2 id="5-任务组装"><a href="#5-任务组装" class="headerlink" title="5. 任务组装"></a>5. 任务组装</h2><p>config文件可以通过继承的方式组装。</p>
 <p>一般来说，可以继承data配置、model配置、schedule（即超参）配置以及default_runtime来合成一个完整的<code>config.py</code>文件。<br>也可以继承之后修改其中的部分值。两个例子如下：</p>
