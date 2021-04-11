@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文档的主要目的是列举所有默认的配置组件或完整配置列表，方便开发人员查询和调用。 一些数据集配置文件   dataset task config    CIFAR10 单标签 mmlab&#x2F;mmclassification&#x2F;configs&#x2F;_base_&#x2F;datasets&#x2F;cifar10_bs16.py   ImageNet 单标签 mmlab&#x2F;mmclassification&#x2F;configs&#x2F;_ba">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mmcls目标检测配置列表v0.0">
+<meta property="og:url" content="http://example.com/2021/04/11/group_report/mmcls_default_configs/index.html">
+<meta property="og:site_name" content="暴走白熊的小窝">
+<meta property="og:description" content="本文档的主要目的是列举所有默认的配置组件或完整配置列表，方便开发人员查询和调用。 一些数据集配置文件   dataset task config    CIFAR10 单标签 mmlab&#x2F;mmclassification&#x2F;configs&#x2F;_base_&#x2F;datasets&#x2F;cifar10_bs16.py   ImageNet 单标签 mmlab&#x2F;mmclassification&#x2F;configs&#x2F;_ba">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-11T06:28:28.650Z">
+<meta property="article:modified_time" content="2021-04-11T06:57:12.400Z">
+<meta property="article:author" content="杨熊">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/04/11/group_report/mmcls_default_configs/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>mmcls目标检测配置列表v0.0 | 暴走白熊的小窝</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">暴走白熊的小窝</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/11/group_report/mmcls_default_configs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="杨熊">
+      <meta itemprop="description" content="善恶到头终有报，只争来早与来迟">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="暴走白熊的小窝">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          mmcls目标检测配置列表v0.0
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-04-11 14:28:28 / 修改时间：14:57:12" itemprop="dateCreated datePublished" datetime="2021-04-11T14:28:28+08:00">2021-04-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文档的主要目的是列举所有默认的配置组件或完整配置列表，方便开发人员查询和调用。</p>
+<h1 id="一些数据集配置文件"><a href="#一些数据集配置文件" class="headerlink" title="一些数据集配置文件"></a>一些数据集配置文件</h1><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>task</th>
+<th>config</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CIFAR10</td>
+<td>单标签</td>
+<td><code>mmlab/mmclassification/configs/_base_/datasets/cifar10_bs16.py</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td>单标签</td>
+<td><code>mmlab/mmclassification/configs/_base_/datasets/imagenet_bs32.py</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td>单标签</td>
+<td><code>mmlab/mmclassification/configs/_base_/datasets/imagenet_bs32_pil_resize.py</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td>单标签</td>
+<td><code>mmlab/mmclassification/configs/_base_/datasets/imagenet_bs64.py</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td>单标签</td>
+<td><code>mmlab/mmclassification/configs/_base_/datasets/imagenet_bs64_pil_resize.py</code></td>
+</tr>
+<tr>
+<td>MNIST</td>
+<td>单标签</td>
+<td><code>mmlab/mmclassification/configs/_base_/datasets/mnist_bs64.py</code></td>
+</tr>
+<tr>
+<td>PASCAL VOC 2007</td>
+<td>多标签</td>
+<td><code>mmlab/mmclassification/configs/_base_/datasets/voc_bs16.py</code></td>
+</tr>
+</tbody></table>
+<h1 id="一些模型配置文件"><a href="#一些模型配置文件" class="headerlink" title="一些模型配置文件"></a>一些模型配置文件</h1><table>
+<thead>
+<tr>
+<th>model</th>
+<th>config</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MobileNet V2</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/mobilenet_v2_1x.py</code></td>
+</tr>
+<tr>
+<td>ResNest50</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnest50.py</code></td>
+</tr>
+<tr>
+<td>ResNest101</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnest101.py</code></td>
+</tr>
+<tr>
+<td>ResNest200</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnest200.py</code></td>
+</tr>
+<tr>
+<td>ResNest269</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnest269.py</code></td>
+</tr>
+<tr>
+<td>ResNet18</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnet18.py</code></td>
+</tr>
+<tr>
+<td>ResNet18</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnet18_cifar.py</code></td>
+</tr>
+<tr>
+<td>ResNet34</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnet34.py</code></td>
+</tr>
+<tr>
+<td>ResNet34</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnet34_cifar.py</code></td>
+</tr>
+<tr>
+<td>ResNet50</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnet50.py</code></td>
+</tr>
+<tr>
+<td>ResNet50</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnet50_cifar.py</code></td>
+</tr>
+<tr>
+<td>ResNet50</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnet50_cifar_mixup.py</code></td>
+</tr>
+<tr>
+<td>ResNet50</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnet50_mixup.py</code></td>
+</tr>
+<tr>
+<td>ResNet101</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnet101.py</code></td>
+</tr>
+<tr>
+<td>ResNet101</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnet101_cifar.py</code></td>
+</tr>
+<tr>
+<td>ResNet152</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnet152.py</code></td>
+</tr>
+<tr>
+<td>ResNet152</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnet152_cifar.py</code></td>
+</tr>
+<tr>
+<td>ResNetV1d 50</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnetv1d50.py</code></td>
+</tr>
+<tr>
+<td>ResNetV1d 101</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnetv1d101.py</code></td>
+</tr>
+<tr>
+<td>ResNetV1d 152</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnetv1d152.py</code></td>
+</tr>
+<tr>
+<td>ResNeXt50</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnext50_32x4d.py</code></td>
+</tr>
+<tr>
+<td>ResNeXt101</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnext101_32x4d.py</code></td>
+</tr>
+<tr>
+<td>ResNeXt101</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnext101_32x8d.py</code></td>
+</tr>
+<tr>
+<td>ResNeXt152</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/resnext152_32x4d.py</code></td>
+</tr>
+<tr>
+<td>SEResNet50</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/seresnet50.py</code></td>
+</tr>
+<tr>
+<td>SEResNet101</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/seresnet101.py</code></td>
+</tr>
+<tr>
+<td>SEResNeXt50</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/seresnext50_32x4d.py</code></td>
+</tr>
+<tr>
+<td>SEResNeXt101</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/seresnext101_32x4d.py</code></td>
+</tr>
+<tr>
+<td>ShuffleNet V1</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/shufflenet_v1_1x.py</code></td>
+</tr>
+<tr>
+<td>ShuffleNet V2</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/shufflenet_v2_1x.py</code></td>
+</tr>
+<tr>
+<td>VGG11</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/vgg11.py</code></td>
+</tr>
+<tr>
+<td>VGG11</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/vgg11bn.py</code></td>
+</tr>
+<tr>
+<td>VGG13</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/vgg13.py</code></td>
+</tr>
+<tr>
+<td>VGG13</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/vgg13bn.py</code></td>
+</tr>
+<tr>
+<td>VGG16</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/vgg16.py</code></td>
+</tr>
+<tr>
+<td>VGG16</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/vgg16bn.py</code></td>
+</tr>
+<tr>
+<td>VGG19</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/vgg19.py</code></td>
+</tr>
+<tr>
+<td>VGG19</td>
+<td><code>mmlab/mmclassification/configs/_base_/models/vgg19bn.py</code></td>
+</tr>
+</tbody></table>
+<h1 id="一些超参配置"><a href="#一些超参配置" class="headerlink" title="一些超参配置"></a>一些超参配置</h1><table>
+<thead>
+<tr>
+<th>config</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mmlab/mmclassification/configs/<em>base</em>/schedules/cifar10_bs128.py</td>
+</tr>
+<tr>
+<td>mmlab/mmclassification/configs/<em>base</em>/schedules/imagenet_bs256.py</td>
+</tr>
+<tr>
+<td>mmlab/mmclassification/configs/<em>base</em>/schedules/imagenet_bs256_140e.py</td>
+</tr>
+<tr>
+<td>mmlab/mmclassification/configs/<em>base</em>/schedules/imagenet_bs256_coslr.py</td>
+</tr>
+<tr>
+<td>mmlab/mmclassification/configs/<em>base</em>/schedules/imagenet_bs256_epochstep.py</td>
+</tr>
+<tr>
+<td>mmlab/mmclassification/configs/<em>base</em>/schedules/imagenet_bs1024_linearlr_bn_nowd.py</td>
+</tr>
+<tr>
+<td>mmlab/mmclassification/configs/<em>base</em>/schedules/imagenet_bs2048.py</td>
+</tr>
+<tr>
+<td>mmlab/mmclassification/configs/<em>base</em>/schedules/imagenet_bs2048_coslr.py</td>
+</tr>
+<tr>
+<td>mmlab/mmclassification/configs/<em>base</em>/schedules/mnist_bs64.py</td>
+</tr>
+</tbody></table>
+<h1 id="一些完整的配置文件"><a href="#一些完整的配置文件" class="headerlink" title="一些完整的配置文件"></a>一些完整的配置文件</h1><p>我们现有的配置文件及预训练模型如下(按照所属论文的不同进行了简单分类)：</p>
+<h2 id="LeNet5"><a href="#LeNet5" class="headerlink" title="LeNet5"></a>LeNet5</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MNIST</td>
+<td><code>mmlab/mmclassification/configs/lenet/lenet5_mnist.py</code></td>
+<td><code>None</code></td>
+</tr>
+</tbody></table>
+<h2 id="MobileNetV2"><a href="#MobileNetV2" class="headerlink" title="MobileNetV2"></a>MobileNetV2</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/mobilenet_v2/mobilenet_v2_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/mobilenet_v2/mobilenet_v2_batch256_imagenet_20200708-3b2dc3af.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a>ResNet</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CIFAR10</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet101_b16x8_cifar10.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnet101_b16x8_cifar10_20200823-d9501bbc.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet101_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnet101_batch256_imagenet_20200708-753f3608.pth</code></td>
+</tr>
+<tr>
+<td>CIFAR10</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet152_b16x8_cifar10.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnet152_b16x8_cifar10_20200823-ad4d5d0c.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet152_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnet152_batch256_imagenet_20200708-ec25b1f9.pth</code></td>
+</tr>
+<tr>
+<td>CIFAR10</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet18_b16x8_cifar10.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnet18_b16x8_cifar10_20200823-f906fa4e.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet18_b32x8_imagenet.py </code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnet18_batch256_imagenet_20200708-34ab8f90.pth</code></td>
+</tr>
+<tr>
+<td>CIFAR10</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet34_b16x8_cifar10.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnet34_b16x8_cifar10_20200823-52d5d832.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet34_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnet34_batch256_imagenet_20200708-32ffb4f7.pth</code></td>
+</tr>
+<tr>
+<td>CIFAR10</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet50_b16x8_cifar10.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnet50_b16x8_cifar10_20200823-882aa7b1.pth</code></td>
+</tr>
+<tr>
+<td>CIFAR10</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet50_b16x8_cifar10_mixup.py </code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnet50_b16x8_cifar10_20200823-882aa7b1.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet50_b32x8_coslr_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnet50_batch256_imagenet_20200708-cfb998bf.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet50_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnet50_batch256_imagenet_20200708-cfb998bf.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet50_b32x8_label_smooth_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnet50_batch256_imagenet_20200708-cfb998bf.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet50_b32x8_mixup_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnet50_batch256_imagenet_20200708-cfb998bf.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet50_b64x32_warmup_coslr_imagenet.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet50_b64x32_warmup_imagenet.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnet50_b64x32_warmup_label_smooth_imagenet.py </code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnetv1d101_b32x8_imagenet.py </code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnetv1d101_batch256_imagenet_20200708-9cb302ef.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnetv1d152_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnetv1d152_batch256_imagenet_20200708-e79cb6a2.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnet/resnetv1d50_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnet/resnetv1d50_batch256_imagenet_20200708-1ad0ce94.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="ResNeXt"><a href="#ResNeXt" class="headerlink" title="ResNeXt"></a>ResNeXt</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnext/resnext101_32x4d_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnext/resnext101_32x4d_batch256_imagenet_20200708-87f2d1c9.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnext/resnext101_32x8d_b32x8_imagenet.py </code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnext/resnext101_32x8d_batch256_imagenet_20200708-1ec34aa7.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnext/resnext152_32x4d_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnext/resnext152_32x4d_batch256_imagenet_20200708-aab5034c.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/resnext/resnext50_32x4d_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/resnext/resnext50_32x4d_batch256_imagenet_20200708-c07adbb7.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="SEResNet"><a href="#SEResNet" class="headerlink" title="SEResNet"></a>SEResNet</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/seresnet/seresnet101_b32x8_imagenet.py </code></td>
+<td><code>mmlab/mmclassification/checkpoints/seresnet/se-resnet101_batch256_imagenet_20200804-ba5b51d4.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/seresnet/seresnet50_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/seresnet/se-resnet50_batch256_imagenet_20200804-ae206104.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="SEResNeXt"><a href="#SEResNeXt" class="headerlink" title="SEResNeXt"></a>SEResNeXt</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/seresnext/seresnext101_32x4d_b32x8_imagenet.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/seresnext/seresnext50_32x4d_b32x8_imagenet.py</code></td>
+<td><code>None</code></td>
+</tr>
+</tbody></table>
+<h2 id="ShuffleNetV1"><a href="#ShuffleNetV1" class="headerlink" title="ShuffleNetV1"></a>ShuffleNetV1</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/shufflenet_v1/shufflenet_v1_1x_b64x16_linearlr_bn_nowd_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/shufflenet_v1/shufflenet_v1_batch1024_imagenet_20200804-5d6cec73.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="ShuffleNetV2"><a href="#ShuffleNetV2" class="headerlink" title="ShuffleNetV2"></a>ShuffleNetV2</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/shufflenet_v2/shufflenet_v2_1x_b64x16_linearlr_bn_nowd_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/shufflenet_v2/shufflenet_v2_batch1024_imagenet_20200812-5bf4721e.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="VGG"><a href="#VGG" class="headerlink" title="VGG"></a>VGG</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/vgg/vgg11_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/vgg/vgg11_imagenet-01ecd97e.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/vgg/vgg11bn_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/vgg/vgg11_bn_imagenet-6fbbbf3f.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/vgg/vgg13_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/vgg/vgg13_imagenet-9ad3945d.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/vgg/vgg13bn_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/vgg/vgg13_bn_imagenet-4b5f9390.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/vgg/vgg16_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/vgg/vgg16_imagenet-91b6d117.pth</code></td>
+</tr>
+<tr>
+<td>VOC2007</td>
+<td><code>mmlab/mmclassification/configs/vgg/vgg16_b32x8_voc.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/vgg/vgg16bn_b32x8_imagenet.py </code></td>
+<td><code>mmlab/mmclassification/checkpoints/vgg/vgg16_bn_imagenet-3ac6d8fd.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/vgg/vgg19_b32x8_imagenet.py </code></td>
+<td><code>mmlab/mmclassification/checkpoints/vgg/vgg19_imagenet-fee352a8.pth</code></td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td><code>mmlab/mmclassification/configs/vgg/vgg19bn_b32x8_imagenet.py</code></td>
+<td><code>mmlab/mmclassification/checkpoints/vgg/vgg19_bn_imagenet-7c058385.pth</code></td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/04/10/group_report/mmdet_default_configs/" rel="prev" title="mmdet目标检测配置列表v0.0">
+      <i class="fa fa-chevron-left"></i> mmdet目标检测配置列表v0.0
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%95%B0%E6%8D%AE%E9%9B%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">一些数据集配置文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%A8%A1%E5%9E%8B%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">一些模型配置文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E8%B6%85%E5%8F%82%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">一些超参配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%AE%8C%E6%95%B4%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">一些完整的配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LeNet5"><span class="nav-number">4.1.</span> <span class="nav-text">LeNet5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MobileNetV2"><span class="nav-number">4.2.</span> <span class="nav-text">MobileNetV2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ResNet"><span class="nav-number">4.3.</span> <span class="nav-text">ResNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ResNeXt"><span class="nav-number">4.4.</span> <span class="nav-text">ResNeXt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SEResNet"><span class="nav-number">4.5.</span> <span class="nav-text">SEResNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SEResNeXt"><span class="nav-number">4.6.</span> <span class="nav-text">SEResNeXt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ShuffleNetV1"><span class="nav-number">4.7.</span> <span class="nav-text">ShuffleNetV1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ShuffleNetV2"><span class="nav-number">4.8.</span> <span class="nav-text">ShuffleNetV2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VGG"><span class="nav-number">4.9.</span> <span class="nav-text">VGG</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="杨熊"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">杨熊</p>
+  <div class="site-description" itemprop="description">善恶到头终有报，只争来早与来迟</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨熊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
