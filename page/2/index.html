@@ -147,6 +147,234 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/22/group_report/mmseg/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="杨熊">
+      <meta itemprop="description" content="善恶到头终有报，只争来早与来迟">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="暴走白熊的小窝">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/22/group_report/mmseg/" class="post-title-link" itemprop="url">语义分割模块(mmseg)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-22 16:08:43" itemprop="dateCreated datePublished" datetime="2021-03-22T16:08:43+08:00">2021-03-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-11 18:43:37" itemprop="dateModified" datetime="2021-04-11T18:43:37+08:00">2021-04-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="语义分割模块-mmseg"><a href="#语义分割模块-mmseg" class="headerlink" title="语义分割模块(mmseg)"></a>语义分割模块(mmseg)</h1><h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h2><p>该模块包含的内容主要有：</p>
+<ul>
+<li>各种语义分割方法和预训练模型</li>
+<li>统一的推断流水线</li>
+<li>可以对单图推断产生demo并可视化</li>
+</ul>
+<p>每一个任务的核心都是配置文件<code>config.py</code>，所有流程都将依赖这个文件执行。</p>
+<p>因此本文档主要介绍的是配置文件的内容，从数据集，到模型，最后是如何使用此配置文件（超参和其他配置部分与<a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/04/10/group_report/Generalized_CV/">设计文档</a>中<a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/04/10/group_report/Generalized_CV/#Hyperparameters">超参相关配置</a>和<a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/04/10/group_report/Generalized_CV/#Otherparameters">其他相关配置</a>相同，因此不再描述）。</p>
+<p>该任务大类下只有语义分割一种任务。</p>
+<p>如果对如何制定配置文件不感兴趣，只关注如何使用默认配置跑通一个流程，请直接跳至<a href="#command">第五节-命令行调用部分</a>。</p>
+<h2 id="2-数据集配置的制定"><a href="#2-数据集配置的制定" class="headerlink" title="2. 数据集配置的制定"></a>2. 数据集配置的制定</h2><p>目前主要使用并且已部署的数据集包括：</p>
+<ul>
+<li>Cityscapes</li>
+<li>ADE20K</li>
+<li>Pascal Context(Pascal VOC 2010)</li>
+<li>Pascal VOC 2012 + Aug</li>
+<li>CHASE_DB1</li>
+<li>HRF(高分辨率指纹)</li>
+<li>STARE(血管)</li>
+</ul>
+<p>每个数据集都有自己的解析类，但这只对配置文件中type属性和标注文件ann_file的选择有影响，大体不影响流水线制定。</p>
+<h3 id="2-1-数据集配置"><a href="#2-1-数据集配置" class="headerlink" title="2.1 数据集配置"></a>2.1 数据集配置</h3><p>以下是一个Cityscapes数据集进行语义分割的配置例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dataset settings</span></span><br><span class="line">dataset_type = <span class="string">&#x27;CityscapesDataset&#x27;</span></span><br><span class="line">data_root = <span class="string">&#x27;data/cityscapes/&#x27;</span></span><br><span class="line">img_norm_cfg = <span class="built_in">dict</span>(</span><br><span class="line">    mean=[<span class="number">123.675</span>, <span class="number">116.28</span>, <span class="number">103.53</span>], std=[<span class="number">58.395</span>, <span class="number">57.12</span>, <span class="number">57.375</span>], to_rgb=<span class="literal">True</span>)</span><br><span class="line">crop_size = (<span class="number">512</span>, <span class="number">1024</span>)</span><br><span class="line">train_pipeline = [</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadImageFromFile&#x27;</span>),</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadAnnotations&#x27;</span>),</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Resize&#x27;</span>, img_scale=(<span class="number">2048</span>, <span class="number">1024</span>), ratio_range=(<span class="number">0.5</span>, <span class="number">2.0</span>)),</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;RandomCrop&#x27;</span>, crop_size=crop_size, cat_max_ratio=<span class="number">0.75</span>),</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;RandomFlip&#x27;</span>, prob=<span class="number">0.5</span>),</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;PhotoMetricDistortion&#x27;</span>),</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Normalize&#x27;</span>, **img_norm_cfg),</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Pad&#x27;</span>, size=crop_size, pad_val=<span class="number">0</span>, seg_pad_val=<span class="number">255</span>),</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;DefaultFormatBundle&#x27;</span>),</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Collect&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>, <span class="string">&#x27;gt_semantic_seg&#x27;</span>]),</span><br><span class="line">]</span><br><span class="line">test_pipeline = [</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadImageFromFile&#x27;</span>),</span><br><span class="line">    <span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;MultiScaleFlipAug&#x27;</span>,</span><br><span class="line">        img_scale=(<span class="number">2048</span>, <span class="number">1024</span>),</span><br><span class="line">        <span class="comment"># img_ratios=[0.5, 0.75, 1.0, 1.25, 1.5, 1.75],</span></span><br><span class="line">        flip=<span class="literal">False</span>,</span><br><span class="line">        transforms=[</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Resize&#x27;</span>, keep_ratio=<span class="literal">True</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;RandomFlip&#x27;</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Normalize&#x27;</span>, **img_norm_cfg),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;ImageToTensor&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>]),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Collect&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>]),</span><br><span class="line">        ])</span><br><span class="line">]</span><br><span class="line">data = <span class="built_in">dict</span>(</span><br><span class="line">    samples_per_gpu=<span class="number">2</span>,</span><br><span class="line">    workers_per_gpu=<span class="number">2</span>,</span><br><span class="line">    train=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=dataset_type,</span><br><span class="line">        data_root=data_root,</span><br><span class="line">        img_dir=<span class="string">&#x27;leftImg8bit/train&#x27;</span>,</span><br><span class="line">        ann_dir=<span class="string">&#x27;gtFine/train&#x27;</span>,</span><br><span class="line">        pipeline=train_pipeline),</span><br><span class="line">    val=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=dataset_type,</span><br><span class="line">        data_root=data_root,</span><br><span class="line">        img_dir=<span class="string">&#x27;leftImg8bit/val&#x27;</span>,</span><br><span class="line">        ann_dir=<span class="string">&#x27;gtFine/val&#x27;</span>,</span><br><span class="line">        pipeline=test_pipeline),</span><br><span class="line">    test=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=dataset_type,</span><br><span class="line">        data_root=data_root,</span><br><span class="line">        img_dir=<span class="string">&#x27;leftImg8bit/val&#x27;</span>,</span><br><span class="line">        ann_dir=<span class="string">&#x27;gtFine/val&#x27;</span>,</span><br><span class="line">        pipeline=test_pipeline))</span><br><span class="line"></span><br><span class="line">evaluation = <span class="built_in">dict</span>(interval=<span class="number">2000</span>, metric=<span class="string">&#x27;mIoU&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>samples_per_gpu</code> 每个gpu上分配多少个样本(图片), 该数乘以我们实际使用的gpu数就是batch size</li>
+<li><code>workers_per_gpu</code> 每个gpu上分配多少个worker</li>
+<li><code>train/val/test</code> 分别对应训练流水线/验证流水线/测试流水线，它还有以下几个重要参数：<ul>
+<li><code>type</code> 对应用于解析数据集的python类的名称</li>
+<li><code>data_root</code> 对应<code>type</code>指明的类，所有数据所在的文件夹</li>
+<li><code>img_dir</code> 对应于<code>type</code>指明的类，在相对于<code>data_root</code>指明的路径下，原图像文件的路径</li>
+<li><code>ann_dir</code> 对应于<code>type</code>指明的类，在相对于<code>data_root</code>指明的路径下，标注文件的路径(标注文件可以是json或者图像)</li>
+<li><code>pipeline</code> 流水线的制定，除去读取和输出数据的部分，主要是一些数据预处理手段</li>
+</ul>
+</li>
+</ul>
+<p>前面的例子为了方便查看及使用，将pipeline信息写在data外面，以预定义的形式展现，这将在之后展开说明。pipeline用一个list来展示。</p>
+<p>此外，evaluation模块实际上独立于data模块。但由于和数据集的选择高度相关，从而也写在数据集配置文件中。这里的evaluation只包含<code>interval</code>和<code>metric</code>两个参数：</p>
+<ul>
+<li>interval表示多少个iter进行一次验证（语义分割任务中一般使用IterBasedRunner）</li>
+<li>metric表示使用的度量类型（一般使用<code>metric=&#39;mIoU&#39;</code>即可）</li>
+</ul>
+<h3 id="2-2-流水线配置"><a href="#2-2-流水线配置" class="headerlink" title="2.2 流水线配置"></a>2.2 流水线配置</h3><p>流水线用一个list，表示的是对数据依次进行的预处理操作。其中有两个组件是测试/验证/测试阶段均必要的：</p>
+<ul>
+<li><code>LoadImageFromFile</code>表示从<code>data_prefix</code>对应的文件夹下载入图片的过程。必须放在流水线的第一步。</li>
+<li><code>Collect</code>表示对结果格式的统一。这一步进行后，数据便可以以正确的格式进入模型。必须放在最后一步。</li>
+</ul>
+<p>其中训练阶段和验证/测试阶段略有差异：</p>
+<ul>
+<li>训练阶段需要添加<code>LoadAnnotations</code>表示对标注文件的读取。一般放在流水线的第二步。</li>
+<li>在最后一步<code>collect</code>之前，训练阶段应当使用<code>DefaultFormatBundle</code>两步将图像、语义分割信息均转化为PyTorch的Tesnor格式，验证/测试阶段只需使用<code>ImageToTensor</code>转化图片即可。</li>
+<li>验证/测试阶段不应当对图像进行任何随机变换之类的数据增强操作，其他应与训练阶段完全一致。</li>
+</ul>
+<h2 id="3-模型配置的制定"><a href="#3-模型配置的制定" class="headerlink" title="3. 模型配置的制定"></a>3. 模型配置的制定</h2><p><strong>如果要使用自己的数据集，且对模型内部其他细节一概不关心的话，在这一部分要修改的只有两项：decode_head以及auxiliary_head下的num_classes！</strong></p>
+<p>语义分割模型的结构大致都相似，其组件内容为：</p>
+<ul>
+<li>backbone</li>
+<li>decode_head</li>
+<li>auxiliary_head(optional)</li>
+</ul>
+<p>唯一的例外是PointRend中在backbone的基础上额外加了一个neck(FPN)。</p>
+<p>以下是一个DeepLabV3的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">norm_cfg = <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;SyncBN&#x27;</span>, requires_grad=<span class="literal">True</span>)</span><br><span class="line">model = <span class="built_in">dict</span>(</span><br><span class="line">    <span class="built_in">type</span>=<span class="string">&#x27;EncoderDecoder&#x27;</span>,</span><br><span class="line">    pretrained=<span class="string">&#x27;open-mmlab://resnet50_v1c&#x27;</span>,</span><br><span class="line">    backbone=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;ResNetV1c&#x27;</span>,</span><br><span class="line">        depth=<span class="number">50</span>,</span><br><span class="line">        num_stages=<span class="number">4</span>,</span><br><span class="line">        out_indices=(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>),</span><br><span class="line">        dilations=(<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>),</span><br><span class="line">        strides=(<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>),</span><br><span class="line">        norm_cfg=norm_cfg,</span><br><span class="line">        norm_eval=<span class="literal">False</span>,</span><br><span class="line">        style=<span class="string">&#x27;pytorch&#x27;</span>,</span><br><span class="line">        contract_dilation=<span class="literal">True</span>),</span><br><span class="line">    decode_head=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;ASPPHead&#x27;</span>,</span><br><span class="line">        in_channels=<span class="number">2048</span>,</span><br><span class="line">        in_index=<span class="number">3</span>,</span><br><span class="line">        channels=<span class="number">512</span>,</span><br><span class="line">        dilations=(<span class="number">1</span>, <span class="number">12</span>, <span class="number">24</span>, <span class="number">36</span>),</span><br><span class="line">        dropout_ratio=<span class="number">0.1</span>,</span><br><span class="line">        num_classes=<span class="number">19</span>,</span><br><span class="line">        norm_cfg=norm_cfg,</span><br><span class="line">        align_corners=<span class="literal">False</span>,</span><br><span class="line">        loss_decode=<span class="built_in">dict</span>(</span><br><span class="line">            <span class="built_in">type</span>=<span class="string">&#x27;CrossEntropyLoss&#x27;</span>, use_sigmoid=<span class="literal">False</span>, loss_weight=<span class="number">1.0</span>)),</span><br><span class="line">    auxiliary_head=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;FCNHead&#x27;</span>,</span><br><span class="line">        in_channels=<span class="number">1024</span>,</span><br><span class="line">        in_index=<span class="number">2</span>,</span><br><span class="line">        channels=<span class="number">256</span>,</span><br><span class="line">        num_convs=<span class="number">1</span>,</span><br><span class="line">        concat_input=<span class="literal">False</span>,</span><br><span class="line">        dropout_ratio=<span class="number">0.1</span>,</span><br><span class="line">        num_classes=<span class="number">19</span>,</span><br><span class="line">        norm_cfg=norm_cfg,</span><br><span class="line">        align_corners=<span class="literal">False</span>,</span><br><span class="line">        loss_decode=<span class="built_in">dict</span>(</span><br><span class="line">            <span class="built_in">type</span>=<span class="string">&#x27;CrossEntropyLoss&#x27;</span>, use_sigmoid=<span class="literal">False</span>, loss_weight=<span class="number">0.4</span>)),</span><br><span class="line">    <span class="comment"># model training and testing settings</span></span><br><span class="line">    train_cfg=<span class="built_in">dict</span>(),</span><br><span class="line">    test_cfg=<span class="built_in">dict</span>(mode=<span class="string">&#x27;whole&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<p>Model的类型(type)主要为<code>EncoderDecoder</code>、若要加上neck部分则使用<code>CascadeEncoderDecoder</code>。其他部分组件解释如下：</p>
+<ul>
+<li>Backbone承担着特征提取器的作用，其类型主要由<code>type</code>决定（<code>type</code>即python类名），其他参数都是对应于该模块类的参数。</li>
+<li>decode_head在Backbone提取特征的基础上，将特征解码为语义分割结果。其类型主要由<code>type</code>决定（<code>type</code>即python类名），其他参数都是对应于该模块类的参数。</li>
+<li>auxiliary_head与decode_head功能相似，将特征解码为语义分割结果，以此辅助decode_head解码。</li>
+</ul>
+<h2 id="4-一个完整的配置文件的组装"><a href="#4-一个完整的配置文件的组装" class="headerlink" title="4. 一个完整的配置文件的组装"></a>4. 一个完整的配置文件的组装</h2><p>一般来说，可以继承data配置、model配置、schedule（即超参）配置以及default_runtime来合成一个完整的<code>config.py</code>文件。<br>也可以继承之后修改其中的部分值。两个例子如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这是FCN在Cityscapes数据集上进行语义分割的配置</span></span><br><span class="line">_base_ = [</span><br><span class="line">    <span class="string">&#x27;mmlab/mmsegmentation/configs/_base_/models/fcn_r50-d8.py&#x27;</span>, </span><br><span class="line">    <span class="string">&#x27;mmlab/mmsegmentation/configs/_base_/datasets/cityscapes.py&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;mmlab/mmsegmentation/configs/_base_/schedules/schedule_80k.py&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;mmlab/mmsegmentation/configs/_base_/default_runtime.py&#x27;</span>, </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>我们有一些根据数据集、模型和其他信息模块化封装的配置，以及一些完整的配置文件。我们现在将其列举在<a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/04/11/group_report/mmseg_default_configs/">语义分割配置列表</a>中，以供查询。</p>
+<h2 id="5-命令行调用部分"><a href="#5-命令行调用部分" class="headerlink" title="5. 命令行调用部分"></a>5. <span id='command'></span>命令行调用部分</h2><p>要完成一个任务，主要分为训练、测试、log分析、结果分析四个阶段。一个任务完成之后，还可以根据训练好的模型和自定义素材产生demo。以下分别介绍这四个任务阶段和生成demo调用的接口。</p>
+<h3 id="5-1-训练阶段dist-train-sh"><a href="#5-1-训练阶段dist-train-sh" class="headerlink" title="5.1 训练阶段dist_train.sh"></a>5.1 训练阶段<code>dist_train.sh</code></h3><p>该文件位于<code>mmlab/mmsegmentation/tools/dist_train.sh</code>，其参数如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">bash mmlab/mmsegmentation/tools/dist_train.sh \</span><br><span class="line">    <span class="variable">$&#123;WORK_DIR&#125;</span> \</span><br><span class="line">    <span class="variable">$&#123;GPUS&#125;</span> \</span><br><span class="line">    <span class="variable">$&#123;CONFIG&#125;</span> \</span><br><span class="line">    <span class="variable">$&#123;PORT&#125;</span> \</span><br><span class="line">    [--load-from <span class="variable">$&#123;PRETRAIN_PTH_PATH&#125;</span>] \</span><br><span class="line">    [--resume-from <span class="variable">$&#123;RESUME_FROM_PATH&#125;</span>] \</span><br><span class="line">    [--no-validate] \</span><br><span class="line">    [--deterministic] \</span><br><span class="line">    [--options <span class="variable">$&#123;CFG_ARGS&#125;</span>] \</span><br><span class="line">    [--local_rank <span class="variable">$&#123;LOCAL_RANK&#125;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>以上参数中只有<code>WORK_DIR</code>是必须手动指定的，其他参数都可以由系统自动指定。</p>
+<p>以下是一些关于参数的具体的说明：</p>
+<h4 id="5-1-1-必要参数"><a href="#5-1-1-必要参数" class="headerlink" title="5.1.1 必要参数"></a>5.1.1 必要参数</h4><ul>
+<li><code>WORK_DIR</code> 参数为任务路径。</li>
+</ul>
+<h4 id="5-1-2-主要可选参数"><a href="#5-1-2-主要可选参数" class="headerlink" title="5.1.2 主要可选参数"></a>5.1.2 主要可选参数</h4><ul>
+<li><code>GPUS</code> 使用的GPU数量，默认值为1。</li>
+<li><code>CONFIG</code> 使用的config文件，默认使用工作路径下的<code>config.py</code>文件。</li>
+<li><code>PORT</code> （可选）使用的端口编号。格式为<code>PORT:-29500</code>。</li>
+</ul>
+<h4 id="5-1-3-次要可选参数"><a href="#5-1-3-次要可选参数" class="headerlink" title="5.1.3 次要可选参数"></a>5.1.3 次要可选参数</h4><ul>
+<li><code>--load-from</code> （可选）载入的预训练参数文件路径。</li>
+<li><code>--resume-from</code> （可选）如果有之前中断的训练<code>xxx.pth</code>文件，参数为该<code>xxx.pth</code>文件的路径。从该模型继续训练。</li>
+<li><code>--no-validate</code> （可选）无参数。若有此选项，则训练时不显示验证集结果。</li>
+<li><code>--deterministic</code> （可选）无参数。<code>CUDNN</code>中backend中的某个选项。</li>
+<li><code>--options</code> （可选）参数为多个具有形式<code>xxx=yyy</code>的参数。这将被合并到<code>config.py</code>中。</li>
+<li><code>--local_rank</code> （可选）参数是一个<code>int</code>。似乎与分布式训练相关。</li>
+</ul>
+<h3 id="5-2-测试阶段dist-test-sh"><a href="#5-2-测试阶段dist-test-sh" class="headerlink" title="5.2 测试阶段dist_test.sh"></a>5.2 测试阶段<code>dist_test.sh</code></h3><p>该文件位于<code>mmlab/mmsegmentation/tools/dist_test.sh</code>，其参数如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">bash mmlab/mmsegmentation/tools/dist_test.sh \</span><br><span class="line">    <span class="variable">$&#123;WORK_DIR&#125;</span> \</span><br><span class="line">    <span class="variable">$&#123;EVAL&#125;</span> \</span><br><span class="line">    <span class="variable">$&#123;GPUS&#125;</span> \</span><br><span class="line">    <span class="variable">$&#123;CONFIG&#125;</span> \</span><br><span class="line">    <span class="variable">$&#123;PORT&#125;</span> \</span><br><span class="line">    [--aug-test]</span><br><span class="line">    [--out <span class="variable">$&#123;OUT_PKL_FILE&#125;</span>] \</span><br><span class="line">    [--show] \</span><br><span class="line">    [--show-dir <span class="variable">$&#123;RESULT_SHOW_DIR&#125;</span>] \</span><br><span class="line">    [--gpu-collect] \</span><br><span class="line">    [--tmpdir] \</span><br><span class="line">    [--options <span class="variable">$&#123;CFG_OPTIONS&#125;</span>] \</span><br><span class="line">    [--eval-options <span class="variable">$&#123;METRIC_OPTIONS&#125;</span>] \</span><br><span class="line">    [--local_rank <span class="variable">$&#123;LOCAL_RANK&#125;</span>]</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-2-1-必要参数"><a href="#5-2-1-必要参数" class="headerlink" title="5.2.1 必要参数"></a>5.2.1 必要参数</h4><ul>
+<li><code>WORK_DIR</code> 参数为任务路径。</li>
+<li><code>EVAL</code> 参数为使用的度量类型，可以使用多个。对<strong>Cityscapes</strong>数据集可使用<code>cityscapes</code>，对其他数据集可使用<code>mIoU</code>。</li>
+</ul>
+<h4 id="5-2-2-主要可选参数"><a href="#5-2-2-主要可选参数" class="headerlink" title="5.2.2 主要可选参数"></a>5.2.2 主要可选参数</h4><ul>
+<li><code>GPUS</code> 使用的GPU数量，默认值为1。</li>
+<li><code>CONFIG</code> 使用的config文件，默认使用工作路径下的<code>config.py</code>文件。</li>
+<li><code>PORT</code> （可选）使用的端口编号。格式为<code>PORT:-29500</code>。</li>
+</ul>
+<h4 id="5-2-3-次要可选参数"><a href="#5-2-3-次要可选参数" class="headerlink" title="5.2.3 次要可选参数"></a>5.2.3 次要可选参数</h4><ul>
+<li><code>--aug-test</code> 若使用此选项，则测试时也进行数据增强。</li>
+<li><code>--out</code> 参数为存储测试结果的<code>*.pkl</code>或<code>*.json</code>文件的路径。</li>
+<li><code>--show</code> （暂时无法使用）无参数。显示结果。</li>
+<li><code>--show-dir</code> （暂时无法使用）用于显示结果图片存放的目录位置。</li>
+<li><code>--gpu-collect</code> 决定是否使用GPU收集结果。</li>
+<li><code>--tmpdir</code> 无参数。是否使用临时文件来写出一些结果</li>
+<li><code>--options</code> 参数为一至多个<code>xxx=yyy</code>格式改写的config参数。这将被合并到config中。</li>
+<li><code>--eval-options</code> 参数为一至多个<code>xxx=yyy</code>格式改写的度量选项。参考<code>dataset.evaluate()</code>。</li>
+<li><code>--local_rank</code> 参数是一个<code>int</code>。似乎与分布式训练相关。</li>
+</ul>
+<h3 id="5-3-Log分析analyze-logs-py"><a href="#5-3-Log分析analyze-logs-py" class="headerlink" title="5.3 Log分析analyze_logs.py"></a>5.3 Log分析<code>analyze_logs.py</code></h3><p>未完成</p>
+<h3 id="5-4-结果分析analyze-results-py"><a href="#5-4-结果分析analyze-results-py" class="headerlink" title="5.4 结果分析analyze_results.py"></a>5.4 结果分析<code>analyze_results.py</code></h3><p>未完成</p>
+<h3 id="5-5-DEMO生成"><a href="#5-5-DEMO生成" class="headerlink" title="5.5 DEMO生成"></a>5.5 DEMO生成</h3><p>单图推断使用<code>mmlab/mmsegmentation/demo/image_demo.py</code>，一个具体例子如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">python mmlab/mmsegmentation/demo/image_demo.py \</span><br><span class="line">    <span class="variable">$&#123;WORK_DIR&#125;</span> \</span><br><span class="line">    [--img <span class="variable">$&#123;IMAGE_FILE&#125;</span>]</span><br><span class="line">    [--device <span class="variable">$&#123;GPU_ID&#125;</span>] \</span><br><span class="line">    [--palette <span class="variable">$&#123;COLOR_PALETTE&#125;</span>]</span><br><span class="line">    [--path <span class="variable">$&#123;OUT_FILE_PATH&#125;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>比如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python mmlab/mmsegmentation/demo/image_demo.py task/deeplabv3plus_r18-d8_512x1024_80k_cityscapes</span><br></pre></td></tr></table></figure>
+
+<p>以下是一些关于参数的具体的说明：</p>
+<ul>
+<li><code>WORK_DIR</code> 参数为任务路径。</li>
+<li><code>--img</code> 参数为demo测试的图片路径。默认使用<code>mmlab/mmsegmentation/demo/2.jpg</code>。</li>
+<li><code>--device</code> 参数为推断使用的设备名称。默认使用<code>cuda:0</code>。</li>
+<li><code>--palette</code> 使用的语义分割配色方案。默认使用<code>cityscapes</code>。</li>
+<li><code>--path</code> DEMO结果的存储路径。默认存放在任务路径下的demo文件夹下，文件名为<code>infer_&#123;原文件名&#125;</code>。</li>
+</ul>
+<h2 id="6-几个样例"><a href="#6-几个样例" class="headerlink" title="6. 几个样例"></a>6. 几个样例</h2><p>以下部分显示了一个完整的训练-测试-log分析-结果分析-DEMO测试流程以供用户使用。</p>
+<p>目前log分析和结果分析功能暂不可用。</p>
+<p>当该流程结束后，预计文件架构如下（以下仅仅是一个例子）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">task</span><br><span class="line">├─1nKxh2gtYKNRZpYbmfZGpkchamY</span><br><span class="line">│  ├─config.py</span><br><span class="line">│  ├─training</span><br><span class="line">│  │  ├─20210324_144228.log</span><br><span class="line">│  │  ├─20210324_144228.log.json</span><br><span class="line">│  │  ├─latest.pth</span><br><span class="line">│  ├─result.pkl</span><br><span class="line">│  ├─log_analysis</span><br><span class="line">│  ├─result_analysis</span><br><span class="line">│  ├─demo</span><br><span class="line">│  |  ├─infer_2.jpg</span><br><span class="line">│  |  ├─...</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>config.py</code> 包含了调用的数据集、模型等信息的配置文件</li>
+<li><code>training</code> 包含了训练产生的临时文件、log文件、以及训练好的模型参数的文件夹。<ul>
+<li>log文件以训练开始的时间为名称，存储了每一个epoch/iter的训练及验证信息</li>
+<li><code>latest.pth</code>即为每一个epoch/iter结束后训练好的参数文件保存</li>
+</ul>
+</li>
+<li><code>result.pkl</code> 由测试进程产生，包含了验证/测试集图片上的测试信息</li>
+<li><code>log_analysis</code> 包含对log进行分析产生的结果。</li>
+<li><code>result_analysis</code> 包含测试结果。具体细节待定。</li>
+<li><code>demo</code>文件夹下存放用户使用部分数据集之外的图片测试之后产生的结果</li>
+</ul>
+<p>以下样例均有2行指令，分别对应训练/测试两个阶段的任务：</p>
+<h3 id="6-1-在Cityscapes上训练DeepLabv3"><a href="#6-1-在Cityscapes上训练DeepLabv3" class="headerlink" title="6.1 在Cityscapes上训练DeepLabv3+"></a>6.1 在Cityscapes上训练DeepLabv3+</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bash mmlab/mmsegmentation/tools/dist_train.sh task/deeplabv3plus_r18-d8_512x1024_80k_cityscapes</span><br><span class="line"></span><br><span class="line">bash mmlab/mmsegmentation/tools/dist_test.sh task/deeplabv3plus_r18-d8_512x1024_80k_cityscapes cityscapes</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-2-在ADE20K上训练FCN"><a href="#6-2-在ADE20K上训练FCN" class="headerlink" title="6.2 在ADE20K上训练FCN"></a>6.2 在ADE20K上训练FCN</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bash mmlab/mmsegmentation/tools/dist_train.sh task/fcn_r50-d8_512x512_80k_ade20k</span><br><span class="line"></span><br><span class="line">bash mmlab/mmsegmentation/tools/dist_test.sh task/fcn_r50-d8_512x512_80k_ade20k mIoU</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-3-在Pascal-Context上训练PSPNet"><a href="#6-3-在Pascal-Context上训练PSPNet" class="headerlink" title="6.3 在Pascal Context上训练PSPNet"></a>6.3 在Pascal Context上训练PSPNet</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bash mmlab/mmsegmentation/tools/dist_train.sh task/pspnet_r101-d8_480x480_80k_pascal_context</span><br><span class="line"></span><br><span class="line">bash mmlab/mmsegmentation/tools/dist_test.sh task/pspnet_r101-d8_480x480_80k_pascal_context mIoU</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-4-在Pascal-VOC-2012-Aug上训练HRNet"><a href="#6-4-在Pascal-VOC-2012-Aug上训练HRNet" class="headerlink" title="6.4 在Pascal VOC 2012 + Aug上训练HRNet"></a>6.4 在Pascal VOC 2012 + Aug上训练HRNet</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bash mmlab/mmsegmentation/tools/dist_train.sh task/fcn_hr18s_512x512_40k_voc12aug</span><br><span class="line"></span><br><span class="line">bash mmlab/mmsegmentation/tools/dist_test.sh task/fcn_hr18s_512x512_40k_voc12aug mIoU</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-附录"><a href="#7-附录" class="headerlink" title="7. 附录"></a>7. 附录</h2><h3 id="7-1-目前出现的问题"><a href="#7-1-目前出现的问题" class="headerlink" title="7.1 目前出现的问题"></a>7.1 目前出现的问题</h3><ol>
+<li>暂无</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/15/group_report/mmdet/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1036,7 +1264,7 @@ npm config set cache &quot;D:\Program Files\node-v14.16.0-win-x64\node_cache&quo
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

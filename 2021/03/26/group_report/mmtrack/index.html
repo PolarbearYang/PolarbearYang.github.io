@@ -20,17 +20,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="mmtracking（未测试完全）该模块包含的内容主要有：  主要做视频感知工作 基于mmdetection 可以对单个视频进行如下操作： 视频目标检测 单目标跟踪 多目标跟踪     命令行调用部分 训练  train.py(single-gpu training)该文件位于&#x2F;mmlab&#x2F;mmtracking&#x2F;tools&#x2F;train.py，其参数如下：    config 参数为config.p">
+  <meta name="description" content="目标追踪模块(mmtrack)1. 引言该模块包含的内容主要有：  主要做视频感知工作 基于mmdetection 可以对单个视频进行如下操作： 视频目标检测 单目标跟踪 多目标跟踪    每一个任务的核心都是配置文件config.py，所有流程都将依赖这个文件执行。 因此本文档主要介绍的是配置文件的内容，从数据集，到模型，最后是如何使用此配置文件（超参和其他配置部分与设计文档中超参相关配置和其他">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mmtrack">
 <meta property="og:url" content="http://example.com/2021/03/26/group_report/mmtrack/index.html">
 <meta property="og:site_name" content="暴走白熊的小窝">
-<meta property="og:description" content="mmtracking（未测试完全）该模块包含的内容主要有：  主要做视频感知工作 基于mmdetection 可以对单个视频进行如下操作： 视频目标检测 单目标跟踪 多目标跟踪     命令行调用部分 训练  train.py(single-gpu training)该文件位于&#x2F;mmlab&#x2F;mmtracking&#x2F;tools&#x2F;train.py，其参数如下：    config 参数为config.p">
+<meta property="og:description" content="目标追踪模块(mmtrack)1. 引言该模块包含的内容主要有：  主要做视频感知工作 基于mmdetection 可以对单个视频进行如下操作： 视频目标检测 单目标跟踪 多目标跟踪    每一个任务的核心都是配置文件config.py，所有流程都将依赖这个文件执行。 因此本文档主要介绍的是配置文件的内容，从数据集，到模型，最后是如何使用此配置文件（超参和其他配置部分与设计文档中超参相关配置和其他">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://huawei.best/2021/04/10/d5e4ac451c9b9.png">
 <meta property="article:published_time" content="2021-03-26T07:12:58.708Z">
-<meta property="article:modified_time" content="2021-03-26T13:57:16.826Z">
+<meta property="article:modified_time" content="2021-04-11T15:10:36.817Z">
 <meta property="article:author" content="杨熊">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://huawei.best/2021/04/10/d5e4ac451c9b9.png">
 
 <link rel="canonical" href="http://example.com/2021/03/26/group_report/mmtrack/">
 
@@ -172,10 +174,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-03-26 15:12:58 / 修改时间：21:57:16" itemprop="dateCreated datePublished" datetime="2021-03-26T15:12:58+08:00">2021-03-26</time>
+              <time title="创建时间：2021-03-26 15:12:58" itemprop="dateCreated datePublished" datetime="2021-03-26T15:12:58+08:00">2021-03-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-11 23:10:36" itemprop="dateModified" datetime="2021-04-11T23:10:36+08:00">2021-04-11</time>
+              </span>
 
           
 
@@ -188,7 +196,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="mmtracking（未测试完全）"><a href="#mmtracking（未测试完全）" class="headerlink" title="mmtracking（未测试完全）"></a>mmtracking（未测试完全）</h2><p>该模块包含的内容主要有：</p>
+        <h1 id="目标追踪模块-mmtrack"><a href="#目标追踪模块-mmtrack" class="headerlink" title="目标追踪模块(mmtrack)"></a>目标追踪模块(mmtrack)</h1><h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h2><p>该模块包含的内容主要有：</p>
 <ul>
 <li>主要做视频感知工作</li>
 <li>基于mmdetection</li>
@@ -199,13 +207,32 @@
 </ul>
 </li>
 </ul>
-<hr>
-<h3 id="命令行调用部分"><a href="#命令行调用部分" class="headerlink" title="命令行调用部分"></a>命令行调用部分</h3><details data-markdown>
-<summary>训练</summary>
-
-<h4 id="train-py-single-gpu-training"><a href="#train-py-single-gpu-training" class="headerlink" title="train.py(single-gpu training)"></a><code>train.py</code>(single-gpu training)</h4><p>该文件位于<code>/mmlab/mmtracking/tools/train.py</code>，其参数如下：</p>
-<details data-markdown>
-
+<p>每一个任务的核心都是配置文件<code>config.py</code>，所有流程都将依赖这个文件执行。</p>
+<p>因此本文档主要介绍的是配置文件的内容，从数据集，到模型，最后是如何使用此配置文件（超参和其他配置部分与<a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/04/10/group_report/Generalized_CV/">设计文档</a>中<a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/04/10/group_report/Generalized_CV/#Hyperparameters">超参相关配置</a>和<a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/04/10/group_report/Generalized_CV/#Otherparameters">其他相关配置</a>相同，因此不再描述）。</p>
+<p><strong>目前尚未研究这一块任务，暂不清楚其机理。</strong></p>
+<p>如果对如何制定配置文件不感兴趣，只关注如何使用默认配置跑通一个流程，请直接跳至<a href="#command">第五节-命令行调用部分</a>。</p>
+<h2 id="2-数据集配置的制定"><a href="#2-数据集配置的制定" class="headerlink" title="2. 数据集配置的制定"></a>2. 数据集配置的制定</h2><p>视频数据集一般都非常大，动辄上百G，部署所需时间较长。以下仅列出数据集的候选列表。</p>
+<p>由于数据集比较大或难以获得资源，部分数据集暂时无法部署或测试(打勾表示已部署并成功运行)。目前主要使用并且已部署的数据集包括：</p>
+<h3 id="2-1-目前主要使用或已部署的数据集"><a href="#2-1-目前主要使用或已部署的数据集" class="headerlink" title="2.1 目前主要使用或已部署的数据集"></a>2.1 目前主要使用或已部署的数据集</h3><h4 id="2-1-1-视频目标检测"><a href="#2-1-1-视频目标检测" class="headerlink" title="2.1.1 视频目标检测"></a>2.1.1 视频目标检测</h4><ul>
+<li><input disabled="" type="checkbox"> ImageNetVID(ILSVRC2017)</li>
+</ul>
+<h4 id="2-1-2-单目标跟踪"><a href="#2-1-2-单目标跟踪" class="headerlink" title="2.1.2 单目标跟踪"></a>2.1.2 单目标跟踪</h4><ul>
+<li><input disabled="" type="checkbox"> LaSOT</li>
+</ul>
+<h4 id="2-1-3-多目标跟踪"><a href="#2-1-3-多目标跟踪" class="headerlink" title="2.1.3 多目标跟踪"></a>2.1.3 多目标跟踪</h4><ul>
+<li><input disabled="" type="checkbox"> MOT17</li>
+</ul>
+<h3 id="2-2-视频目标检测数据集配置"><a href="#2-2-视频目标检测数据集配置" class="headerlink" title="2.2 视频目标检测数据集配置"></a>2.2 视频目标检测数据集配置</h3><h3 id="2-3-单目标跟踪数据集配置"><a href="#2-3-单目标跟踪数据集配置" class="headerlink" title="2.3 单目标跟踪数据集配置"></a>2.3 单目标跟踪数据集配置</h3><h3 id="2-4-多目标跟踪数据集配置"><a href="#2-4-多目标跟踪数据集配置" class="headerlink" title="2.4 多目标跟踪数据集配置"></a>2.4 多目标跟踪数据集配置</h3><h2 id="3-模型配置的制定"><a href="#3-模型配置的制定" class="headerlink" title="3. 模型配置的制定"></a>3. 模型配置的制定</h2><p>未完成</p>
+<h3 id="3-1-视频目标检测"><a href="#3-1-视频目标检测" class="headerlink" title="3.1 视频目标检测"></a>3.1 视频目标检测</h3><p>未完成</p>
+<h3 id="3-2-单目标跟踪"><a href="#3-2-单目标跟踪" class="headerlink" title="3.2 单目标跟踪"></a>3.2 单目标跟踪</h3><p>未完成</p>
+<h3 id="3-3-多目标跟踪"><a href="#3-3-多目标跟踪" class="headerlink" title="3.3 多目标跟踪"></a>3.3 多目标跟踪</h3><p>未完成</p>
+<h2 id="4-一个完整的配置文件的组装"><a href="#4-一个完整的配置文件的组装" class="headerlink" title="4. 一个完整的配置文件的组装"></a>4. 一个完整的配置文件的组装</h2><p>尚未开始研究。不过我们已经收集了一些模型及其配置。</p>
+<p>我们现在将其列举在<a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/04/11/group_report/mmtrack_default_configs/">目标追踪配置列表</a>中，以供查询。</p>
+<h2 id="5-命令行调用部分"><a href="#5-命令行调用部分" class="headerlink" title="5. 命令行调用部分"></a>5. <span id='command'></span>命令行调用部分</h2><p>要完成一个任务，主要分为训练、测试、log分析、结果分析四个阶段。一个任务完成之后，还可以根据训练好的模型和自定义素材产生demo。以下分别介绍这四个任务阶段和生成demo的调用接口。</p>
+<p>这五个阶段的依赖关系如下：</p>
+<p><img src="https://huawei.best/2021/04/10/d5e4ac451c9b9.png" alt="task_relation_mmdet.png"></p>
+<h3 id="5-1-训练阶段dist-train-sh"><a href="#5-1-训练阶段dist-train-sh" class="headerlink" title="5.1 训练阶段dist_train.sh"></a>5.1 训练阶段<code>dist_train.sh</code></h3><p>该文件位于<code>mmlab/mmtracking/tools/dist_train.sh</code>，其参数如下：</p>
+<h4 id="train-py-single-gpu-training"><a href="#train-py-single-gpu-training" class="headerlink" title="train.py(single-gpu training)"></a><code>train.py</code>(single-gpu training)</h4><p>该文件位于<code>mmlab/mmtracking/tools/train.py</code>，其参数如下：</p>
 <ul>
 <li><code>config</code> 参数为<code>config.py</code>文件的路径。</li>
 <li><code>--work-dir</code> 参数为存储<code>xxx.log</code>、<code>xxx.log.json</code>和<code>*.pth</code>的路径。</li>
@@ -217,26 +244,14 @@
 <li><code>--launcher</code> （可选）参数为<code>none</code>, <code>pytorch</code>, <code>slurm</code>, <code>mpi</code>中的一个。选择job launcher的类型。</li>
 <li><code>--local_rank</code> （可选）参数是一个<code>int</code>。似乎与分布式训练相关。</li>
 </ul>
-</details>
-
-<h4 id="dist-train-sh-multi-gpu-training"><a href="#dist-train-sh-multi-gpu-training" class="headerlink" title="dist_train.sh(multi-gpu training)"></a><code>dist_train.sh</code>(multi-gpu training)</h4><details data-markdown>
-
-<ul>
+<h4 id="dist-train-sh-multi-gpu-training"><a href="#dist-train-sh-multi-gpu-training" class="headerlink" title="dist_train.sh(multi-gpu training)"></a><code>dist_train.sh</code>(multi-gpu training)</h4><ul>
 <li><code>CONFIG</code> 参数为<code>config.py</code>文件的路径。</li>
 <li><code>GPUS</code> 使用的GPU数量。</li>
 <li><code>PORT</code> （可选）使用的端口编号。格式为<code>PORT:-29500</code>。</li>
 <li>除<code>config</code>、<code>--launcher</code>（默认为pytorch）这三个选项有冲突不再使用以外，其他参数与<code>train.py</code>相同。</li>
 </ul>
-</details>
-
-</details>
-
-<details data-markdown>
-<summary>测试</summary>
-
-<h4 id="test-py-single-gpu-testing"><a href="#test-py-single-gpu-testing" class="headerlink" title="test.py(single-gpu testing)"></a><code>test.py</code>(single-gpu testing)</h4><p>该文件位于<code>/mmlab/mmtracking/tools/test.py</code></p>
-<details data-markdown>
-
+<h3 id="5-2-测试阶段dist-test-sh"><a href="#5-2-测试阶段dist-test-sh" class="headerlink" title="5.2 测试阶段dist_test.sh"></a>5.2 测试阶段<code>dist_test.sh</code></h3><p>该文件位于<code>mmlab/mmtracking/tools/dist_test.sh</code>，其参数如下：</p>
+<h4 id="test-py-single-gpu-testing"><a href="#test-py-single-gpu-testing" class="headerlink" title="test.py(single-gpu testing)"></a><code>test.py</code>(single-gpu testing)</h4><p>该文件位于<code>mmlab/mmtracking/tools/test.py</code></p>
 <ul>
 <li><code>config</code> 参数为<code>config.py</code>文件的路径。</li>
 <li><code>checkpoint</code> 参数为存储训练好的<code>*.pth</code>的路径。</li>
@@ -254,24 +269,13 @@
 <li><code>--launcher</code> （可选）参数为<code>none</code>, <code>pytorch</code>, <code>slurm</code>, <code>mpi</code>中的一个。选择job launcher的类型。</li>
 <li><code>--local_rank</code> （可选）参数是一个<code>int</code>。似乎与分布式训练相关。</li>
 </ul>
-</details>
-
-<h4 id="dist-test-sh-multi-gpu-testing"><a href="#dist-test-sh-multi-gpu-testing" class="headerlink" title="dist_test.sh(multi-gpu testing)"></a><code>dist_test.sh</code>(multi-gpu testing)</h4><details data-markdown>
-
-<ul>
+<h4 id="dist-test-sh-multi-gpu-testing"><a href="#dist-test-sh-multi-gpu-testing" class="headerlink" title="dist_test.sh(multi-gpu testing)"></a><code>dist_test.sh</code>(multi-gpu testing)</h4><ul>
 <li><code>CONFIG</code> 参数为<code>config.py</code>文件的路径。</li>
 <li><code>GPUS</code> 使用的GPU数量。</li>
 <li><code>PORT</code> （可选）使用的端口编号。格式为<code>PORT:-29500</code>。</li>
 <li>除<code>config</code>、<code>--launcher</code>（默认为pytorch）这三个选项有冲突不再使用以外，其他参数与<code>test.py</code>相同。</li>
 </ul>
-</details>
-
-</details>
-
-<details data-markdown>
-<summary>Log分析</summary>
-
-<h4 id="analyze-logs-py-single-gpu-testing"><a href="#analyze-logs-py-single-gpu-testing" class="headerlink" title="analyze_logs.py(single-gpu testing)"></a><code>analyze_logs.py</code>(single-gpu testing)</h4><p>该文件位于<code>/mmlab/mmtracking/tools/analyze_logs.py</code>，主要作用是在给定训练日志中l各种度量结果的曲线。其参数如下：</p>
+<h3 id="5-3-Log分析analyze-logs-py"><a href="#5-3-Log分析analyze-logs-py" class="headerlink" title="5.3 Log分析analyze_logs.py"></a>5.3 Log分析<code>analyze_logs.py</code></h3><h4 id="analyze-logs-py-single-gpu-testing"><a href="#analyze-logs-py-single-gpu-testing" class="headerlink" title="analyze_logs.py(single-gpu testing)"></a><code>analyze_logs.py</code>(single-gpu testing)</h4><p>该文件位于<code>mmlab/mmtracking/tools/analyze_logs.py</code>，主要作用是在给定训练日志中l各种度量结果的曲线。其参数如下：</p>
 <ul>
 <li><code>plot curve</code></li>
 <li><code>json_logs</code> 训练log的json形式文件，可以使用多个json文件</li>
@@ -281,225 +285,29 @@
 <li><code>--style</code> 参数为plt作图的风格，默认为<code>&#39;dark&#39;</code></li>
 <li><code>--out</code> 参数为plt作图的存储路径</li>
 </ul>
-</details>
+<h3 id="5-4-结果分析analyze-results-py"><a href="#5-4-结果分析analyze-results-py" class="headerlink" title="5.4 结果分析analyze_results.py"></a>5.4 结果分析<code>analyze_results.py</code></h3><p>暂无</p>
+<h3 id="5-5-DEMO生成"><a href="#5-5-DEMO生成" class="headerlink" title="5.5 DEMO生成"></a>5.5 DEMO生成</h3><h4 id="5-5-1-对单个视频进行目标检测"><a href="#5-5-1-对单个视频进行目标检测" class="headerlink" title="5.5.1 对单个视频进行目标检测"></a>5.5.1 对单个视频进行目标检测</h4><p>单视频推断使用<code>mmlab/mmtrack/demo/demo_vid.py</code>，其参数如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">python mmlab/mmtrack/demo/demo_vid.py \</span><br><span class="line">    <span class="variable">$&#123;CONFIG_FILE&#125;</span> \</span><br><span class="line">    [--input <span class="variable">$&#123;INPUT_VIDEO_FILE&#125;</span>] \</span><br><span class="line">    [--output <span class="variable">$&#123;OUTPUT_VIDEO_FILE&#125;</span>] \</span><br><span class="line">    [--checkpoint <span class="variable">$&#123;CHECKPOINT_FILE&#125;</span>] \</span><br><span class="line">    [--device <span class="variable">$&#123;GPU_ID&#125;</span>] \</span><br><span class="line">    [--show]</span><br><span class="line">    [--score-thr <span class="variable">$&#123;BBOX_SCORE_THRESHOLD&#125;</span>]</span><br></pre></td></tr></table></figure>
 
-<hr>
-<h3 id="几个样例"><a href="#几个样例" class="headerlink" title="几个样例"></a>几个样例</h3><h4 id="在dataset上训练model"><a href="#在dataset上训练model" class="headerlink" title="在dataset上训练model"></a>在dataset上训练model</h4><details data-markdown>
+<p>比如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">undefined</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">训练：</span><br><span class="line"></span><br><span class="line">若任务因为各种理由中断，则：</span><br><span class="line"></span><br><span class="line">测试：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>其中输出文件应当是<code>mp4</code>文件。</p>
+<h4 id="5-5-2-对单个视频进行单目标跟踪"><a href="#5-5-2-对单个视频进行单目标跟踪" class="headerlink" title="5.5.2 对单个视频进行单目标跟踪"></a>5.5.2 对单个视频进行单目标跟踪</h4><p>单视频单目标推断使用<code>mmlab/mmtrack/demo/demo_sot.py</code>，其参数如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">python mmlab/mmtrack/demo/demo_sot.py \</span><br><span class="line">    <span class="variable">$&#123;CONFIG_FILE&#125;</span> \</span><br><span class="line">    [--input <span class="variable">$&#123;INPUT_VIDEO_FILE&#125;</span>] \</span><br><span class="line">    [--output <span class="variable">$&#123;OUTPUT_VIDEO_FILE&#125;</span>] \</span><br><span class="line">    [--checkpoint <span class="variable">$&#123;CHECKPOINT_FILE&#125;</span>] \</span><br><span class="line">    [--device <span class="variable">$&#123;GPU_ID&#125;</span>] \</span><br><span class="line">    [--show]</span><br><span class="line">    [--color <span class="variable">$&#123;RGB_COLOR&#125;</span>]</span><br><span class="line">    [--thickness <span class="variable">$&#123;THICKNESS_OF_BBOX_LINES&#125;</span>]</span><br><span class="line"></span><br><span class="line">比如：</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">undefined</span><br></pre></td></tr></table></figure>
 
-</details>
+<p>其中输出文件应当是<code>mp4</code>文件。</p>
+<h4 id="5-5-3-对单个视频进行多目标跟踪"><a href="#5-5-3-对单个视频进行多目标跟踪" class="headerlink" title="5.5.3 对单个视频进行多目标跟踪"></a>5.5.3 对单个视频进行多目标跟踪</h4><p>单视频多目标推断使用<code>mmlab/mmtrack/demo/demo_mot.py</code>，其参数如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">基本格式为：</span><br><span class="line">python mmlab/mmtrack/demo/demo_mot.py \</span><br><span class="line">    <span class="variable">$&#123;CONFIG_FILE&#125;</span> \</span><br><span class="line">    [--input <span class="variable">$&#123;INPUT_VIDEO_FILE&#125;</span>] \</span><br><span class="line">    [--output <span class="variable">$&#123;OUTPUT_VIDEO_FILE&#125;</span>] \</span><br><span class="line">    [--checkpoint <span class="variable">$&#123;CHECKPOINT_FILE&#125;</span>] \</span><br><span class="line">    [--device <span class="variable">$&#123;GPU_ID&#125;</span>] \</span><br><span class="line">    [--show]</span><br><span class="line">    [--backend <span class="variable">$&#123;BACKEND_TO_VISUALIZE_RESULTS&#125;</span>]</span><br><span class="line">    [--fps <span class="variable">$&#123;FPS&#125;</span>]</span><br></pre></td></tr></table></figure>
 
-<hr>
-<h3 id="目前出现的问题"><a href="#目前出现的问题" class="headerlink" title="目前出现的问题"></a>目前出现的问题</h3><ol>
+<p>比如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">undefined</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-一些样例"><a href="#6-一些样例" class="headerlink" title="6. 一些样例"></a>6. 一些样例</h2><h3 id="6-1-在dataset上训练model"><a href="#6-1-在dataset上训练model" class="headerlink" title="6.1 在dataset上训练model"></a>6.1 在dataset上训练model</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">训练：</span><br><span class="line"></span><br><span class="line">若任务因为各种理由中断，则：</span><br><span class="line"></span><br><span class="line">测试：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="7-附录"><a href="#7-附录" class="headerlink" title="7. 附录"></a>7. 附录</h2><h3 id="7-1-目前出现的问题"><a href="#7-1-目前出现的问题" class="headerlink" title="7.1 目前出现的问题"></a>7.1 目前出现的问题</h3><ol>
 <li>暂无</li>
 </ol>
-<hr>
-<h3 id="一些其他的功能"><a href="#一些其他的功能" class="headerlink" title="一些其他的功能"></a>一些其他的功能</h3><h4 id="对单个视频进行目标检测"><a href="#对单个视频进行目标检测" class="headerlink" title="对单个视频进行目标检测"></a>对单个视频进行目标检测</h4><p>单图推断使用<code>demo/demo_vid.py</code>，一个具体例子如下：</p>
-<details data-markdown>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">基本格式为：</span><br><span class="line">python demo&#x2F;demo_vid.py \</span><br><span class="line">    $&#123;CONFIG_FILE&#125; \</span><br><span class="line">    [--input $&#123;INPUT_VIDEO_FILE&#125;] \</span><br><span class="line">    [--output $&#123;OUTPUT_VIDEO_FILE&#125;] \</span><br><span class="line">    [--checkpoint $&#123;CHECKPOINT_FILE&#125;] \</span><br><span class="line">    [--device $&#123;GPU_ID&#125;] \</span><br><span class="line">    [--show]</span><br><span class="line">    [--score-thr $&#123;BBOX_SCORE_THRESHOLD&#125;]</span><br><span class="line"></span><br><span class="line">比如：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>其中输出文件应当是<code>mp4</code>文件。</p>
-</details>
-
-<h4 id="对单个视频进行单目标跟踪"><a href="#对单个视频进行单目标跟踪" class="headerlink" title="对单个视频进行单目标跟踪"></a>对单个视频进行单目标跟踪</h4><p>单图推断使用<code>demo/demo_sot.py</code>，一个具体例子如下：</p>
-<details data-markdown>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">基本格式为：</span><br><span class="line">python demo&#x2F;demo_sot.py \</span><br><span class="line">    $&#123;CONFIG_FILE&#125; \</span><br><span class="line">    [--input $&#123;INPUT_VIDEO_FILE&#125;] \</span><br><span class="line">    [--output $&#123;OUTPUT_VIDEO_FILE&#125;] \</span><br><span class="line">    [--checkpoint $&#123;CHECKPOINT_FILE&#125;] \</span><br><span class="line">    [--device $&#123;GPU_ID&#125;] \</span><br><span class="line">    [--show]</span><br><span class="line">    [--color $&#123;RGB_COLOR&#125;]</span><br><span class="line">    [--thickness $&#123;THICKNESS_OF_BBOX_LINES&#125;]</span><br><span class="line"></span><br><span class="line">比如：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>其中输出文件应当是<code>mp4</code>文件。</p>
-</details>
-
-<h4 id="对单个视频进行多目标跟踪"><a href="#对单个视频进行多目标跟踪" class="headerlink" title="对单个视频进行多目标跟踪"></a>对单个视频进行多目标跟踪</h4><p>单图推断使用<code>demo/demo_mot.py</code>，一个具体例子如下：</p>
-<details data-markdown>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">基本格式为：</span><br><span class="line">python demo&#x2F;demo_mot.py \</span><br><span class="line">    $&#123;CONFIG_FILE&#125; \</span><br><span class="line">    [--input $&#123;INPUT_VIDEO_FILE&#125;] \</span><br><span class="line">    [--output $&#123;OUTPUT_VIDEO_FILE&#125;] \</span><br><span class="line">    [--checkpoint $&#123;CHECKPOINT_FILE&#125;] \</span><br><span class="line">    [--device $&#123;GPU_ID&#125;] \</span><br><span class="line">    [--show]</span><br><span class="line">    [--backend $&#123;BACKEND_TO_VISUALIZE_RESULTS&#125;]</span><br><span class="line">    [--fps $&#123;FPS&#125;]</span><br><span class="line"></span><br><span class="line">比如：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-</details>
-
-<hr>
-<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><h4 id="目前主要使用或已部署的数据集"><a href="#目前主要使用或已部署的数据集" class="headerlink" title="目前主要使用或已部署的数据集"></a>目前主要使用或已部署的数据集</h4><ul>
-<li>ImageNetVID(ILSVRC2017, 视频目标检测专用)（未部署）</li>
-<li>LaSOT(单目标检测专用)（未部署）</li>
-<li>MOT17(多目标检测专用)（未部署）</li>
-</ul>
-<h4 id="目前可用的一些config文件"><a href="#目前可用的一些config文件" class="headerlink" title="目前可用的一些config文件"></a>目前可用的一些config文件</h4><p>目前可用的config及对应训练好的模型（可用于测试）有以下几种：</p>
-<h5 id="视频目标检测"><a href="#视频目标检测" class="headerlink" title="视频目标检测"></a>视频目标检测</h5><details data-markdown>
-<summary>Deep Feature Flow(DFF)</summary>
-
-<table>
-<thead>
-<tr>
-<th>dataset</th>
-<th>config</th>
-<th>pretrained</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>ImageNetVID</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/vid/dff/dff_faster_rcnn_r50_dc5_1x_imagenetvid.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/dff/dff_faster_rcnn_r50_dc5_1x_imagenetvid_20201227_213250-548911a4/dff_faster_rcnn_r50_dc5_1x_imagenetvid_20201227_213250-548911a4.pth</code></td>
-</tr>
-<tr>
-<td>ImageNetVID</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/vid/dff/dff_faster_rcnn_r101_dc5_1x_imagenetvid.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/dff/dff_faster_rcnn_r101_dc5_1x_imagenetvid_20201218_172720-ad732e17/dff_faster_rcnn_r101_dc5_1x_imagenetvid_20201218_172720-ad732e17.pth</code></td>
-</tr>
-</tbody></table>
-</details>
-
-<details data-markdown>
-<summary>Flow-guided Feature Aggregation(FGFA)</summary>
-
-<table>
-<thead>
-<tr>
-<th>dataset</th>
-<th>config</th>
-<th>pretrained</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>ImageNetVID</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/vid/fgfa/fgfa_faster_rcnn_r50_dc5_1x_imagenetvid.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/fgfa/fgfa_faster_rcnn_r50_dc5_1x_imagenetvid_20201228_022657-f42016f3/fgfa_faster_rcnn_r50_dc5_1x_imagenetvid_20201228_022657-f42016f3.pth</code></td>
-</tr>
-<tr>
-<td>ImageNetVID</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/vid/fgfa/fgfa_faster_rcnn_r101_dc5_1x_imagenetvid.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/fgfa/fgfa_faster_rcnn_r101_dc5_1x_imagenetvid_20201219_011831-9c9d8183/fgfa_faster_rcnn_r101_dc5_1x_imagenetvid_20201219_011831-9c9d8183.pth</code></td>
-</tr>
-</tbody></table>
-</details>
-
-<details data-markdown>
-<summary>Sequence Level Semantics Aggregation(SELSA)</summary>
-
-<table>
-<thead>
-<tr>
-<th>dataset</th>
-<th>config</th>
-<th>pretrained</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>ImageNetVID</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/vid/selsa/selsa_faster_rcnn_r50_dc5_1x_imagenetvid.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/selsa/selsa_faster_rcnn_r50_dc5_1x_imagenetvid_20201227_204835-2f5a4952/selsa_faster_rcnn_r50_dc5_1x_imagenetvid_20201227_204835-2f5a4952.pth</code></td>
-</tr>
-<tr>
-<td>ImageNetVID</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/vid/selsa/selsa_faster_rcnn_r101_dc5_1x_imagenetvid.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/selsa/selsa_faster_rcnn_r101_dc5_1x_imagenetvid_20201218_172724-aa961bcc/selsa_faster_rcnn_r101_dc5_1x_imagenetvid_20201218_172724-aa961bcc.pth</code></td>
-</tr>
-</tbody></table>
-</details>
-
-<h5 id="单目标追踪"><a href="#单目标追踪" class="headerlink" title="单目标追踪"></a>单目标追踪</h5><details data-markdown>
-<summary>Siamrpn++</summary>
-
-<table>
-<thead>
-<tr>
-<th>dataset</th>
-<th>config</th>
-<th>pretrained</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>LaSOT</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/sot/siamese_rpn/siamese_rpn_r50_1x_lasot.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/siamese_rpn/siamese_rpn_r50_1x_lasot_20201218_051019-3c522eff/siamese_rpn_r50_1x_lasot_20201218_051019-3c522eff.pth</code></td>
-</tr>
-</tbody></table>
-</details>
-
-</details>
-
-<h5 id="多目标追踪"><a href="#多目标追踪" class="headerlink" title="多目标追踪"></a>多目标追踪</h5><details data-markdown>
-<summary>Deep SORT</summary>
-
-<table>
-<thead>
-<tr>
-<th>dataset</th>
-<th>config</th>
-<th>pretrained</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>MOT17</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/mot/deepsort/deepsort_faster-rcnn_fpn_4e_mot17-private-half.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/deepsort/deepsort_faster-rcnn_fpn_4e_mot17-private-half/faster-rcnn_r50_fpn_4e_mot17-half-64ee2ed4.pth</code></td>
-</tr>
-<tr>
-<td>MOT17</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/mot/deepsort/deepsort_faster-rcnn_fpn_4e_mot17-public-half.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/deepsort/deepsort_faster-rcnn_fpn_4e_mot17-public-half/faster-rcnn_r50_fpn_4e_mot17-half-64ee2ed4.pth</code></td>
-</tr>
-<tr>
-<td>MOT17</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/mot/deepsort/sort_faster-rcnn_fpn_4e_mot17-private-half.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/deepsort/sort_faster-rcnn_fpn_4e_mot17-private-half/faster-rcnn_r50_fpn_4e_mot17-half-64ee2ed4.pth</code></td>
-</tr>
-<tr>
-<td>MOT17</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/mot/deepsort/sort_faster-rcnn_fpn_4e_mot17-private.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/deepsort/sort_faster-rcnn_fpn_4e_mot17-private/faster-rcnn_r50_fpn_4e_mot17-ffa52ae7.pth</code></td>
-</tr>
-<tr>
-<td>MOT17</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/mot/deepsort/sort_faster-rcnn_fpn_4e_mot17-public-half.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/deepsort/sort_faster-rcnn_fpn_4e_mot17-public-half/faster-rcnn_r50_fpn_4e_mot17-half-64ee2ed4.pth</code></td>
-</tr>
-<tr>
-<td>MOT17</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/mot/deepsort/sort_faster-rcnn_fpn_4e_mot17-public.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/deepsort/sort_faster-rcnn_fpn_4e_mot17-public/faster-rcnn_r50_fpn_4e_mot17-ffa52ae7.pth</code></td>
-</tr>
-</tbody></table>
-</details>
-
-<details data-markdown>
-<summary>Tracking without Bells and Whistles(Tracktor)</summary>
-
-<table>
-<thead>
-<tr>
-<th>dataset</th>
-<th>config</th>
-<th>pretrained</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>MOT17</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/mot/tracktor/tracktor_faster-rcnn_r50_fpn_4e_mot17-private-half.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/tracktor/tracktor_faster-rcnn_r50_fpn_4e_mot17-private-half/faster-rcnn_r50_fpn_4e_mot17-half-64ee2ed4.pth</code></td>
-</tr>
-<tr>
-<td>MOT17</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/mot/tracktor/tracktor_faster-rcnn_r50_fpn_4e_mot17-private.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/tracktor/tracktor_faster-rcnn_r50_fpn_4e_mot17-private/faster-rcnn_r50_fpn_4e_mot17-ffa52ae7.pth</code></td>
-</tr>
-<tr>
-<td>MOT17</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/mot/tracktor/tracktor_faster-rcnn_r50_fpn_4e_mot17-public-half.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/tracktor/tracktor_faster-rcnn_r50_fpn_4e_mot17-public-half/faster-rcnn_r50_fpn_4e_mot17-half-64ee2ed4.pth</code></td>
-</tr>
-<tr>
-<td>MOT17</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/mot/tracktor/tracktor_faster-rcnn_r50_fpn_4e_mot17-public-half_search.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/tracktor/tracktor_faster-rcnn_r50_fpn_4e_mot17-public-half_search/faster-rcnn_r50_fpn_4e_mot17-ffa52ae7.pth</code></td>
-</tr>
-<tr>
-<td>MOT17</td>
-<td><code>/home/psh/mmlab/mmtracking/configs/mot/tracktor/tracktor_faster-rcnn_r50_fpn_4e_mot17-public.py</code></td>
-<td><code>/home/psh/mmlab/mmtracking/checkpoints/tracktor/tracktor_faster-rcnn_r50_fpn_4e_mot17-public/faster-rcnn_r50_fpn_4e_mot17-ffa52ae7.pth</code></td>
-</tr>
-</tbody></table>
-</details>
 
     </div>
 
@@ -580,7 +388,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mmtracking%EF%BC%88%E6%9C%AA%E6%B5%8B%E8%AF%95%E5%AE%8C%E5%85%A8%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">mmtracking（未测试完全）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%B0%83%E7%94%A8%E9%83%A8%E5%88%86"><span class="nav-number">1.1.</span> <span class="nav-text">命令行调用部分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#train-py-single-gpu-training"><span class="nav-number">1.1.1.</span> <span class="nav-text">train.py(single-gpu training)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dist-train-sh-multi-gpu-training"><span class="nav-number">1.1.2.</span> <span class="nav-text">dist_train.sh(multi-gpu training)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#test-py-single-gpu-testing"><span class="nav-number">1.1.3.</span> <span class="nav-text">test.py(single-gpu testing)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dist-test-sh-multi-gpu-testing"><span class="nav-number">1.1.4.</span> <span class="nav-text">dist_test.sh(multi-gpu testing)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#analyze-logs-py-single-gpu-testing"><span class="nav-number">1.1.5.</span> <span class="nav-text">analyze_logs.py(single-gpu testing)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%A0%E4%B8%AA%E6%A0%B7%E4%BE%8B"><span class="nav-number">1.2.</span> <span class="nav-text">几个样例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8dataset%E4%B8%8A%E8%AE%AD%E7%BB%83model"><span class="nav-number">1.2.1.</span> <span class="nav-text">在dataset上训练model</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.3.</span> <span class="nav-text">目前出现的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%85%B6%E4%BB%96%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">1.4.</span> <span class="nav-text">一些其他的功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E5%8D%95%E4%B8%AA%E8%A7%86%E9%A2%91%E8%BF%9B%E8%A1%8C%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B"><span class="nav-number">1.4.1.</span> <span class="nav-text">对单个视频进行目标检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E5%8D%95%E4%B8%AA%E8%A7%86%E9%A2%91%E8%BF%9B%E8%A1%8C%E5%8D%95%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA"><span class="nav-number">1.4.2.</span> <span class="nav-text">对单个视频进行单目标跟踪</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E5%8D%95%E4%B8%AA%E8%A7%86%E9%A2%91%E8%BF%9B%E8%A1%8C%E5%A4%9A%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA"><span class="nav-number">1.4.3.</span> <span class="nav-text">对单个视频进行多目标跟踪</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">1.5.</span> <span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E4%B8%BB%E8%A6%81%E4%BD%BF%E7%94%A8%E6%88%96%E5%B7%B2%E9%83%A8%E7%BD%B2%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.5.1.</span> <span class="nav-text">目前主要使用或已部署的数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E5%8F%AF%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9Bconfig%E6%96%87%E4%BB%B6"><span class="nav-number">1.5.2.</span> <span class="nav-text">目前可用的一些config文件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%86%E9%A2%91%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">视频目标检测</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%95%E7%9B%AE%E6%A0%87%E8%BF%BD%E8%B8%AA"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">单目标追踪</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%9A%E7%9B%AE%E6%A0%87%E8%BF%BD%E8%B8%AA"><span class="nav-number">1.5.2.3.</span> <span class="nav-text">多目标追踪</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E8%BF%BD%E8%B8%AA%E6%A8%A1%E5%9D%97-mmtrack"><span class="nav-number">1.</span> <span class="nav-text">目标追踪模块(mmtrack)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%BC%95%E8%A8%80"><span class="nav-number">1.1.</span> <span class="nav-text">1. 引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E9%9B%86%E9%85%8D%E7%BD%AE%E7%9A%84%E5%88%B6%E5%AE%9A"><span class="nav-number">1.2.</span> <span class="nav-text">2. 数据集配置的制定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E7%9B%AE%E5%89%8D%E4%B8%BB%E8%A6%81%E4%BD%BF%E7%94%A8%E6%88%96%E5%B7%B2%E9%83%A8%E7%BD%B2%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 目前主要使用或已部署的数据集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-%E8%A7%86%E9%A2%91%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">2.1.1 视频目标检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-%E5%8D%95%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">2.1.2 单目标跟踪</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-%E5%A4%9A%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">2.1.3 多目标跟踪</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E8%A7%86%E9%A2%91%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%95%B0%E6%8D%AE%E9%9B%86%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 视频目标检测数据集配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%8D%95%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E9%9B%86%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 单目标跟踪数据集配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%A4%9A%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E9%9B%86%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 多目标跟踪数据集配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%A8%A1%E5%9E%8B%E9%85%8D%E7%BD%AE%E7%9A%84%E5%88%B6%E5%AE%9A"><span class="nav-number">1.3.</span> <span class="nav-text">3. 模型配置的制定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E8%A7%86%E9%A2%91%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 视频目标检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%8D%95%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 单目标跟踪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E5%A4%9A%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 多目标跟踪</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%B8%80%E4%B8%AA%E5%AE%8C%E6%95%B4%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%84%E8%A3%85"><span class="nav-number">1.4.</span> <span class="nav-text">4. 一个完整的配置文件的组装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%B0%83%E7%94%A8%E9%83%A8%E5%88%86"><span class="nav-number">1.5.</span> <span class="nav-text">5. 命令行调用部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E8%AE%AD%E7%BB%83%E9%98%B6%E6%AE%B5dist-train-sh"><span class="nav-number">1.5.1.</span> <span class="nav-text">5.1 训练阶段dist_train.sh</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#train-py-single-gpu-training"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">train.py(single-gpu training)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dist-train-sh-multi-gpu-training"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">dist_train.sh(multi-gpu training)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E6%B5%8B%E8%AF%95%E9%98%B6%E6%AE%B5dist-test-sh"><span class="nav-number">1.5.2.</span> <span class="nav-text">5.2 测试阶段dist_test.sh</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#test-py-single-gpu-testing"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">test.py(single-gpu testing)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dist-test-sh-multi-gpu-testing"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">dist_test.sh(multi-gpu testing)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-Log%E5%88%86%E6%9E%90analyze-logs-py"><span class="nav-number">1.5.3.</span> <span class="nav-text">5.3 Log分析analyze_logs.py</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#analyze-logs-py-single-gpu-testing"><span class="nav-number">1.5.3.1.</span> <span class="nav-text">analyze_logs.py(single-gpu testing)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90analyze-results-py"><span class="nav-number">1.5.4.</span> <span class="nav-text">5.4 结果分析analyze_results.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-DEMO%E7%94%9F%E6%88%90"><span class="nav-number">1.5.5.</span> <span class="nav-text">5.5 DEMO生成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-1-%E5%AF%B9%E5%8D%95%E4%B8%AA%E8%A7%86%E9%A2%91%E8%BF%9B%E8%A1%8C%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B"><span class="nav-number">1.5.5.1.</span> <span class="nav-text">5.5.1 对单个视频进行目标检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-2-%E5%AF%B9%E5%8D%95%E4%B8%AA%E8%A7%86%E9%A2%91%E8%BF%9B%E8%A1%8C%E5%8D%95%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA"><span class="nav-number">1.5.5.2.</span> <span class="nav-text">5.5.2 对单个视频进行单目标跟踪</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-3-%E5%AF%B9%E5%8D%95%E4%B8%AA%E8%A7%86%E9%A2%91%E8%BF%9B%E8%A1%8C%E5%A4%9A%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA"><span class="nav-number">1.5.5.3.</span> <span class="nav-text">5.5.3 对单个视频进行多目标跟踪</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E4%B8%80%E4%BA%9B%E6%A0%B7%E4%BE%8B"><span class="nav-number">1.6.</span> <span class="nav-text">6. 一些样例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E5%9C%A8dataset%E4%B8%8A%E8%AE%AD%E7%BB%83model"><span class="nav-number">1.6.1.</span> <span class="nav-text">6.1 在dataset上训练model</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E9%99%84%E5%BD%95"><span class="nav-number">1.7.</span> <span class="nav-text">7. 附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E7%9B%AE%E5%89%8D%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.7.1.</span> <span class="nav-text">7.1 目前出现的问题</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -596,7 +404,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
