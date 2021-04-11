@@ -1,0 +1,2716 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文档的主要目的是列举所有默认的配置组件或完整配置列表，方便开发人员查询和调用。 一些数据集配置文件   dataset config    ADE20K mmlab&#x2F;mmsegmentation&#x2F;configs&#x2F;_base_&#x2F;datasets&#x2F;ade20k.py   CHASE DB1 mmlab&#x2F;mmsegmentation&#x2F;configs&#x2F;_base_&#x2F;datasets&#x2F;chase_db1.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mmseg语义分割配置列表v0.0">
+<meta property="og:url" content="http://example.com/2021/04/11/group_report/mmseg_default_configs/index.html">
+<meta property="og:site_name" content="暴走白熊的小窝">
+<meta property="og:description" content="本文档的主要目的是列举所有默认的配置组件或完整配置列表，方便开发人员查询和调用。 一些数据集配置文件   dataset config    ADE20K mmlab&#x2F;mmsegmentation&#x2F;configs&#x2F;_base_&#x2F;datasets&#x2F;ade20k.py   CHASE DB1 mmlab&#x2F;mmsegmentation&#x2F;configs&#x2F;_base_&#x2F;datasets&#x2F;chase_db1.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-11T09:06:52.205Z">
+<meta property="article:modified_time" content="2021-04-11T10:43:23.050Z">
+<meta property="article:author" content="杨熊">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/04/11/group_report/mmseg_default_configs/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>mmseg语义分割配置列表v0.0 | 暴走白熊的小窝</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">暴走白熊的小窝</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/11/group_report/mmseg_default_configs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="杨熊">
+      <meta itemprop="description" content="善恶到头终有报，只争来早与来迟">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="暴走白熊的小窝">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          mmseg语义分割配置列表v0.0
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-04-11 17:06:52 / 修改时间：18:43:23" itemprop="dateCreated datePublished" datetime="2021-04-11T17:06:52+08:00">2021-04-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文档的主要目的是列举所有默认的配置组件或完整配置列表，方便开发人员查询和调用。</p>
+<h1 id="一些数据集配置文件"><a href="#一些数据集配置文件" class="headerlink" title="一些数据集配置文件"></a>一些数据集配置文件</h1><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/datasets/ade20k.py</code></td>
+</tr>
+<tr>
+<td>CHASE DB1</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/datasets/chase_db1.py</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/datasets/cityscapes.py</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/datasets/cityscapes_769x769.py</code></td>
+</tr>
+<tr>
+<td>DRIVE</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/datasets/drive.py</code></td>
+</tr>
+<tr>
+<td>HRF</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/datasets/hrf.py</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/datasets/pascal_context.py</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/datasets/pascal_voc12.py</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/datasets/pascal_voc12_aug.py</code></td>
+</tr>
+<tr>
+<td>STARE</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/datasets/stare.py</code></td>
+</tr>
+</tbody></table>
+<h1 id="一些模型配置文件"><a href="#一些模型配置文件" class="headerlink" title="一些模型配置文件"></a>一些模型配置文件</h1><table>
+<thead>
+<tr>
+<th>model</th>
+<th>config</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ANN</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/ann_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>APCNet</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/apcnet_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>CCNet</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/ccnet_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>CGNet</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/cgnet.py</code></td>
+</tr>
+<tr>
+<td>DANet</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/danet_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>DeepLabv3+</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/deeplabv3plus_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>DeepLabv3</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/deeplabv3_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>DeepLabv3</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/deeplabv3_unet_s5-d16.py</code></td>
+</tr>
+<tr>
+<td>DMNet</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/dmnet_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>DNLNet</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/dnl_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>EMANet</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/emanet_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>ENCNet</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/encnet_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>Fast-SCNN</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/fast_scnn.py</code></td>
+</tr>
+<tr>
+<td>HRNet</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/fcn_hr18.py</code></td>
+</tr>
+<tr>
+<td>FCN</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/fcn_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>U-Net</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/fcn_unet_s5-d16.py</code></td>
+</tr>
+<tr>
+<td>SemFPN</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/fpn_r50.py</code></td>
+</tr>
+<tr>
+<td>GCNet</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/gcnet_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>MobileNetV3</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/lraspp_m-v3-d8.py</code></td>
+</tr>
+<tr>
+<td>Non-local Neural Networks</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/nonlocal_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>OCRNet</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/ocrnet_hr18.py</code></td>
+</tr>
+<tr>
+<td>OCRNet</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/ocrnet_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>PointRend</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/pointrend_r50.py</code></td>
+</tr>
+<tr>
+<td>PSANet</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/psanet_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>PSANet</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/pspnet_r50-d8.py</code></td>
+</tr>
+<tr>
+<td>U-Net</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/pspnet_unet_s5-d16.py</code></td>
+</tr>
+<tr>
+<td>UPerNet</td>
+<td><code>mmlab/mmsegmentation/configs/_base_/models/upernet_r50.py</code></td>
+</tr>
+</tbody></table>
+<h1 id="一些超参配置"><a href="#一些超参配置" class="headerlink" title="一些超参配置"></a>一些超参配置</h1><table>
+<thead>
+<tr>
+<th>config</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mmlab/mmsegmentation/configs/<em>base</em>/schedules/schedule_20k.py</td>
+</tr>
+<tr>
+<td>mmlab/mmsegmentation/configs/<em>base</em>/schedules/schedule_40k.py</td>
+</tr>
+<tr>
+<td>mmlab/mmsegmentation/configs/<em>base</em>/schedules/schedule_80k.py</td>
+</tr>
+<tr>
+<td>mmlab/mmsegmentation/configs/<em>base</em>/schedules/schedule_160k.py</td>
+</tr>
+</tbody></table>
+<h1 id="一些完整的配置文件"><a href="#一些完整的配置文件" class="headerlink" title="一些完整的配置文件"></a>一些完整的配置文件</h1><p>目前可用的config及对应训练好的模型（可用于测试）有以下几种：</p>
+<h2 id="Asymmetric-Non-local-Neural-Networks-ANN"><a href="#Asymmetric-Non-local-Neural-Networks-ANN" class="headerlink" title="Asymmetric Non-local Neural Networks(ANN)"></a>Asymmetric Non-local Neural Networks(ANN)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r50-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r50-d8_512x512_20k_voc12aug/ann_r50-d8_512x512_20k_voc12aug_20200617_222246-dfcb1c62.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r50-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r50-d8_512x512_40k_voc12aug/ann_r50-d8_512x512_40k_voc12aug_20200613_231314-b5dac322.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r50-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r50-d8_512x512_80k_ade20k/ann_r50-d8_512x512_80k_ade20k_20200615_014818-26f75e11.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r50-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r50-d8_512x512_160k_ade20k/ann_r50-d8_512x512_160k_ade20k_20200615_231733-892247bc.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r50-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r50-d8_512x1024_40k_cityscapes/ann_r50-d8_512x1024_40k_cityscapes_20200605_095211-049fc292.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r50-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r50-d8_512x1024_80k_cityscapes/ann_r50-d8_512x1024_80k_cityscapes_20200607_101911-5a9ad545.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r50-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r50-d8_769x769_40k_cityscapes/ann_r50-d8_769x769_40k_cityscapes_20200530_025712-2b46b04d.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r50-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r50-d8_769x769_80k_cityscapes/ann_r50-d8_769x769_80k_cityscapes_20200607_044426-cc7ff323.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r101-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r101-d8_512x512_20k_voc12aug/ann_r101-d8_512x512_20k_voc12aug_20200617_222246-2fad0042.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r101-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r101-d8_512x512_40k_voc12aug/ann_r101-d8_512x512_40k_voc12aug_20200613_231314-bd205bbe.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r101-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r101-d8_512x512_80k_ade20k/ann_r101-d8_512x512_80k_ade20k_20200615_014818-c0153543.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r101-d8_512x512_160k_ade20k/ann_r101-d8_512x512_160k_ade20k_20200615_231733-955eb1ec.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r101-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r101-d8_512x1024_40k_cityscapes/ann_r101-d8_512x1024_40k_cityscapes_20200605_095243-adf6eece.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r101-d8_512x1024_80k_cityscapes/ann_r101-d8_512x1024_80k_cityscapes_20200607_013728-aceccc6e.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r101-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r101-d8_769x769_40k_cityscapes/ann_r101-d8_769x769_40k_cityscapes_20200530_025720-059bff28.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ann/ann_r101-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ann/ann_r101-d8_769x769_80k_cityscapes/ann_r101-d8_769x769_80k_cityscapes_20200607_013713-a9d4be8d.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Adaptive-Pyramid-Context-Network-APCNet"><a href="#Adaptive-Pyramid-Context-Network-APCNet" class="headerlink" title="Adaptive Pyramid Context Network(APCNet)"></a>Adaptive Pyramid Context Network(APCNet)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/apcnet/apcnet_r50-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/apcnet/apcnet_r50-d8_512x512_80k_ade20k/apcnet_r50-d8_512x512_80k_ade20k_20201214_115705-a8626293.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/apcnet/apcnet_r50-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/apcnet/apcnet_r50-d8_512x512_160k_ade20k/apcnet_r50-d8_512x512_160k_ade20k_20201214_115706-25fb92c2.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/apcnet/apcnet_r50-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/apcnet/apcnet_r50-d8_512x1024_40k_cityscapes/apcnet_r50-d8_512x1024_40k_cityscapes_20201214_115717-5e88fa33.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/apcnet/apcnet_r50-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/apcnet/apcnet_r50-d8_512x1024_80k_cityscapes/apcnet_r50-d8_512x1024_80k_cityscapes_20201214_115716-987f51e3.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/apcnet/apcnet_r50-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/apcnet/apcnet_r50-d8_769x769_40k_cityscapes/apcnet_r50-d8_769x769_40k_cityscapes_20201214_115717-2a2628d7.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/apcnet/apcnet_r50-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/apcnet/apcnet_r50-d8_769x769_80k_cityscapes/apcnet_r50-d8_769x769_80k_cityscapes_20201214_115718-7ea9fa12.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/apcnet/apcnet_r101-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/apcnet/apcnet_r101-d8_512x512_80k_ade20k/apcnet_r101-d8_512x512_80k_ade20k_20201214_115704-c656c3fb.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/apcnet/apcnet_r101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/apcnet/apcnet_r101-d8_512x512_160k_ade20k/apcnet_r101-d8_512x512_160k_ade20k_20201214_115705-73f9a8d7.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/apcnet/apcnet_r101-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/apcnet/apcnet_r101-d8_512x1024_40k_cityscapes/apcnet_r101-d8_512x1024_40k_cityscapes_20201214_115716-abc9d111.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/apcnet/apcnet_r101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/apcnet/apcnet_r101-d8_512x1024_80k_cityscapes/apcnet_r101-d8_512x1024_80k_cityscapes_20201214_115705-b1ff208a.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/apcnet/apcnet_r101-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/apcnet/apcnet_r101-d8_769x769_40k_cityscapes/apcnet_r101-d8_769x769_40k_cityscapes_20201214_115718-b650de90.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/apcnet/apcnet_r101-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/apcnet/apcnet_r101-d8_769x769_80k_cityscapes/apcnet_r101-d8_769x769_80k_cityscapes_20201214_115716-a7fbc2ab.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Criss-Cross-Attention-CCNet"><a href="#Criss-Cross-Attention-CCNet" class="headerlink" title="Criss-Cross Attention(CCNet)"></a>Criss-Cross Attention(CCNet)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r50-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ccnet/ccnet_r50-d8_512x512_20k_voc12aug/ccnet_r50-d8_512x512_20k_voc12aug_20200617_193212-fad81784.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r50-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r50-d8_512x512_80k_ade20k.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r50-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ccnet/ccnet_r50-d8_512x512_160k_ade20k/ccnet_r50-d8_512x512_160k_ade20k_20200616_084435-7c97193b.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r50-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ccnet/ccnet_r50-d8_512x1024_40k_cityscapes</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r50-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r50-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ccnet/ccnet_r50-d8_769x769_40k_cityscapes/ccnet_r50-d8_769x769_40k_cityscapes_20200616_145125-76d11884.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r50-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r101-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ccnet/ccnet_r101-d8_512x512_20k_voc12aug/ccnet_r101-d8_512x512_20k_voc12aug_20200617_193212-0007b61d.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r101-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r101-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ccnet/ccnet_r101-d8_512x512_80k_ade20k/ccnet_r101-d8_512x512_80k_ade20k_20200615_014848-1f4929a3.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ccnet/ccnet_r101-d8_512x512_160k_ade20k/ccnet_r101-d8_512x512_160k_ade20k_20200616_000644-e849e007.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r101-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ccnet/ccnet_r101-d8_512x1024_40k_cityscapes/ccnet_r101-d8_512x1024_40k_cityscapes_20200616_142540-a3b84ba6.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r101-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ccnet/ccnet_r101-d8_769x769_40k_cityscapes/ccnet_r101-d8_769x769_40k_cityscapes_20200617_101428-4f57c8d0.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ccnet/ccnet_r101-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ccnet/ccnet_r101-d8_769x769_80k_cityscapes/ccnet_r101-d8_769x769_80k_cityscapes_20200618_011502-ad3cd481.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Context-Guided-Network-CGNet"><a href="#Context-Guided-Network-CGNet" class="headerlink" title="Context Guided Network(CGNet)"></a>Context Guided Network(CGNet)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/cgnet/cgnet_512x1024_60k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/cgnet/cgnet_512x1024_60k_cityscapes/cgnet_512x1024_60k_cityscapes_20201101_110254-124ea03b.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/cgnet/cgnet_680x680_60k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/cgnet/cgnet_680x680_60k_cityscapes/cgnet_680x680_60k_cityscapes_20201101_110253-4c0b2f2d.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Dual-Attention-Network-DANet"><a href="#Dual-Attention-Network-DANet" class="headerlink" title="Dual Attention Network(DANet)"></a>Dual Attention Network(DANet)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r50-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r50-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/danet/danet_r50-d8_512x512_40k_voc12aug/danet_r50-d8_512x512_40k_voc12aug_20200613_235526-426e3a64.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r50-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/danet/danet_r50-d8_512x512_80k_ade20k/danet_r50-d8_512x512_80k_ade20k_20200615_015125-edb18e08.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r50-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/danet/danet_r50-d8_512x512_160k_ade20k/danet_r50-d8_512x512_160k_ade20k_20200616_082340-9cb35dcd.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r50-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/danet/danet_r50-d8_512x1024_40k_cityscapes/danet_r50-d8_512x1024_40k_cityscapes_20200605_191324-c0dbfa5f.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r50-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/danet/danet_r50-d8_512x1024_80k_cityscapes/danet_r50-d8_512x1024_80k_cityscapes_20200607_133029-2bfa2293.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r50-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/danet/danet_r50-d8_769x769_40k_cityscapes/danet_r50-d8_769x769_40k_cityscapes_20200530_025703-76681c60.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r50-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/danet/danet_r50-d8_769x769_80k_cityscapes/danet_r50-d8_769x769_80k_cityscapes_20200607_132954-495689b4.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r101-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/danet/danet_r101-d8_512x512_20k_voc12aug/danet_r101-d8_512x512_20k_voc12aug_20200618_070026-d48d23b2.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r101-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/danet/danet_r101-d8_512x512_40k_voc12aug/danet_r101-d8_512x512_40k_voc12aug_20200613_223031-788e232a.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r101-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/danet/danet_r101-d8_512x512_80k_ade20k/danet_r101-d8_512x512_80k_ade20k_20200615_015126-d0357c73.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/danet/danet_r101-d8_512x512_160k_ade20k/danet_r101-d8_512x512_160k_ade20k_20200616_082348-23bf12f9.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r101-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/danet/danet_r101-d8_512x1024_40k_cityscapes/danet_r101-d8_512x1024_40k_cityscapes_20200605_200831-c57a7157.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/danet/danet_r101-d8_512x1024_80k_cityscapes/danet_r101-d8_512x1024_80k_cityscapes_20200607_132918-955e6350.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r101-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/danet/danet_r101-d8_769x769_40k_cityscapes/danet_r101-d8_769x769_40k_cityscapes_20200530_025717-dcb7fd4e.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/danet/danet_r101-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/danet/danet_r101-d8_769x769_80k_cityscapes/danet_r101-d8_769x769_80k_cityscapes_20200607_132918-f3a929e7.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="DeepLabv3"><a href="#DeepLabv3" class="headerlink" title="DeepLabv3"></a>DeepLabv3</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r18-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r18-d8_512x1024_80k_cityscapes/deeplabv3_r18-d8_512x1024_80k_cityscapes_20201225_021506-23dffbe2.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r18-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r18-d8_769x769_80k_cityscapes/deeplabv3_r18-d8_769x769_80k_cityscapes_20201225_021506-6452126a.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r18b-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r18b-d8_512x1024_80k_cityscapes/deeplabv3_r18b-d8_512x1024_80k_cityscapes_20201225_094144-46040cef.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r18b-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r18b-d8_769x769_80k_cityscapes/deeplabv3_r18b-d8_769x769_80k_cityscapes_20201225_094144-fdc985d9.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r50-d8_480x480_40k_pascal_context.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101-d8_480x480_40k_pascal_context/deeplabv3_r101-d8_480x480_40k_pascal_context_20200911_204118-1aa27336.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r50-d8_480x480_80k_pascal_context.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101-d8_480x480_80k_pascal_context/deeplabv3_r101-d8_480x480_80k_pascal_context_20200911_170155-2a21fff3.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r50-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r50-d8_512x512_20k_voc12aug/deeplabv3_r50-d8_512x512_20k_voc12aug_20200617_010906-596905ef.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r50-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r50-d8_512x512_40k_voc12aug/deeplabv3_r50-d8_512x512_40k_voc12aug_20200613_161546-2ae96e7e.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r50-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r50-d8_512x512_80k_ade20k/deeplabv3_r50-d8_512x512_80k_ade20k_20200614_185028-0bb3f844.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r50-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r50-d8_512x512_160k_ade20k/deeplabv3_r50-d8_512x512_160k_ade20k_20200615_123227-5d0ee427.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r50-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r50-d8_512x1024_40k_cityscapes/deeplabv3_r50-d8_512x1024_40k_cityscapes_20200605_022449-acadc2f8.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r50-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r50-d8_512x1024_80k_cityscapes/deeplabv3_r50-d8_512x1024_80k_cityscapes_20200606_113404-b92cfdd4.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r50-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r50-d8_769x769_40k_cityscapes/deeplabv3_r50-d8_769x769_40k_cityscapes_20200606_113723-7eda553c.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r50-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r50-d8_769x769_80k_cityscapes/deeplabv3_r50-d8_769x769_80k_cityscapes_20200606_221338-788d6228.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r50b-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r50b-d8_512x1024_80k_cityscapes/deeplabv3_r50b-d8_512x1024_80k_cityscapes_20201225_155148-ec368954.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r50b-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r50b-d8_769x769_80k_cityscapes/deeplabv3_r50b-d8_769x769_80k_cityscapes_20201225_155404-87fb0cf4.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r101-d8_480x480_40k_pascal_context.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101-d8_480x480_40k_pascal_context/deeplabv3_r101-d8_480x480_40k_pascal_context_20200911_204118-1aa27336.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r101-d8_480x480_80k_pascal_context.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101-d8_480x480_80k_pascal_context/deeplabv3_r101-d8_480x480_80k_pascal_context_20200911_170155-2a21fff3.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r101-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101-d8_512x512_20k_voc12aug/deeplabv3_r101-d8_512x512_20k_voc12aug_20200617_010932-8d13832f.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r101-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101-d8_512x512_40k_voc12aug/deeplabv3_r101-d8_512x512_40k_voc12aug_20200613_161432-0017d784.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r101-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101-d8_512x512_80k_ade20k/deeplabv3_r101-d8_512x512_80k_ade20k_20200615_021256-d89c7fa4.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101-d8_512x512_160k_ade20k/deeplabv3_r101-d8_512x512_160k_ade20k_20200615_105816-b1f72b3b.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r101-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101-d8_512x1024_40k_cityscapes/deeplabv3_r101-d8_512x1024_40k_cityscapes_20200605_012241-7fd3f799.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101-d8_512x1024_80k_cityscapes/deeplabv3_r101-d8_512x1024_80k_cityscapes_20200606_113503-9e428899.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r101-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101-d8_769x769_40k_cityscapes/deeplabv3_r101-d8_769x769_40k_cityscapes_20200606_113809-c64f889f.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r101-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101-d8_769x769_80k_cityscapes/deeplabv3_r101-d8_769x769_80k_cityscapes_20200607_013353-60e95418.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r101-d16-mg124_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101-d16-mg124_512x1024_40k_cityscapes/deeplabv3_r101-d16-mg124_512x1024_40k_cityscapes_20200908_005644-67b0c992.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r101-d16-mg124_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101-d16-mg124_512x1024_80k_cityscapes/deeplabv3_r101-d16-mg124_512x1024_80k_cityscapes_20200908_005644-57bb8425.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r101b-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101b-d8_512x1024_80k_cityscapes/deeplabv3_r101b-d8_512x1024_80k_cityscapes_20201226_171821-8fd49503.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3/deeplabv3_r101b-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3/deeplabv3_r101b-d8_769x769_80k_cityscapes/deeplabv3_r101b-d8_769x769_80k_cityscapes_20201226_190843-9142ee57.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="DeepLabv3-1"><a href="#DeepLabv3-1" class="headerlink" title="DeepLabv3+"></a>DeepLabv3+</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r18-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r18-d8_512x1024_80k_cityscapes/deeplabv3plus_r18-d8_512x1024_80k_cityscapes_20201226_080942-cff257fe.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r18-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r18-d8_769x769_80k_cityscapes/deeplabv3plus_r18-d8_769x769_80k_cityscapes_20201226_083346-f326e06a.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r18b-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r18b-d8_512x1024_80k_cityscapes/deeplabv3plus_r18b-d8_512x1024_80k_cityscapes_20201226_090828-e451abd9.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r18b-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r18b-d8_769x769_80k_cityscapes/deeplabv3plus_r18b-d8_769x769_80k_cityscapes_20201226_151312-2c868aff.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r50-d8_480x480_40k_pascal_context.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r50-d8_480x480_80k_pascal_context.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r50-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r50-d8_512x512_20k_voc12aug/deeplabv3plus_r50-d8_512x512_20k_voc12aug_20200617_102323-aad58ef1.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r50-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r50-d8_512x512_40k_voc12aug/deeplabv3plus_r50-d8_512x512_40k_voc12aug_20200613_161759-e1b43aa9.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r50-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r50-d8_512x512_80k_ade20k/deeplabv3plus_r50-d8_512x512_80k_ade20k_20200614_185028-bf1400d8.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r50-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r50-d8_512x512_160k_ade20k/deeplabv3plus_r50-d8_512x512_160k_ade20k_20200615_124504-6135c7e0.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r50-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r50-d8_512x1024_40k_cityscapes/deeplabv3plus_r50-d8_512x1024_40k_cityscapes_20200605_094610-d222ffcd.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r50-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r50-d8_512x1024_80k_cityscapes/deeplabv3plus_r50-d8_512x1024_80k_cityscapes_20200606_114049-f9fb496d.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r50-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r50-d8_769x769_40k_cityscapes/deeplabv3plus_r50-d8_769x769_40k_cityscapes_20200606_114143-1dcb0e3c.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r50-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r50-d8_769x769_80k_cityscapes/deeplabv3plus_r50-d8_769x769_80k_cityscapes_20200606_210233-0e9dfdc4.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r50b-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r50b-d8_512x1024_80k_cityscapes/deeplabv3plus_r50b-d8_512x1024_80k_cityscapes_20201225_213645-a97e4e43.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r50b-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r50b-d8_769x769_80k_cityscapes/deeplabv3plus_r50b-d8_769x769_80k_cityscapes_20201225_224655-8b596d1c.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r101-d8_480x480_40k_pascal_context.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r101-d8_480x480_40k_pascal_context/deeplabv3plus_r101-d8_480x480_40k_pascal_context_20200911_165459-d3c8a29e.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r101-d8_480x480_80k_pascal_context.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r101-d8_480x480_80k_pascal_context/deeplabv3plus_r101-d8_480x480_80k_pascal_context_20200911_155322-145d3ee8.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r101-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r101-d8_512x512_20k_voc12aug/deeplabv3plus_r101-d8_512x512_20k_voc12aug_20200617_102345-c7ff3d56.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r101-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r101-d8_512x512_40k_voc12aug/deeplabv3plus_r101-d8_512x512_40k_voc12aug_20200613_205333-faf03387.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r101-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r101-d8_512x512_80k_ade20k/deeplabv3plus_r101-d8_512x512_80k_ade20k_20200615_014139-d5730af7.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r101-d8_512x512_160k_ade20k/deeplabv3plus_r101-d8_512x512_160k_ade20k_20200615_123232-38ed86bb.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r101-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r101-d8_512x1024_40k_cityscapes/deeplabv3plus_r101-d8_512x1024_40k_cityscapes_20200605_094614-3769eecf.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r101-d8_512x1024_80k_cityscapes/deeplabv3plus_r101-d8_512x1024_80k_cityscapes_20200606_114143-068fcfe9.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r101-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r101-d8_769x769_40k_cityscapes/deeplabv3plus_r101-d8_769x769_40k_cityscapes_20200606_114304-ff414b9e.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r101-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r101-d8_769x769_80k_cityscapes/deeplabv3plus_r101-d8_769x769_80k_cityscapes_20200607_000405-a7573d20.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r101-d16-mg124_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r101-d16-mg124_512x1024_40k_cityscapes/deeplabv3plus_r101-d16-mg124_512x1024_40k_cityscapes_20200908_005644-cf9ce186.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r101-d16-mg124_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r101-d16-mg124_512x1024_80k_cityscapes/deeplabv3plus_r101-d16-mg124_512x1024_80k_cityscapes_20200908_005644-ee6158e0.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r101b-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r101b-d8_512x1024_80k_cityscapes/deeplabv3plus_r101b-d8_512x1024_80k_cityscapes_20201226_190843-9c3c93a4.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r101b-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/deeplabv3plus/deeplabv3plus_r101b-d8_769x769_80k_cityscapes/deeplabv3plus_r101b-d8_769x769_80k_cityscapes_20201226_205041-227cdf7c.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Dynamic-Multi-scale-Filters-DMNet"><a href="#Dynamic-Multi-scale-Filters-DMNet" class="headerlink" title="Dynamic Multi-scale Filters(DMNet)"></a>Dynamic Multi-scale Filters(DMNet)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/dmnet/dmnet_r50-d8_512x512_80k_ade20k.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/dmnet/dmnet_r50-d8_512x512_160k_ade20k.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dmnet/dmnet_r50-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dmnet/dmnet_r50-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dmnet/dmnet_r50-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dmnet/dmnet_r50-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/dmnet/dmnet_r101-d8_512x512_80k_ade20k.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/dmnet/dmnet_r101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dmnet/dmnet_r101-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dmnet/dmnet_r101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dmnet/dmnet_r101-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dmnet/dmnet_r101-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>None</code></td>
+</tr>
+</tbody></table>
+<h2 id="Disentangled-Non-Local-Neural-Networks-DNLNet"><a href="#Disentangled-Non-Local-Neural-Networks-DNLNet" class="headerlink" title="Disentangled Non-Local Neural Networks(DNLNet)"></a>Disentangled Non-Local Neural Networks(DNLNet)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/dnlnet/dnl_r50-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/dnlnet/dnl_r50-d8_512x512_80k_ade20k/dnl_r50-d8_512x512_80k_ade20k_20200826_183354-1cf6e0c1.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/dnlnet/dnl_r50-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/dnlnet/dnl_r50-d8_512x512_160k_ade20k/dnl_r50-d8_512x512_160k_ade20k_20200826_183350-37837798.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dnlnet/dnl_r50-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/dnlnet/dnl_r50-d8_512x1024_40k_cityscapes/dnl_r50-d8_512x1024_40k_cityscapes_20200904_233629-53d4ea93.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dnlnet/dnl_r50-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/dnlnet/dnl_r50-d8_512x1024_80k_cityscapes/dnl_r50-d8_512x1024_80k_cityscapes_20200904_233629-58b2f778.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dnlnet/dnl_r50-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/dnlnet/dnl_r50-d8_769x769_40k_cityscapes/dnl_r50-d8_769x769_40k_cityscapes_20200820_232206-0f283785.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dnlnet/dnl_r50-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/dnlnet/dnl_r50-d8_769x769_80k_cityscapes/dnl_r50-d8_769x769_80k_cityscapes_20200820_011925-366bc4c7.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/dnlnet/dnl_r101-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/dnlnet/dnl_r101-d8_512x512_80k_ade20k/dnl_r101-d8_512x512_80k_ade20k_20200826_183354-d820d6ea.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/dnlnet/dnl_r101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/dnlnet/dnl_r101-d8_512x512_160k_ade20k/dnl_r101-d8_512x512_160k_ade20k_20200826_183350-ed522c61.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dnlnet/dnl_r101-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/dnlnet/dnl_r101-d8_512x1024_40k_cityscapes/dnl_r101-d8_512x1024_40k_cityscapes_20200904_233629-9928ffef.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dnlnet/dnl_r101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/dnlnet/dnl_r101-d8_512x1024_80k_cityscapes/dnl_r101-d8_512x1024_80k_cityscapes_20200904_233629-758e2dd4.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dnlnet/dnl_r101-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/dnlnet/dnl_r101-d8_769x769_40k_cityscapes/dnl_r101-d8_769x769_40k_cityscapes_20200820_171256-76c596df.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/dnlnet/dnl_r101-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/dnlnet/dnl_r101-d8_769x769_80k_cityscapes/dnl_r101-d8_769x769_80k_cityscapes_20200821_051111-95ff84ab.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Expectation-Maximization-Attention-Networks-EMANet"><a href="#Expectation-Maximization-Attention-Networks-EMANet" class="headerlink" title="Expectation-Maximization Attention Networks(EMANet)"></a>Expectation-Maximization Attention Networks(EMANet)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/emanet/emanet_r50-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/emanet/emanet_r50-d8_512x1024_80k_cityscapes/emanet_r50-d8_512x1024_80k_cityscapes_20200901_100301-c43fcef1.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/emanet/emanet_r50-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/emanet/emanet_r50-d8_769x769_80k_cityscapes/emanet_r50-d8_769x769_80k_cityscapes_20200901_100301-16f8de52.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/emanet/emanet_r101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/emanet/emanet_r101-d8_512x1024_80k_cityscapes/emanet_r101-d8_512x1024_80k_cityscapes_20200901_100301-2d970745.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/emanet/emanet_r101-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/emanet/emanet_r101-d8_769x769_80k_cityscapes/emanet_r101-d8_769x769_80k_cityscapes_20200901_100301-47a324ce.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Context-Encoding-ENCNet"><a href="#Context-Encoding-ENCNet" class="headerlink" title="Context Encoding(ENCNet)"></a>Context Encoding(ENCNet)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r50-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r50-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r50-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/encnet/encnet_r50-d8_512x512_80k_ade20k/encnet_r50-d8_512x512_80k_ade20k_20200622_042412-44b46b04.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r50-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/encnet/encnet_r50-d8_512x512_160k_ade20k/encnet_r50-d8_512x512_160k_ade20k_20200622_101059-b2db95e0.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r50-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/encnet/encnet_r50-d8_512x1024_40k_cityscapes/encnet_r50-d8_512x1024_40k_cityscapes_20200621_220958-68638a47.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r50-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/encnet/encnet_r50-d8_512x1024_80k_cityscapes/encnet_r50-d8_512x1024_80k_cityscapes_20200622_003554-fc5c5624.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r50-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/encnet/encnet_r50-d8_769x769_40k_cityscapes/encnet_r50-d8_769x769_40k_cityscapes_20200621_220958-3bcd2884.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r50-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/encnet/encnet_r50-d8_769x769_80k_cityscapes/encnet_r50-d8_769x769_80k_cityscapes_20200622_003554-55096dcb.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r50s-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/encnet/encnet_r101-d8_512x512_80k_ade20k/encnet_r101-d8_512x512_80k_ade20k_20200622_101128-dd35e237.pth</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r101-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r101-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r101-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/encnet/encnet_r101-d8_512x512_80k_ade20k/encnet_r101-d8_512x512_80k_ade20k_20200622_101128-dd35e237.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/encnet/encnet_r101-d8_512x512_160k_ade20k/encnet_r101-d8_512x512_160k_ade20k_20200622_073348-7989641f.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r101-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/encnet/encnet_r101-d8_512x1024_40k_cityscapes/encnet_r101-d8_512x1024_40k_cityscapes_20200621_220933-35e0a3e8.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/encnet/encnet_r101-d8_512x1024_80k_cityscapes/encnet_r101-d8_512x1024_80k_cityscapes_20200622_003555-1de64bec.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r101-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/encnet/encnet_r101-d8_769x769_40k_cityscapes/encnet_r101-d8_769x769_40k_cityscapes_20200621_220933-2fafed55.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/encnet/encnet_r101-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/encnet/encnet_r101-d8_769x769_80k_cityscapes/encnet_r101-d8_769x769_80k_cityscapes_20200622_003555-470ef79d.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Fast-SCNN"><a href="#Fast-SCNN" class="headerlink" title="Fast-SCNN"></a>Fast-SCNN</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fastscnn/fast_scnn_4x8_80k_lr0.12_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fastscnn/fast_scnn/fast_scnn_4x8_80k_lr0.12_cityscapes-f5096c79.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Fully-Convolutional-Networks-FCN"><a href="#Fully-Convolutional-Networks-FCN" class="headerlink" title="Fully Convolutional Networks(FCN)"></a>Fully Convolutional Networks(FCN)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r18-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r18-d8_512x1024_80k_cityscapes/fcn_r18-d8_512x1024_80k_cityscapes_20201225_021327-6c50f8b4.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r18-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r18-d8_769x769_80k_cityscapes/fcn_r18-d8_769x769_80k_cityscapes_20201225_021451-9739d1b8.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r18b-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r18b-d8_512x1024_80k_cityscapes/fcn_r18b-d8_512x1024_80k_cityscapes_20201225_230143-92c0f445.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r18b-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r18b-d8_769x769_80k_cityscapes/fcn_r18b-d8_769x769_80k_cityscapes_20201226_004430-32d504e5.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r50-d8_480x480_40k_pascal_context.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r50-d8_480x480_80k_pascal_context.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r50-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r50-d8_512x512_20k_voc12aug/fcn_r50-d8_512x512_20k_voc12aug_20200617_010715-52dc5306.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r50-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r50-d8_512x512_40k_voc12aug/fcn_r50-d8_512x512_40k_voc12aug_20200613_161222-5e2dbf40.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r50-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r50-d8_512x512_80k_ade20k/fcn_r50-d8_512x512_80k_ade20k_20200614_144016-f8ac5082.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r50-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r50-d8_512x512_160k_ade20k/fcn_r50-d8_512x512_160k_ade20k_20200615_100713-4edbc3b4.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r50-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r50-d8_512x1024_40k_cityscapes/fcn_r50-d8_512x1024_40k_cityscapes_20200604_192608-efe53f0d.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r50-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r50-d8_512x1024_80k_cityscapes/fcn_r50-d8_512x1024_80k_cityscapes_20200606_113019-03aa804d.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r50-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r50-d8_769x769_40k_cityscapes/fcn_r50-d8_769x769_40k_cityscapes_20200606_113104-977b5d02.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r50-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r50-d8_769x769_80k_cityscapes/fcn_r50-d8_769x769_80k_cityscapes_20200606_195749-f5caeabc.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r50b-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r50b-d8_512x1024_80k_cityscapes/fcn_r50b-d8_512x1024_80k_cityscapes_20201225_094221-82957416.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r50b-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r50b-d8_769x769_80k_cityscapes/fcn_r50b-d8_769x769_80k_cityscapes_20201225_094223-94552d38.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r101-d8_480x480_40k_pascal_context.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r101-d8_480x480_40k_pascal_context/fcn_r101-d8_480x480_40k_pascal_context_20200911_212515-9b565a6d.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r101-d8_480x480_80k_pascal_context.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r101-d8_480x480_80k_pascal_context/fcn_r101-d8_480x480_80k_pascal_context_20200915_032644-a3828480.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r101-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r101-d8_512x512_20k_voc12aug/fcn_r101-d8_512x512_20k_voc12aug_20200617_010842-0bb4e798.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r101-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r101-d8_512x512_40k_voc12aug/fcn_r101-d8_512x512_40k_voc12aug_20200613_161240-4c8bcefd.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r101-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r101-d8_512x512_80k_ade20k/fcn_r101-d8_512x512_80k_ade20k_20200615_014143-bc1809f7.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r101-d8_512x512_160k_ade20k/fcn_r101-d8_512x512_160k_ade20k_20200615_105816-fd192bd5.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r101-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r101-d8_512x1024_40k_cityscapes/fcn_r101-d8_512x1024_40k_cityscapes_20200604_181852-a883d3a1.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r101-d8_512x1024_80k_cityscapes/fcn_r101-d8_512x1024_80k_cityscapes_20200606_113038-3fb937eb.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r101-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r101-d8_769x769_40k_cityscapes/fcn_r101-d8_769x769_40k_cityscapes_20200606_113208-7d4ab69c.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r101-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r101-d8_769x769_80k_cityscapes/fcn_r101-d8_769x769_80k_cityscapes_20200606_214354-45cbac68.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r101b-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r101b-d8_512x1024_80k_cityscapes/fcn_r101b-d8_512x1024_80k_cityscapes_20201226_160213-4543858f.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fcn/fcn_r101b-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fcn/fcn_r101b-d8_769x769_80k_cityscapes/fcn_r101b-d8_769x769_80k_cityscapes_20201226_170012-82be37e2.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Mixed-Precision-Training-Fp16"><a href="#Mixed-Precision-Training-Fp16" class="headerlink" title="Mixed Precision Training(Fp16)"></a>Mixed Precision Training(Fp16)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fp16/deeplabv3plus_r101-d8_512x1024_80k_fp16_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fp16/deeplabv3plus_r101-d8_512x1024_80k_fp16_cityscapes/deeplabv3plus_r101-d8_512x1024_80k_fp16_cityscapes-cc58bc8d.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fp16/deeplabv3_r101-d8_512x1024_80k_fp16_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fp16/deeplabv3_r101-d8_512x1024_80k_fp16_cityscapes/deeplabv3_r101-d8_512x1024_80k_fp16_cityscapes-bc86dc84.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fp16/fcn_r101-d8_512x1024_80k_fp16_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fp16/fcn_r101-d8_512x1024_80k_fp16_cityscapes/fcn_r101-d8_512x1024_80k_fp16_cityscapes-50245227.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/fp16/pspnet_r101-d8_512x1024_80k_fp16_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/fp16/pspnet_r101-d8_512x1024_80k_fp16_cityscapes/pspnet_r101-d8_512x1024_80k_fp16_cityscapes-ade37931.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="GCNet"><a href="#GCNet" class="headerlink" title="GCNet"></a>GCNet</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r50-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r50-d8_512x512_20k_voc12aug/gcnet_r50-d8_512x512_20k_voc12aug_20200617_165701-3cbfdab1.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r50-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r50-d8_512x512_40k_voc12aug/gcnet_r50-d8_512x512_40k_voc12aug_20200613_195105-9797336d.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r50-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r50-d8_512x512_80k_ade20k/gcnet_r50-d8_512x512_80k_ade20k_20200614_185146-91a6da41.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r50-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r50-d8_512x512_160k_ade20k/gcnet_r50-d8_512x512_160k_ade20k_20200615_224122-d95f3e1f.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r50-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r50-d8_512x1024_40k_cityscapes/gcnet_r50-d8_512x1024_40k_cityscapes_20200618_074436-4b0fd17b.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r50-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r50-d8_512x1024_80k_cityscapes/gcnet_r50-d8_512x1024_80k_cityscapes_20200618_074450-ef8f069b.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r50-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r50-d8_769x769_40k_cityscapes/gcnet_r50-d8_769x769_40k_cityscapes_20200618_182814-a26f4471.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r50-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r50-d8_769x769_80k_cityscapes/gcnet_r50-d8_769x769_80k_cityscapes_20200619_092516-4839565b.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r101-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r101-d8_512x512_20k_voc12aug/gcnet_r101-d8_512x512_20k_voc12aug_20200617_165713-6c720aa9.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r101-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r101-d8_512x512_40k_voc12aug/gcnet_r101-d8_512x512_40k_voc12aug_20200613_185806-1e38208d.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r101-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r101-d8_512x512_80k_ade20k/gcnet_r101-d8_512x512_80k_ade20k_20200615_020811-c3fcb6dd.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r101-d8_512x512_160k_ade20k/gcnet_r101-d8_512x512_160k_ade20k_20200615_225406-615528d7.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r101-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r101-d8_512x1024_40k_cityscapes/gcnet_r101-d8_512x1024_40k_cityscapes_20200618_074436-5e62567f.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r101-d8_512x1024_80k_cityscapes/gcnet_r101-d8_512x1024_80k_cityscapes_20200618_074450-778ebf69.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r101-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r101-d8_769x769_40k_cityscapes/gcnet_r101-d8_769x769_40k_cityscapes_20200619_092550-ca4f0a84.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/gcnet/gcnet_r101-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/gcnet/gcnet_r101-d8_769x769_80k_cityscapes/gcnet_r101-d8_769x769_80k_cityscapes_20200619_092628-8e043423.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="High-Resolution-Representation-Learning-HRNet"><a href="#High-Resolution-Representation-Learning-HRNet" class="headerlink" title="High-Resolution Representation Learning(HRNet)"></a>High-Resolution Representation Learning(HRNet)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18s_480x480_40k_pascal_context.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18s_480x480_80k_pascal_context.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18s_512x512_20k_voc12aug.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18s_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr18s_512x512_40k_voc12aug/fcn_hr18s_512x512_40k_voc12aug_20200614_000648-4f8d6e7f.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18s_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr18s_512x512_80k_ade20k/fcn_hr18s_512x512_80k_ade20k_20200614_144345-77fc814a.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18s_512x512_160k_ade20k.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18s_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr18s_512x1024_40k_cityscapes/fcn_hr18s_512x1024_40k_cityscapes_20200601_014216-93db27d0.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18s_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr18s_512x1024_80k_cityscapes/fcn_hr18s_512x1024_80k_cityscapes_20200601_202700-1462b75d.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18s_512x1024_160k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr18s_512x1024_160k_cityscapes/fcn_hr18s_512x1024_160k_cityscapes_20200602_190901-4a0797ea.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18_480x480_40k_pascal_context.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18_480x480_80k_pascal_context.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr18_512x512_20k_voc12aug/fcn_hr18_512x512_20k_voc12aug_20200617_224503-488d45f7.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr18_512x512_40k_voc12aug/fcn_hr18_512x512_40k_voc12aug_20200613_224401-1b4b76cd.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18_512x512_80k_ade20k.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr18_512x512_160k_ade20k/fcn_hr18_512x512_160k_ade20k_20200614_214426-ca961836.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr18_512x1024_40k_cityscapes/fcn_hr18_512x1024_40k_cityscapes_20200601_014216-f196fb4e.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr18_512x1024_80k_cityscapes/fcn_hr18_512x1024_80k_cityscapes_20200601_223255-4e7b345e.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr18_512x1024_160k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr18_512x1024_160k_cityscapes/fcn_hr18_512x1024_160k_cityscapes_20200602_190822-221e4a4f.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr48_480x480_40k_pascal_context.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr48_480x480_40k_pascal_context/fcn_hr48_480x480_40k_pascal_context_20200911_164852-667d00b0.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr48_480x480_80k_pascal_context.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr48_480x480_80k_pascal_context/fcn_hr48_480x480_80k_pascal_context_20200911_155322-847a6711.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr48_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr48_512x512_20k_voc12aug/fcn_hr48_512x512_20k_voc12aug_20200617_224419-89de05cd.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr48_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr48_512x512_40k_voc12aug/fcn_hr48_512x512_40k_voc12aug_20200613_222111-1b0f18bc.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr48_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr48_512x512_80k_ade20k/fcn_hr48_512x512_80k_ade20k_20200614_193946-7ba5258d.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr48_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr48_512x512_160k_ade20k/fcn_hr48_512x512_160k_ade20k_20200614_214407-a52fc02c.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr48_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr48_512x1024_40k_cityscapes/fcn_hr48_512x1024_40k_cityscapes_20200601_014240-a989b146.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr48_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr48_512x1024_80k_cityscapes/fcn_hr48_512x1024_80k_cityscapes_20200601_202606-58ea95d6.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/hrnet/fcn_hr48_512x1024_160k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/hrnet/fcn_hr48_512x1024_160k_cityscapes/fcn_hr48_512x1024_160k_cityscapes_20200602_190946-59b7973e.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="MobileNetV2"><a href="#MobileNetV2" class="headerlink" title="MobileNetV2"></a>MobileNetV2</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/mobilenet_v2/deeplabv3plus_m-v2-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/mobilenet_v2/deeplabv3plus_m-v2-d8_512x512_160k_ade20k/deeplabv3plus_m-v2-d8_512x512_160k_ade20k_20200825_223255-465a01d4.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/mobilenet_v2/deeplabv3plus_m-v2-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/mobilenet_v2/deeplabv3plus_m-v2-d8_512x1024_80k_cityscapes/deeplabv3plus_m-v2-d8_512x1024_80k_cityscapes_20200825_124836-d256dd4b.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/mobilenet_v2/deeplabv3_m-v2-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/mobilenet_v2/deeplabv3_m-v2-d8_512x512_160k_ade20k/deeplabv3_m-v2-d8_512x512_160k_ade20k_20200825_223255-63986343.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/mobilenet_v2/deeplabv3_m-v2-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/mobilenet_v2/deeplabv3_m-v2-d8_512x1024_80k_cityscapes/deeplabv3_m-v2-d8_512x1024_80k_cityscapes_20200825_124836-bef03590.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/mobilenet_v2/fcn_m-v2-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/mobilenet_v2/fcn_m-v2-d8_512x512_160k_ade20k/fcn_m-v2-d8_512x512_160k_ade20k_20200825_214953-c40e1095.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/mobilenet_v2/fcn_m-v2-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/mobilenet_v2/fcn_m-v2-d8_512x1024_80k_cityscapes/fcn_m-v2-d8_512x1024_80k_cityscapes_20200825_124817-d24c28c1.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/mobilenet_v2/pspnet_m-v2-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/mobilenet_v2/pspnet_m-v2-d8_512x512_160k_ade20k/pspnet_m-v2-d8_512x512_160k_ade20k_20200825_214953-f5942f7a.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/mobilenet_v2/pspnet_m-v2-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/mobilenet_v2/pspnet_m-v2-d8_512x1024_80k_cityscapes/pspnet_m-v2-d8_512x1024_80k_cityscapes_20200825_124817-19e81d51.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="MobileNetV3"><a href="#MobileNetV3" class="headerlink" title="MobileNetV3"></a>MobileNetV3</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/mobilenet_v3/lraspp_m-v3-d8_512x1024_320k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/mobilenet_v3/lraspp_m-v3-d8_512x1024_320k_cityscapes/lraspp_m-v3-d8_512x1024_320k_cityscapes_20201224_220337-cfe8fb07.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/mobilenet_v3/lraspp_m-v3-d8_scratch_512x1024_320k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/mobilenet_v3/lraspp_m-v3-d8_scratch_512x1024_320k_cityscapes/lraspp_m-v3-d8_scratch_512x1024_320k_cityscapes_20201224_220337-9f29cd72.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/mobilenet_v3/lraspp_m-v3s-d8_512x1024_320k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/mobilenet_v3/lraspp_m-v3s-d8_512x1024_320k_cityscapes/lraspp_m-v3s-d8_512x1024_320k_cityscapes_20201224_223935-61565b34.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/mobilenet_v3/lraspp_m-v3s-d8_scratch_512x1024_320k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/mobilenet_v3/lraspp_m-v3s-d8_scratch_512x1024_320k_cityscapes/lraspp_m-v3s-d8_scratch_512x1024_320k_cityscapes_20201224_223935-03daeabb.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Non-local-Neural-Networks"><a href="#Non-local-Neural-Networks" class="headerlink" title="Non-local Neural Networks"></a>Non-local Neural Networks</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r50-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/nonlocal_net/nonlocal_r50-d8_512x512_20k_voc12aug/nonlocal_r50-d8_512x512_20k_voc12aug_20200617_222613-07f2a57c.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r50-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/nonlocal_net/nonlocal_r50-d8_512x512_40k_voc12aug/nonlocal_r50-d8_512x512_40k_voc12aug_20200614_000028-0139d4a9.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r50-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/nonlocal_net/nonlocal_r50-d8_512x512_80k_ade20k/nonlocal_r50-d8_512x512_80k_ade20k_20200615_015801-5ae0aa33.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r50-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/nonlocal_net/nonlocal_r50-d8_512x512_160k_ade20k/nonlocal_r50-d8_512x512_160k_ade20k_20200616_005410-baef45e3.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r50-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/nonlocal_net/nonlocal_r50-d8_512x1024_40k_cityscapes/nonlocal_r50-d8_512x1024_40k_cityscapes_20200605_210748-c75e81e3.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r50-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/nonlocal_net/nonlocal_r50-d8_512x1024_80k_cityscapes/nonlocal_r50-d8_512x1024_80k_cityscapes_20200607_193518-d6839fae.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r50-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/nonlocal_net/nonlocal_r50-d8_769x769_40k_cityscapes/nonlocal_r50-d8_769x769_40k_cityscapes_20200530_045243-82ef6749.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r50-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/nonlocal_net/nonlocal_r50-d8_769x769_80k_cityscapes/nonlocal_r50-d8_769x769_80k_cityscapes_20200607_193506-1f9792f6.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r101-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/nonlocal_net/nonlocal_r101-d8_512x512_20k_voc12aug/nonlocal_r101-d8_512x512_20k_voc12aug_20200617_222615-948c68ab.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r101-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/nonlocal_net/nonlocal_r101-d8_512x512_40k_voc12aug/nonlocal_r101-d8_512x512_40k_voc12aug_20200614_000028-7e5ff470.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r101-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/nonlocal_net/nonlocal_r101-d8_512x512_80k_ade20k/nonlocal_r101-d8_512x512_80k_ade20k_20200615_015758-24105919.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r101-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/nonlocal_net/nonlocal_r101-d8_512x1024_40k_cityscapes/nonlocal_r101-d8_512x1024_40k_cityscapes_20200605_210748-d63729fa.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/nonlocal_net/nonlocal_r101-d8_512x1024_80k_cityscapes/nonlocal_r101-d8_512x1024_80k_cityscapes_20200607_183411-32700183.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r101-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/nonlocal_net/nonlocal_r101-d8_769x769_40k_cityscapes/nonlocal_r101-d8_769x769_40k_cityscapes_20200530_045348-8fe9a9dc.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/nonlocal_net/nonlocal_r101-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/nonlocal_net/nonlocal_r101-d8_769x769_80k_cityscapes/nonlocal_r101-d8_769x769_80k_cityscapes_20200607_183428-0e1fa4f9.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Object-Contextual-Representations-OCRNet"><a href="#Object-Contextual-Representations-OCRNet" class="headerlink" title="Object-Contextual Representations(OCRNet)"></a>Object-Contextual Representations(OCRNet)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr18s_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr18s_512x512_20k_voc12aug/ocrnet_hr18s_512x512_20k_voc12aug_20200617_233913-02b04fcb.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr18s_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr18s_512x512_40k_voc12aug/ocrnet_hr18s_512x512_40k_voc12aug_20200614_002025-42b587ac.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr18s_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr18s_512x512_80k_ade20k/ocrnet_hr18s_512x512_80k_ade20k_20200615_055600-e80b62af.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr18s_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr18s_512x512_160k_ade20k/ocrnet_hr18s_512x512_160k_ade20k_20200615_184505-8e913058.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr18s_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr18s_512x1024_40k_cityscapes/ocrnet_hr18s_512x1024_40k_cityscapes_20200601_033304-fa2436c2.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr18s_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr18s_512x1024_80k_cityscapes/ocrnet_hr18s_512x1024_80k_cityscapes_20200601_222735-55979e63.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr18s_512x1024_160k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr18s_512x1024_160k_cityscapes/ocrnet_hr18s_512x1024_160k_cityscapes_20200602_191005-f4a7af28.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr18_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr18_512x512_20k_voc12aug/ocrnet_hr18_512x512_20k_voc12aug_20200617_233932-8954cbb7.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr18_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr18_512x512_40k_voc12aug/ocrnet_hr18_512x512_40k_voc12aug_20200614_015958-714302be.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr18_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr18_512x512_80k_ade20k/ocrnet_hr18_512x512_80k_ade20k_20200615_053157-d173d83b.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr18_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr18_512x512_160k_ade20k/ocrnet_hr18_512x512_160k_ade20k_20200615_200940-d8fcd9d1.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr18_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr18_512x1024_40k_cityscapes/ocrnet_hr18_512x1024_40k_cityscapes_20200601_033320-401c5bdd.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr18_512x1024_80k_cityscapes.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr18_512x1024_160k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr18_512x1024_160k_cityscapes/ocrnet_hr18_512x1024_160k_cityscapes_20200602_191001-b9172d0c.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr48_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr48_512x512_20k_voc12aug/ocrnet_hr48_512x512_20k_voc12aug_20200617_233932-9e82080a.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr48_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr48_512x512_40k_voc12aug/ocrnet_hr48_512x512_40k_voc12aug_20200614_015958-255bc5ce.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr48_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr48_512x512_80k_ade20k/ocrnet_hr48_512x512_80k_ade20k_20200615_021518-d168c2d1.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr48_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr48_512x512_160k_ade20k/ocrnet_hr48_512x512_160k_ade20k_20200615_184705-a073726d.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr48_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr48_512x1024_40k_cityscapes/ocrnet_hr48_512x1024_40k_cityscapes_20200601_033336-55b32491.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr48_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr48_512x1024_80k_cityscapes/ocrnet_hr48_512x1024_80k_cityscapes_20200601_222752-9076bcdf.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_hr48_512x1024_160k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_hr48_512x1024_160k_cityscapes/ocrnet_hr48_512x1024_160k_cityscapes_20200602_191037-dfbf1b0c.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_r101-d8_512x1024_40k_b8_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_r101-d8_512x1024_40k_b8_cityscapes/ocrnet_r101-d8_512x1024_40k_b8_cityscapes-02ac0f13.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_r101-d8_512x1024_40k_b16_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_r101-d8_512x1024_40k_b16_cityscapes/ocrnet_r101-d8_512x1024_40k_b16_cityscapes-db500f80.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/ocrnet/ocrnet_r101-d8_512x1024_80k_b16_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/ocrnet/ocrnet_r101-d8_512x1024_80k_b16_cityscapes/ocrnet_r101-d8_512x1024_80k_b16_cityscapes-78688424.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="PointRend"><a href="#PointRend" class="headerlink" title="PointRend"></a>PointRend</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/point_rend/pointrend_r50_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/point_rend/pointrend_r50_512x512_160k_ade20k/pointrend_r50_512x512_160k_ade20k_20200807_232644-ac3febf2.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/point_rend/pointrend_r50_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/point_rend/pointrend_r50_512x1024_80k_cityscapes/pointrend_r50_512x1024_80k_cityscapes_20200711_015821-bb1ff523.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/point_rend/pointrend_r101_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/point_rend/pointrend_r101_512x512_160k_ade20k/pointrend_r101_512x512_160k_ade20k_20200808_030852-8834902a.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/point_rend/pointrend_r101_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/point_rend/pointrend_r101_512x1024_80k_cityscapes/pointrend_r101_512x1024_80k_cityscapes_20200711_170850-d0ca84be.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Point-wise-Spatial-Attention-Network-PSANet"><a href="#Point-wise-Spatial-Attention-Network-PSANet" class="headerlink" title="Point-wise Spatial Attention Network(PSANet)"></a>Point-wise Spatial Attention Network(PSANet)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r50-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r50-d8_512x512_20k_voc12aug/psanet_r50-d8_512x512_20k_voc12aug_20200617_102413-2f1bbaa1.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r50-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r50-d8_512x512_40k_voc12aug/psanet_r50-d8_512x512_40k_voc12aug_20200613_161946-f596afb5.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r50-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r50-d8_512x512_80k_ade20k/psanet_r50-d8_512x512_80k_ade20k_20200614_144141-835e4b97.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r50-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r50-d8_512x512_160k_ade20k/psanet_r50-d8_512x512_160k_ade20k_20200615_161258-148077dd.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r50-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r50-d8_512x1024_40k_cityscapes/psanet_r50-d8_512x1024_40k_cityscapes_20200606_103117-99fac37c.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r50-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r50-d8_512x1024_80k_cityscapes/psanet_r50-d8_512x1024_80k_cityscapes_20200606_161842-ab60a24f.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r50-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r50-d8_769x769_40k_cityscapes/psanet_r50-d8_769x769_40k_cityscapes_20200530_033717-d5365506.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r50-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r50-d8_769x769_80k_cityscapes/psanet_r50-d8_769x769_80k_cityscapes_20200606_225134-fe42f49e.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r101-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r101-d8_512x512_20k_voc12aug/psanet_r101-d8_512x512_20k_voc12aug_20200617_110624-946fef11.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r101-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r101-d8_512x512_40k_voc12aug/psanet_r101-d8_512x512_40k_voc12aug_20200613_161946-1f560f9e.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r101-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r101-d8_512x512_80k_ade20k/psanet_r101-d8_512x512_80k_ade20k_20200614_185117-1fab60d4.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r101-d8_512x512_160k_ade20k/psanet_r101-d8_512x512_160k_ade20k_20200615_161537-dbfa564c.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r101-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r101-d8_512x1024_40k_cityscapes/psanet_r101-d8_512x1024_40k_cityscapes_20200606_001418-27b9cfa7.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r101-d8_512x1024_80k_cityscapes/psanet_r101-d8_512x1024_80k_cityscapes_20200606_161823-0f73a169.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r101-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r101-d8_769x769_40k_cityscapes/psanet_r101-d8_769x769_40k_cityscapes_20200530_035107-997da1e6.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/psanet/psanet_r101-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/psanet/psanet_r101-d8_769x769_80k_cityscapes/psanet_r101-d8_769x769_80k_cityscapes_20200606_214550-7665827b.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Pyramid-Scene-Parsing-Network-PSPNet"><a href="#Pyramid-Scene-Parsing-Network-PSPNet" class="headerlink" title="Pyramid Scene Parsing Network(PSPNet)"></a>Pyramid Scene Parsing Network(PSPNet)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r18-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r18-d8_512x1024_80k_cityscapes/pspnet_r18-d8_512x1024_80k_cityscapes_20201225_021458-09ffa746.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r18-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r18-d8_769x769_80k_cityscapes/pspnet_r18-d8_769x769_80k_cityscapes_20201225_021458-3deefc62.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r18b-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r18b-d8_512x1024_80k_cityscapes/pspnet_r18b-d8_512x1024_80k_cityscapes_20201226_063116-26928a60.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r18b-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r18b-d8_769x769_80k_cityscapes/pspnet_r18b-d8_769x769_80k_cityscapes_20201226_080942-bf98d186.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r50-d8_480x480_40k_pascal_context.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r50-d8_480x480_80k_pascal_context.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r50-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r50-d8_512x512_20k_voc12aug/pspnet_r50-d8_512x512_20k_voc12aug_20200617_101958-ed5dfbd9.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r50-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r50-d8_512x512_40k_voc12aug/pspnet_r50-d8_512x512_40k_voc12aug_20200613_161222-ae9c1b8c.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r50-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r50-d8_512x512_80k_ade20k/pspnet_r50-d8_512x512_80k_ade20k_20200615_014128-15a8b914.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r50-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r50-d8_512x512_160k_ade20k/pspnet_r50-d8_512x512_160k_ade20k_20200615_184358-1890b0bd.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r50-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r50-d8_512x1024_40k_cityscapes/pspnet_r50-d8_512x1024_40k_cityscapes_20200605_003338-2966598c.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r50-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r50-d8_512x1024_80k_cityscapes/pspnet_r50-d8_512x1024_80k_cityscapes_20200606_112131-2376f12b.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r50-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r50-d8_769x769_40k_cityscapes/pspnet_r50-d8_769x769_40k_cityscapes_20200606_112725-86638686.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r50-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r50-d8_769x769_80k_cityscapes/pspnet_r50-d8_769x769_80k_cityscapes_20200606_210121-5ccf03dd.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r50b-d8_512x1024_40k_cityscapes.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r50b-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r50b-d8_512x1024_80k_cityscapes/pspnet_r50b-d8_512x1024_80k_cityscapes_20201225_094315-6344287a.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r50b-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r50b-d8_769x769_80k_cityscapes/pspnet_r50b-d8_769x769_80k_cityscapes_20201225_094316-4c643cf6.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r101-d8_480x480_40k_pascal_context.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r101-d8_480x480_40k_pascal_context/pspnet_r101-d8_480x480_40k_pascal_context_20200911_211210-bf0f5d7c.pth</code></td>
+</tr>
+<tr>
+<td>Pascal Context</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r101-d8_480x480_80k_pascal_context.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r101-d8_480x480_80k_pascal_context/pspnet_r101-d8_480x480_80k_pascal_context_20200911_190530-c86d6233.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r101-d8_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r101-d8_512x512_20k_voc12aug/pspnet_r101-d8_512x512_20k_voc12aug_20200617_102003-4aef3c9a.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r101-d8_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r101-d8_512x512_40k_voc12aug/pspnet_r101-d8_512x512_40k_voc12aug_20200613_161222-bc933b18.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r101-d8_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r101-d8_512x512_80k_ade20k/pspnet_r101-d8_512x512_80k_ade20k_20200614_031423-b6e782f0.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r101-d8_512x512_160k_ade20k/pspnet_r101-d8_512x512_160k_ade20k_20200615_100650-967c316f.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r101-d8_512x1024_80k_cityscapes/pspnet_r101-d8_512x1024_80k_cityscapes_20200606_112211-e1e1100f.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r101-d8_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r101-d8_769x769_40k_cityscapes/pspnet_r101-d8_769x769_40k_cityscapes_20200606_112753-61c6f5be.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r101-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r101-d8_769x769_80k_cityscapes/pspnet_r101-d8_769x769_80k_cityscapes_20200606_225055-dba412fa.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r101b-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r101b-d8_512x1024_80k_cityscapes/pspnet_r101b-d8_512x1024_80k_cityscapes_20201226_170012-3a4d38ab.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/pspnet/pspnet_r101b-d8_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/pspnet/pspnet_r101b-d8_769x769_80k_cityscapes/pspnet_r101b-d8_769x769_80k_cityscapes_20201226_171823-f0e7c293.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="ResNeSt"><a href="#ResNeSt" class="headerlink" title="ResNeSt"></a>ResNeSt</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/resnest/deeplabv3plus_s101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/resnest/deeplabv3plus_s101-d8_512x512_160k_ade20k/deeplabv3plus_s101-d8_512x512_160k_ade20k_20200807_144503-27b26226.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/resnest/deeplabv3plus_s101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/resnest/deeplabv3plus_s101-d8_512x1024_80k_cityscapes/deeplabv3plus_s101-d8_512x1024_80k_cityscapes_20200807_144429-1239eb43.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/resnest/deeplabv3_s101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/resnest/deeplabv3_s101-d8_512x512_160k_ade20k/deeplabv3_s101-d8_512x512_160k_ade20k_20200807_144503-17ecabe5.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/resnest/deeplabv3_s101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/resnest/deeplabv3_s101-d8_512x1024_80k_cityscapes/deeplabv3_s101-d8_512x1024_80k_cityscapes_20200807_144429-b73c4270.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/resnest/fcn_s101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/resnest/fcn_s101-d8_512x512_160k_ade20k/fcn_s101-d8_512x512_160k_ade20k_20200807_145416-d3160329.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/resnest/fcn_s101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/resnest/fcn_s101-d8_512x1024_80k_cityscapes/fcn_s101-d8_512x1024_80k_cityscapes_20200807_140631-f8d155b3.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/resnest/pspnet_s101-d8_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/resnest/pspnet_s101-d8_512x512_160k_ade20k/pspnet_s101-d8_512x512_160k_ade20k_20200807_145416-a6daa92a.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/resnest/pspnet_s101-d8_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/resnest/pspnet_s101-d8_512x1024_80k_cityscapes/pspnet_s101-d8_512x1024_80k_cityscapes_20200807_140631-c75f3b99.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Panoptic-Feature-Pyramid-Networks-SemFPN"><a href="#Panoptic-Feature-Pyramid-Networks-SemFPN" class="headerlink" title="Panoptic Feature Pyramid Networks(SemFPN)"></a>Panoptic Feature Pyramid Networks(SemFPN)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/sem_fpn/fpn_r50_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/sem_fpn/fpn_r50_512x512_160k_ade20k/fpn_r50_512x512_160k_ade20k_20200718_131734-5b5a6ab9.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/sem_fpn/fpn_r50_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/sem_fpn/fpn_r50_512x1024_80k_cityscapes/fpn_r50_512x1024_80k_cityscapes_20200717_021437-94018a0d.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/sem_fpn/fpn_r101_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/sem_fpn/fpn_r101_512x512_160k_ade20k/fpn_r101_512x512_160k_ade20k_20200718_131734-306b5004.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/sem_fpn/fpn_r101_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/sem_fpn/fpn_r101_512x1024_80k_cityscapes/fpn_r101_512x1024_80k_cityscapes_20200717_012416-c5800d4c.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="U-Net-Biological"><a href="#U-Net-Biological" class="headerlink" title="U-Net(Biological)"></a>U-Net(Biological)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DRIVE</td>
+<td><code>mmlab/mmsegmentation/configs/unet/deeplabv3_unet_s5-d16_64x64_40k_drive.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/unet/deeplabv3_unet_s5-d16_64x64_40k_drive/deeplabv3_unet_s5-d16_64x64_40k_drive_20201226_094047-0671ff20.pth</code></td>
+</tr>
+<tr>
+<td>CHASE_DB1</td>
+<td><code>mmlab/mmsegmentation/configs/unet/deeplabv3_unet_s5-d16_128x128_40k_chase_db1.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/unet/deeplabv3_unet_s5-d16_128x128_40k_chase_db1/deeplabv3_unet_s5-d16_128x128_40k_chase_db1_20201226_094047-4c5aefa3.pth</code></td>
+</tr>
+<tr>
+<td>STARE</td>
+<td><code>mmlab/mmsegmentation/configs/unet/deeplabv3_unet_s5-d16_128x128_40k_stare.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/unet/deeplabv3_unet_s5-d16_128x128_40k_stare/deeplabv3_unet_s5-d16_128x128_40k_stare_20201226_094047-93dcb93c.pth</code></td>
+</tr>
+<tr>
+<td>HRF</td>
+<td><code>mmlab/mmsegmentation/configs/unet/deeplabv3_unet_s5-d16_256x256_40k_hrf.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/unet/deeplabv3_unet_s5-d16_256x256_40k_hrf/deeplabv3_unet_s5-d16_256x256_40k_hrf_20201226_094047-3a1fdf85.pth</code></td>
+</tr>
+<tr>
+<td>DRIVE</td>
+<td><code>mmlab/mmsegmentation/configs/unet/fcn_unet_s5-d16_64x64_40k_drive.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>CHASE_DB1</td>
+<td><code>mmlab/mmsegmentation/configs/unet/fcn_unet_s5-d16_128x128_40k_chase_db1.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>STARE</td>
+<td><code>mmlab/mmsegmentation/configs/unet/fcn_unet_s5-d16_128x128_40k_stare.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>HRF</td>
+<td><code>mmlab/mmsegmentation/configs/unet/fcn_unet_s5-d16_256x256_40k_hrf.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>DRIVE</td>
+<td><code>mmlab/mmsegmentation/configs/unet/pspnet_unet_s5-d16_64x64_40k_drive.py</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>CHASE_DB1</td>
+<td><code>mmlab/mmsegmentation/configs/unet/pspnet_unet_s5-d16_128x128_40k_chase_db1.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/unet/pspnet_unet_s5-d16_128x128_40k_chase_db1/pspnet_unet_s5-d16_128x128_40k_chase_db1_20201227_181818-68d4e609.pth</code></td>
+</tr>
+<tr>
+<td>STARE</td>
+<td><code>mmlab/mmsegmentation/configs/unet/pspnet_unet_s5-d16_128x128_40k_stare.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/unet/pspnet_unet_s5-d16_128x128_40k_stare/pspnet_unet_s5-d16_128x128_40k_stare_20201227_181818-3c2923c4.pth</code></td>
+</tr>
+<tr>
+<td>HRF</td>
+<td><code>mmlab/mmsegmentation/configs/unet/pspnet_unet_s5-d16_256x256_40k_hrf.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/unet/pspnet_unet_s5-d16_256x256_40k_hrf/pspnet_unet_s5-d16_256x256_40k_hrf_20201227_181818-fdb7e29b.pth</code></td>
+</tr>
+</tbody></table>
+<h2 id="Unified-Perceptual-Parsing-UPerNet"><a href="#Unified-Perceptual-Parsing-UPerNet" class="headerlink" title="Unified Perceptual Parsing(UPerNet)"></a>Unified Perceptual Parsing(UPerNet)</h2><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>config</th>
+<th>pretrained</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r50_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r50_512x512_20k_voc12aug/upernet_r50_512x512_20k_voc12aug_20200617_165330-5b5890a7.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r50_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r50_512x512_40k_voc12aug/upernet_r50_512x512_40k_voc12aug_20200613_162257-ca9bcc6b.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r50_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r50_512x512_80k_ade20k/upernet_r50_512x512_80k_ade20k_20200614_144127-ecc8377b.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r50_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r50_512x512_160k_ade20k/upernet_r50_512x512_160k_ade20k_20200615_184328-8534de8d.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r50_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r50_512x1024_40k_cityscapes/upernet_r50_512x1024_40k_cityscapes_20200605_094827-aa54cb54.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r50_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r50_512x1024_80k_cityscapes/upernet_r50_512x1024_80k_cityscapes_20200607_052207-848beca8.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r50_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r50_769x769_40k_cityscapes/upernet_r50_769x769_40k_cityscapes_20200530_033048-92d21539.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r50_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r50_769x769_80k_cityscapes/upernet_r50_769x769_80k_cityscapes_20200607_005107-82ae7d15.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r101_512x512_20k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r101_512x512_20k_voc12aug/upernet_r101_512x512_20k_voc12aug_20200617_165629-f14e7f27.pth</code></td>
+</tr>
+<tr>
+<td>Pascal VOC 2012 + Aug</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r101_512x512_40k_voc12aug.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r101_512x512_40k_voc12aug/upernet_r101_512x512_40k_voc12aug_20200613_163549-e26476ac.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r101_512x512_80k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r101_512x512_80k_ade20k/upernet_r101_512x512_80k_ade20k_20200614_185117-32e4db94.pth</code></td>
+</tr>
+<tr>
+<td>ADE20K</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r101_512x512_160k_ade20k.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r101_512x512_160k_ade20k/upernet_r101_512x512_160k_ade20k_20200615_161951-91b32684.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r101_512x1024_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r101_512x1024_40k_cityscapes/upernet_r101_512x1024_40k_cityscapes_20200605_094933-ebce3b10.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r101_512x1024_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r101_512x1024_80k_cityscapes/upernet_r101_512x1024_80k_cityscapes_20200607_002403-f05f2345.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r101_769x769_40k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r101_769x769_40k_cityscapes/upernet_r101_769x769_40k_cityscapes_20200530_040819-83c95d01.pth</code></td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td><code>mmlab/mmsegmentation/configs/upernet/upernet_r101_769x769_80k_cityscapes.py</code></td>
+<td><code>mmlab/mmsegmentation/checkpoints/upernet/upernet_r101_769x769_80k_cityscapes/upernet_r101_769x769_80k_cityscapes_20200607_001014-082fc334.pth</code></td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/04/11/group_report/mmcls_default_configs/" rel="prev" title="mmcls目标检测配置列表v0.0">
+      <i class="fa fa-chevron-left"></i> mmcls目标检测配置列表v0.0
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%95%B0%E6%8D%AE%E9%9B%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">一些数据集配置文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%A8%A1%E5%9E%8B%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">一些模型配置文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E8%B6%85%E5%8F%82%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">一些超参配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%AE%8C%E6%95%B4%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">一些完整的配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Asymmetric-Non-local-Neural-Networks-ANN"><span class="nav-number">4.1.</span> <span class="nav-text">Asymmetric Non-local Neural Networks(ANN)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Adaptive-Pyramid-Context-Network-APCNet"><span class="nav-number">4.2.</span> <span class="nav-text">Adaptive Pyramid Context Network(APCNet)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Criss-Cross-Attention-CCNet"><span class="nav-number">4.3.</span> <span class="nav-text">Criss-Cross Attention(CCNet)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Context-Guided-Network-CGNet"><span class="nav-number">4.4.</span> <span class="nav-text">Context Guided Network(CGNet)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dual-Attention-Network-DANet"><span class="nav-number">4.5.</span> <span class="nav-text">Dual Attention Network(DANet)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DeepLabv3"><span class="nav-number">4.6.</span> <span class="nav-text">DeepLabv3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DeepLabv3-1"><span class="nav-number">4.7.</span> <span class="nav-text">DeepLabv3+</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dynamic-Multi-scale-Filters-DMNet"><span class="nav-number">4.8.</span> <span class="nav-text">Dynamic Multi-scale Filters(DMNet)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Disentangled-Non-Local-Neural-Networks-DNLNet"><span class="nav-number">4.9.</span> <span class="nav-text">Disentangled Non-Local Neural Networks(DNLNet)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Expectation-Maximization-Attention-Networks-EMANet"><span class="nav-number">4.10.</span> <span class="nav-text">Expectation-Maximization Attention Networks(EMANet)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Context-Encoding-ENCNet"><span class="nav-number">4.11.</span> <span class="nav-text">Context Encoding(ENCNet)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fast-SCNN"><span class="nav-number">4.12.</span> <span class="nav-text">Fast-SCNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fully-Convolutional-Networks-FCN"><span class="nav-number">4.13.</span> <span class="nav-text">Fully Convolutional Networks(FCN)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mixed-Precision-Training-Fp16"><span class="nav-number">4.14.</span> <span class="nav-text">Mixed Precision Training(Fp16)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GCNet"><span class="nav-number">4.15.</span> <span class="nav-text">GCNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#High-Resolution-Representation-Learning-HRNet"><span class="nav-number">4.16.</span> <span class="nav-text">High-Resolution Representation Learning(HRNet)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MobileNetV2"><span class="nav-number">4.17.</span> <span class="nav-text">MobileNetV2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MobileNetV3"><span class="nav-number">4.18.</span> <span class="nav-text">MobileNetV3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Non-local-Neural-Networks"><span class="nav-number">4.19.</span> <span class="nav-text">Non-local Neural Networks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Object-Contextual-Representations-OCRNet"><span class="nav-number">4.20.</span> <span class="nav-text">Object-Contextual Representations(OCRNet)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PointRend"><span class="nav-number">4.21.</span> <span class="nav-text">PointRend</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Point-wise-Spatial-Attention-Network-PSANet"><span class="nav-number">4.22.</span> <span class="nav-text">Point-wise Spatial Attention Network(PSANet)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pyramid-Scene-Parsing-Network-PSPNet"><span class="nav-number">4.23.</span> <span class="nav-text">Pyramid Scene Parsing Network(PSPNet)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ResNeSt"><span class="nav-number">4.24.</span> <span class="nav-text">ResNeSt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Panoptic-Feature-Pyramid-Networks-SemFPN"><span class="nav-number">4.25.</span> <span class="nav-text">Panoptic Feature Pyramid Networks(SemFPN)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#U-Net-Biological"><span class="nav-number">4.26.</span> <span class="nav-text">U-Net(Biological)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unified-Perceptual-Parsing-UPerNet"><span class="nav-number">4.27.</span> <span class="nav-text">Unified Perceptual Parsing(UPerNet)</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="杨熊"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">杨熊</p>
+  <div class="site-description" itemprop="description">善恶到头终有报，只争来早与来迟</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨熊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
