@@ -147,455 +147,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/10/group_report/Generalized_CV/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="杨熊">
-      <meta itemprop="description" content="善恶到头终有报，只争来早与来迟">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="暴走白熊的小窝">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/10/group_report/Generalized_CV/" class="post-title-link" itemprop="url">人工智能普适化平台（CV+深度模型）详细设计文档v0.0</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-10 15:48:37" itemprop="dateCreated datePublished" datetime="2021-04-10T15:48:37+08:00">2021-04-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-12 13:43:53" itemprop="dateModified" datetime="2021-04-12T13:43:53+08:00">2021-04-12</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="人工智能普适化平台（CV-深度模型）详细设计文档v0-0"><a href="#人工智能普适化平台（CV-深度模型）详细设计文档v0-0" class="headerlink" title="人工智能普适化平台（CV+深度模型）详细设计文档v0.0"></a>人工智能普适化平台（CV+深度模型）详细设计文档v0.0</h1><h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h2><p>目前已有的数据集、模型等都已经部署于超算平台183.129.217.214:20156。</p>
-<p>暂时只能支持PyTorch框架下编写的深度模型。</p>
-<h3 id="1-1-编写目的"><a href="#1-1-编写目的" class="headerlink" title="1.1 编写目的"></a>1.1 编写目的</h3><p>本文档是人工智能普适化平台（CV+深度模型）的设计文档，<br>其目的是明确平台的需求和支持项目组内部的研发工作。<br>该文档描述了人工智能普适化——CV深度模型管理平台DEMO的功能设计，<br>平台的DEMO将按照这个设计文档进行开发，<br>适用于本平台的设计人员和开发人员。</p>
-<p><strong>为了简便起见，目前仅描述后端运行任务时实现的一些工作。与前端相关的功能暂时省略，有关前端的功能仅提供一些构想。</strong></p>
-<p>本设计文档应涵盖人工智能普适化（CV+深度模型）管理平台DEMO的所有功能设计、系统架构设计、接口设计、数据库设计等具体内容。</p>
-<h3 id="1-2-功能资料"><a href="#1-2-功能资料" class="headerlink" title="1.2 功能资料"></a>1.2 功能资料</h3><p><span id="Function_Document"></span>交互稿待补充。目前暂时用博客代替，预计主要包含以下六大模块(预计仍将继续补充一些模块，打勾的表明该框架下所有任务类型跑通，未打勾则表明该框架下部分任务仍未跑通)：</p>
-<ul>
-<li><input checked="" disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/03/15/group_report/mmcls/">图像分类</a></li>
-<li><input checked="" disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/03/15/group_report/mmdet/">目标检测</a></li>
-<li><input checked="" disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/03/22/group_report/mmseg/">语义分割</a></li>
-<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/03/25/group_report/mmedit/">图像编辑</a></li>
-<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/03/26/group_report/mmtrack/">目标跟踪</a></li>
-<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/03/26/group_report/mmact/">动作检测</a></li>
-</ul>
-<p>以上六个模块分别对应留个大类任务，每个任务下还有对应的子任务，如下：</p>
-<ul>
-<li>mmclassification（图像分类）<ul>
-<li>单标签分类</li>
-<li>多标签分类</li>
-</ul>
-</li>
-<li>mmdetection（目标检测）<ul>
-<li>Object Detection</li>
-<li>Instance Segmentation</li>
-</ul>
-</li>
-<li>mmsegmentation（语义分割）<ul>
-<li>Semantic Segmentation（语义分割）</li>
-</ul>
-</li>
-<li>mmediting（图像编辑）<ul>
-<li>Super-Resolution（超分辨率）</li>
-<li>Image Generation（图像生成，目前只有风格迁移）</li>
-<li>Image Inpainting（图像修复）</li>
-<li>Image Matting（抠图）</li>
-</ul>
-</li>
-<li>mmtracking（目标追踪）<ul>
-<li>Video Object Detection（视频目标检测）</li>
-<li>Single Object Tracking（单目标追踪）</li>
-<li>Multi Object Tracking（多目标追踪）</li>
-</ul>
-</li>
-<li>mmaction2（动作检测）<ul>
-<li>Action Recognition（动作识别）</li>
-<li>Action Localization（动作定位）</li>
-</ul>
-</li>
-</ul>
-<h3 id="1-3-软硬件环境"><a href="#1-3-软硬件环境" class="headerlink" title="1.3 软硬件环境"></a>1.3 软硬件环境</h3><p>由于项目处于起步阶段，软硬件条件均较为有限。目前使用的硬件仅有一张Tesla V100。目前使用CUDA 11.0、PyTorch 1.7与mmcv 1.2.7。</p>
-<h3 id="1-4-准备工作（仅第一次配置环境时使用）"><a href="#1-4-准备工作（仅第一次配置环境时使用）" class="headerlink" title="1.4 准备工作（仅第一次配置环境时使用）"></a>1.4 准备工作（仅第一次配置环境时使用）</h3><h4 id="安装PyTorch"><a href="#安装PyTorch" class="headerlink" title="安装PyTorch"></a>安装PyTorch</h4><pre><code>pip install torch==1.7.0 torchvision==0.8.0 torchaudio==0.7.0
-</code></pre>
-<h4 id="建立mmcv基本库"><a href="#建立mmcv基本库" class="headerlink" title="建立mmcv基本库"></a>建立mmcv基本库</h4><pre><code>pip install mmcv-full==1.2.7 -f https://download.openmmlab.com/mmcv/dist/cu102/torch1.7.0/index.html
-</code></pre>
-<h4 id="建立mmcls本地库"><a href="#建立mmcls本地库" class="headerlink" title="建立mmcls本地库"></a>建立mmcls本地库</h4><pre><code>cd mmlab/mmclassification
-pip install -e .
-</code></pre>
-<h4 id="建立mmdet本地库"><a href="#建立mmdet本地库" class="headerlink" title="建立mmdet本地库"></a>建立mmdet本地库</h4><pre><code>cd mmlab/mmdetection
-pip install -r requirements/build.txt
-pip install -v -e .
-</code></pre>
-<h4 id="建立mmsegmentation本地库"><a href="#建立mmsegmentation本地库" class="headerlink" title="建立mmsegmentation本地库"></a>建立mmsegmentation本地库</h4><pre><code>cd /mmlab/mmsegmentation
-pip install -e .
-</code></pre>
-<h3 id="建立mmedit本地库"><a href="#建立mmedit本地库" class="headerlink" title="建立mmedit本地库"></a>建立mmedit本地库</h3><pre><code>cd mmlab/mmediting
-pip install -v -e .
-</code></pre>
-<h4 id="建立mmaction2本地库"><a href="#建立mmaction2本地库" class="headerlink" title="建立mmaction2本地库"></a>建立mmaction2本地库</h4><pre><code>cd mmlab/mmaction2
-pip install -r requirements/build.txt
-pip install -v -e .
-</code></pre>
-<h3 id="建立mmtrack本地库"><a href="#建立mmtrack本地库" class="headerlink" title="建立mmtrack本地库"></a>建立mmtrack本地库</h3><pre><code>cd mmlab/mmtracking
-pip install -r requirements.txt
-pip install -v -e .
-</code></pre>
-<hr>
-<h2 id="2-功能设计"><a href="#2-功能设计" class="headerlink" title="2. 功能设计"></a>2. 功能设计</h2><p>系统目标是提供计算机视觉相关深度模型和数据集的构建、管理和服务能力。</p>
-<p>目前个人能想到的可能要实现的模块主要包括：</p>
-<ul>
-<li><input disabled="" type="checkbox"> 用户和登录模块</li>
-<li><input disabled="" type="checkbox"> 用户主页模块</li>
-<li><input disabled="" type="checkbox"> 帮助模块</li>
-<li><input disabled="" type="checkbox"> 数据集管理模块</li>
-<li><input disabled="" type="checkbox"> 深度模型管理模块</li>
-<li><input disabled="" type="checkbox"> 任务管理模块</li>
-</ul>
-<p>其中任务流水线构造模块是核心功能，它提供了用户选择数据集、构造模型，以及最终装配一个任务的全部流程步骤的交互，提供了结果的查看、分析功能。</p>
-<table>
-<thead>
-<tr>
-<th>功能模块</th>
-<th>功能点</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>用户和登录模块</td>
-<td>1. 用户登录</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>2. 用户注册</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td>用户主页和帮助模块</td>
-<td>1. 首页</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>2. 数据集上传说明</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>3. 模型/模型组件上传说明</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>4. 任务制定说明</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>5. 知识蒸馏说明</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>6. 模型发布/共享说明</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td>数据集管理模块</td>
-<td>1. 数据集列表</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>2. 数据集预览</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>3. 默认配置列表</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>4. 数据集编辑</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>5. 数据集导入</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>6. 数据集导出</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>7. 数据集删除</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>8. 数据标注模块</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td>深度模型管理模块</td>
-<td>1. 组件信息列表</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>2. 默认配置列表</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>3. 组件编辑模块</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>4. 组件导入模块</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>5. 模型导入模块</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>6. 模型构建模块</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td>任务管理模块</td>
-<td>1. 配置创建模块</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>2. 样板任务列表</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>3. 配置编辑模块</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>4. log分析模块</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>5. 结果分析模块</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>6. 迁移模块</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>7. 知识蒸馏模块</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>8. 模型发布模块</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>9. 自动调参模块</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>10. 正在运行/未配置完成的任务列表及信息展示</td>
-<td>暂未实现</td>
-</tr>
-<tr>
-<td></td>
-<td>11. 已运行完成的任务列表及信息展示</td>
-<td>暂未实现</td>
-</tr>
-</tbody></table>
-<p>以上内容为本人想像的可能需要具体实现的一些内容，其中的细节暂时省略。</p>
-<h2 id="3-系统架构设计"><a href="#3-系统架构设计" class="headerlink" title="3. 系统架构设计"></a>3. 系统架构设计</h2><h3 id="3-1-设计目标、原则和约束"><a href="#3-1-设计目标、原则和约束" class="headerlink" title="3.1 设计目标、原则和约束"></a>3.1 设计目标、原则和约束</h3><p>本项目系统架构设计主要目标在于完成项目业务的需求，实现CV+深度模型普适化平台的基本功能。<br>这些基本功能包括：数据集的上传与管理、模型的推荐与管理、任务配置制定和运行。</p>
-<h3 id="3-2-逻辑架构设计"><a href="#3-2-逻辑架构设计" class="headerlink" title="3.2 逻辑架构设计"></a>3.2 逻辑架构设计</h3><h4 id="3-2-1-设计思想"><a href="#3-2-1-设计思想" class="headerlink" title="3.2.1 设计思想"></a>3.2.1 设计思想</h4><p>由于在不同任务中，模型的架构和运行流水线、使用的tricks、能够产生的输出，甚至要求数据集提供的信息相差均较大，<br>我们使用mmlab的方式，先按照运行流程的相似性将任务分为若干个大类，然后再具体细分至每一个任务。这样各个大类任务之间的调整是相互独立的，不会影响相关性较低的任务，便于拓展和维护。</p>
-<h4 id="3-2-2-整体框架"><a href="#3-2-2-整体框架" class="headerlink" title="3.2.2 整体框架"></a>3.2.2 整体框架</h4><p>本项目整体模块图如图所示，主要包含数据集管理、模型管理、任务管理三个大模块，其中模型管理下又分为六大类任务。一个较为简单的文件存储系统如下：</p>
-<p><img src="https://huawei.best/2021/04/10/61243b017adf4.png" alt="系统架构"></p>
-<h2 id="4-调用配置"><a href="#4-调用配置" class="headerlink" title="4. 调用配置"></a>4. 调用配置</h2><p>比起接口，这一节主要介绍与我们运行完整的任务流程相关的内容。</p>
-<p>为了便于前端想向后端传递信息，配置文件都写成了字典的形式。</p>
-<p>有些不便展开的细节我们将按照任务大类分文档维护。</p>
-<p>对于所有模块，<code>type</code>即调用的python类名，同一模块下的其他参数均是该类的初始化参数。</p>
-<h3 id="4-1-数据集"><a href="#4-1-数据集" class="headerlink" title="4.1 数据集"></a>4.1 数据集</h3><p>暂未将其制成数据库。我们目前用一个json文件存储数据集信息。</p>
-<p>这些信息主要包括程序运行必要的信息，如数据集ID(id)、解析类型(type)、数据集类别(categories)、可用的任务类型(task)、数据集路径(path)、额外参数(CLASSES)。</p>
-<p>以下是一个自定义口罩识别数据集信息的例子：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;id&quot;</span>: <span class="number">4</span>,</span><br><span class="line">    <span class="attr">&quot;dataset_name&quot;</span>: <span class="string">&quot;VOCFaceMask&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;categories&quot;</span>: [<span class="string">&quot;Computer Vision&quot;</span>],</span><br><span class="line">    <span class="attr">&quot;task&quot;</span>: [<span class="string">&quot;Object_Detection&quot;</span>],</span><br><span class="line">    <span class="attr">&quot;type&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;Object_Detection&quot;</span>: <span class="string">&quot;VOCStyleDataset&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;path&quot;</span>: <span class="string">&quot;./data/VOCdevkit/VOCFaceMask&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;additional_args&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;CLASSES&quot;</span>: [<span class="string">&quot;face&quot;</span>, <span class="string">&quot;face_mask&quot;</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;tags&quot;</span>: [<span class="string">&quot;图像&quot;</span>, <span class="string">&quot;目标检测&quot;</span>],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这些信息中：</p>
-<ul>
-<li><code>id</code>是数据集的唯一标识符</li>
-<li><code>dataset_name</code>是数据集的名称</li>
-<li><code>categories</code>表示数据集可用于哪个领域。目前这个值没用，只是为拓展到自然语言处理等其他任务做准备。</li>
-<li><code>task</code>表示该数据集可用的任务类型。这个值可用于决定使用哪个框架下的训练流程。</li>
-<li><code>type</code>表示对应不同任务，解析该数据集用的python类的名称。</li>
-<li><code>path</code>表示数据集的存储路径</li>
-<li><code>additional_args</code>表示一些可能额外输入的参数。比如自定义的数据集是需要输入类名的。</li>
-<li><code>tags</code>仅仅是用于展示给用户看的一些标签</li>
-</ul>
-<p>每个数据集都有一些对应的默认配置，这些默认配置会涉及一些数据预处理手段。由于全部列出会导致篇幅过大，这里不列出所有配置。这些配置主要是为了加入一些数据预处理手段，设定batch_size等。其中一个例子(COCO2017用于实例分割)如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">dataset_type = <span class="string">&#x27;CocoDataset&#x27;</span>    <span class="comment"># 解析该数据集的python类名</span></span><br><span class="line">data_root = <span class="string">&#x27;data/coco/&#x27;</span>    <span class="comment"># 该数据集所在的位置</span></span><br><span class="line">img_norm_cfg = <span class="built_in">dict</span>(</span><br><span class="line">    mean=[<span class="number">123.675</span>, <span class="number">116.28</span>, <span class="number">103.53</span>], std=[<span class="number">58.395</span>, <span class="number">57.12</span>, <span class="number">57.375</span>], to_rgb=<span class="literal">True</span>)   <span class="comment"># 图像正则化参数</span></span><br><span class="line">train_pipeline = [</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadImageFromFile&#x27;</span>),    <span class="comment"># 读取图像数据</span></span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadAnnotations&#x27;</span>, with_bbox=<span class="literal">True</span>, with_mask=<span class="literal">True</span>),    <span class="comment"># 读取标注</span></span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Resize&#x27;</span>, img_scale=(<span class="number">1333</span>, <span class="number">800</span>), keep_ratio=<span class="literal">True</span>),    <span class="comment"># 缩放选项</span></span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;RandomFlip&#x27;</span>, flip_ratio=<span class="number">0.5</span>),    <span class="comment"># 以0.5概率随机反转</span></span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Normalize&#x27;</span>, **img_norm_cfg),    <span class="comment"># 图像正则化</span></span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Pad&#x27;</span>, size_divisor=<span class="number">32</span>),    <span class="comment"># 通过padding将图像长宽补足为32的倍数</span></span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;DefaultFormatBundle&#x27;</span>),</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Collect&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>, <span class="string">&#x27;gt_bboxes&#x27;</span>, <span class="string">&#x27;gt_labels&#x27;</span>, <span class="string">&#x27;gt_masks&#x27;</span>]),    <span class="comment"># 使用的信息</span></span><br><span class="line">]   <span class="comment"># 使用list决定训练流水线</span></span><br><span class="line">test_pipeline = [</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadImageFromFile&#x27;</span>),</span><br><span class="line">    <span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;MultiScaleFlipAug&#x27;</span>,</span><br><span class="line">        img_scale=(<span class="number">1333</span>, <span class="number">800</span>),</span><br><span class="line">        flip=<span class="literal">False</span>,</span><br><span class="line">        transforms=[</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Resize&#x27;</span>, keep_ratio=<span class="literal">True</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;RandomFlip&#x27;</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Normalize&#x27;</span>, **img_norm_cfg),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Pad&#x27;</span>, size_divisor=<span class="number">32</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;ImageToTensor&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>]),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Collect&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>]),</span><br><span class="line">        ])</span><br><span class="line">]   <span class="comment"># 使用list决定测试流水线</span></span><br><span class="line">data = <span class="built_in">dict</span>(</span><br><span class="line">    samples_per_gpu=<span class="number">8</span>,   <span class="comment"># 每个GPU的样本数量，实际batch_size未实际使用的GPU数乘以此数</span></span><br><span class="line">    workers_per_gpu=<span class="number">2</span>,   <span class="comment"># 每个GPU上布置的worker数量</span></span><br><span class="line">    train=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=dataset_type,</span><br><span class="line">        ann_file=data_root + <span class="string">&#x27;annotations/instances_train2017.json&#x27;</span>,    <span class="comment"># 训练集标注文件指定</span></span><br><span class="line">        img_prefix=data_root + <span class="string">&#x27;train2017/&#x27;</span>,    <span class="comment"># 训练集所在文件夹</span></span><br><span class="line">        pipeline=train_pipeline),</span><br><span class="line">    val=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=dataset_type,</span><br><span class="line">        ann_file=data_root + <span class="string">&#x27;annotations/instances_val2017.json&#x27;</span>,    <span class="comment"># 验证集标注文件指定</span></span><br><span class="line">        img_prefix=data_root + <span class="string">&#x27;val2017/&#x27;</span>,    <span class="comment"># 验证集所在文件夹</span></span><br><span class="line">        pipeline=test_pipeline),</span><br><span class="line">    test=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=dataset_type,</span><br><span class="line">        ann_file=data_root + <span class="string">&#x27;annotations/instances_val2017.json&#x27;</span>,    <span class="comment"># 测试机标注文件指定</span></span><br><span class="line">        img_prefix=data_root + <span class="string">&#x27;val2017/&#x27;</span>,    <span class="comment"># 测试集所在文件夹</span></span><br><span class="line">        pipeline=test_pipeline))</span><br><span class="line">evaluation = <span class="built_in">dict</span>(metric=[<span class="string">&#x27;bbox&#x27;</span>, <span class="string">&#x27;segm&#x27;</span>])    <span class="comment"># 使用的度量类型</span></span><br></pre></td></tr></table></figure>
-
-<p>由于对应每一个任务的数据集配置可能略有差异，将另建一个文档来逐任务描述配置文件中的更多细节。并列表说明数据集部分每一个模块对应的参数。</p>
-<h3 id="4-2-模型"><a href="#4-2-模型" class="headerlink" title="4.2 模型"></a>4.2 模型</h3><p>模型根据不同的任务，有不同的组装方式。若要对模型进行配置，需要根据不同任务类型，将模型的各个部件以dict的形式组装起来。</p>
-<p>这些内容将分文档描述。由于各人物间模型配置文件差异较大，难以寻找统一格式，这里不再展开细节，详情请见<a href="#Function_Document">功能资料</a>中的文档说明。</p>
-<h3 id="4-3-任务"><a href="#4-3-任务" class="headerlink" title="4.3 任务"></a>4.3 任务</h3><p>在数据集和模型都准备完成后，可以开始进行最终任务配置的组装了。不过我们还需要指定一些超参，以及一些其他的配置才能获得一个完整的配置。在配置文件完成之后，我们依次进行训练、测试、log分析、结果分析四个步骤，来获得我们完成一个任务所需要记录的所有信息。接下来我们将逐步介绍每一步应当如何完成。</p>
-<p>由于模型结构差异较大，不同类型的任务调用的接口是不同的。</p>
-<ul>
-<li>图像分类(mmcls)<ul>
-<li>训练<code>mmlab/mmclassification/tools/dist_train.sh</code></li>
-<li>测试<code>mmlab/mmclassification/tools/dist_test.sh</code></li>
-<li>log分析<code>mmlab/mmclassification/tools/analyze_logs.py</code>(有BUG)</li>
-<li>结果分析<code>mmlab/mmclassification/tools/analyze_results.py</code>(有BUG)</li>
-</ul>
-</li>
-<li>目标检测(mmdet)<ul>
-<li>训练<code>mmlab/mmdetection/tools/dist_train.sh</code></li>
-<li>测试<code>mmlab/mmdetection/tools/dist_test.sh</code></li>
-<li>log分析<code>mmlab/mmdetection/tools/analysis_tools/analyze_logs.py</code></li>
-<li>结果分析<code>mmlab/mmdetection/tools/analysis_tools/analyze_results.py</code></li>
-</ul>
-</li>
-<li>语义分割(mmseg)<ul>
-<li>训练<code>mmlab/mmsegmentation/tools/dist_train.sh</code></li>
-<li>测试<code>mmlab/mmsegmentation/tools/dist_test.sh</code></li>
-<li>log分析<code>mmlab/mmsegmentation/tools/analysis_tools/analyze_logs.py</code>(有BUG)</li>
-<li>结果分析(未制定，可暂用demo推断代替)</li>
-</ul>
-</li>
-<li>图像编辑(mmedit)<ul>
-<li>训练<code>mmlab/mmediting/tools/dist_train.sh</code></li>
-<li>测试<code>mmlab/mmediting/tools/dist_test.sh</code></li>
-<li>log分析(未制定)</li>
-<li>结果分析(其功能已经融合在“测试”功能中)</li>
-</ul>
-</li>
-<li>其他任务接口还未调通，暂不列出</li>
-</ul>
-<p>具体参数根据不同的人物将略有差异，分文档列出。以下需要解释的是配置文件如何组装，以及任务运行后将得到的文件架构。</p>
-<h4 id="4-3-1-任务所应当包含的信息"><a href="#4-3-1-任务所应当包含的信息" class="headerlink" title="4.3.1 任务所应当包含的信息"></a>4.3.1 任务所应当包含的信息</h4><p>虽然目前尚未制定，直接使用命令行调用程序。考虑到为了方便前端和后端的通讯，把一些可能必要的信息列为json文件格式。</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;id&quot;</span>: <span class="string">&quot;1nKxh2gtYKNRZpYbmfZGpkchamY&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;Object_Detection&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;dataset_id&quot;</span>: <span class="number">4</span>,</span><br><span class="line">    <span class="attr">&quot;model_name&quot;</span>: <span class="string">&quot;faster_rcnn&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>各个参数解释如下：</p>
-<ul>
-<li>id是对应于每个任务的唯一标识, 任务所包含的所有信息都在task/{ID}这个文件夹下</li>
-<li>type用于表明应该用哪个任务大类的训练/测试/log分析/结果分析程序来执行这个配置</li>
-<li>dataset_id和model_name没有实际作用，主要是为了辨认该任务对应于何种数据集和模型</li>
-</ul>
-<h4 id="4-3-2-一个完整的配置文件的组装"><a href="#4-3-2-一个完整的配置文件的组装" class="headerlink" title="4.3.2 一个完整的配置文件的组装"></a>4.3.2 一个完整的配置文件的组装</h4><h5 id="4-3-2-1-超参相关配置"><a href="#4-3-2-1-超参相关配置" class="headerlink" title="4.3.2.1 超参相关配置"></a>4.3.2.1 超参相关配置</h5><p><span id="Hyperparameters"></span>和超参有关的主要为优化器的选择，learning rate schedule的选择等。其中优化器的选择对应<code>optimizer</code>、<code>optimizer_config</code>两项，learning rate schedule的选择对应<code>lr_config</code>，一个具体例子如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># optimizer</span></span><br><span class="line">optimizer = <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;SGD&#x27;</span>, lr=<span class="number">0.02</span>, momentum=<span class="number">0.9</span>, weight_decay=<span class="number">0.0001</span>)</span><br><span class="line">optimizer_config = <span class="built_in">dict</span>(grad_clip=<span class="literal">None</span>)</span><br><span class="line"><span class="comment"># learning policy</span></span><br><span class="line">lr_config = <span class="built_in">dict</span>(</span><br><span class="line">    policy=<span class="string">&#x27;step&#x27;</span>,</span><br><span class="line">    warmup=<span class="string">&#x27;linear&#x27;</span>,</span><br><span class="line">    warmup_iters=<span class="number">500</span>,</span><br><span class="line">    warmup_ratio=<span class="number">0.001</span>,</span><br><span class="line">    step=[<span class="number">16</span>, <span class="number">22</span>])</span><br><span class="line">runner = <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;EpochBasedRunner&#x27;</span>, max_epochs=<span class="number">24</span>)</span><br></pre></td></tr></table></figure>
-
-<p>其中：</p>
-<ul>
-<li><code>optimizer</code>/<code>optimizer_config</code>对应的是优化器的配置，<code>optimizer</code>中的<code>type</code>对应的是优化器类型，其他参数均对应该优化器的参数。</li>
-<li><code>lr_config</code>对应的是learning rate schedule，其中<code>policy</code>对应的是选择的schedule类型，其他参数对应该schedule的参数。</li>
-<li><code>runner</code>主要对应<code>EpochBasedRunner</code>和<code>IterBaseRunner</code>两项，除了图像编辑任务外，其他任务主要使用<code>EpochBasedRunner</code>。</li>
-</ul>
-<h5 id="4-3-2-2-其他参数配置"><a href="#4-3-2-2-其他参数配置" class="headerlink" title="4.3.2.2 其他参数配置"></a>4.3.2.2 其他参数配置</h5><p><span id="Otherparameters"></span>用户需要干涉的主要参数主要包括：</p>
-<ul>
-<li>训练几代或几个iter需要存储一次参数</li>
-<li>训练几个iter后更新一次log文件</li>
-<li>训练之前需要载入哪个参数文件（迁移学习相关）</li>
-<li>任务意外/人为中断后若要继续训练，从哪个参数文件开始</li>
-</ul>
-<p>一个例子如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">checkpoint_config = <span class="built_in">dict</span>(interval=<span class="number">1</span>)  <span class="comment"># 多少个epoch/iter之后存储一次*.pth参数文件</span></span><br><span class="line">log_config = <span class="built_in">dict</span>(</span><br><span class="line">    interval=<span class="number">50</span>,</span><br><span class="line">    hooks=[</span><br><span class="line">        <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;TextLoggerHook&#x27;</span>),</span><br><span class="line">    ])  <span class="comment"># 记录log文件的配置</span></span><br><span class="line">custom_hooks = [<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;NumClassCheckHook&#x27;</span>)]</span><br><span class="line">dist_params = <span class="built_in">dict</span>(backend=<span class="string">&#x27;nccl&#x27;</span>)</span><br><span class="line">log_level = <span class="string">&#x27;INFO&#x27;</span></span><br><span class="line">load_from = <span class="literal">None</span>  <span class="comment"># 载入哪个文件的参数（迁移学习时使用，实际上每个模型组件也有对应的功能）</span></span><br><span class="line">resume_from = <span class="literal">None</span>  <span class="comment"># 从哪个文件继续训练（训练意外中断时使用）</span></span><br><span class="line">workflow = [(<span class="string">&#x27;train&#x27;</span>, <span class="number">1</span>)]</span><br><span class="line">work_dir = <span class="string">&#x27;task/1nKxh2gtYKNRZpYbmfZGpkchamY/training&#x27;</span></span><br><span class="line">gpu_ids = <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-
-<p>其中<code>work_dir</code>应当根据任务ID制定，<code>gpu_ids</code>应当由系统自动分配。</p>
-<h5 id="4-3-2-3-关于数据集配置和模型配置的说明"><a href="#4-3-2-3-关于数据集配置和模型配置的说明" class="headerlink" title="4.3.2.3 关于数据集配置和模型配置的说明"></a>4.3.2.3 关于数据集配置和模型配置的说明</h5><p>数据集配置和模型配置较多，将单独列出。不过还有很大一部分已有的配置文件，由于数据集和模型高度相关，写在了同一个配置文件中，这些配置也将单独列出。</p>
-<h5 id="4-3-2-4-一个完整的配置文件的组装"><a href="#4-3-2-4-一个完整的配置文件的组装" class="headerlink" title="4.3.2.4 一个完整的配置文件的组装"></a>4.3.2.4 一个完整的配置文件的组装</h5><p>mmlab框架提供了一个完善的继承机制，可以将各个分离的config模块组装成一个完整的可以调用的config文件。</p>
-<p>实际上只需使用<code>_base_=[...]</code>的形式，即可组装配置文件。一个例子如下（在COCO2017上执行实例分割）：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">_base_ = [</span><br><span class="line">    <span class="string">&#x27;mmlab/mmdetection/configs/_base_/models/mask_rcnn_r50_fpn.py&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;mmlab/mmdetection/configs/_base_/datasets/coco_instance.py&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;mmlab/mmdetection/configs/_base_/schedules/schedule_1x.py&#x27;</span>, </span><br><span class="line">    <span class="string">&#x27;mmlab/mmdetection/configs/_base_/default_runtime.py&#x27;</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<p>前两个文件分别代表模型和数据集的配置，虽然之前已经列出了两个例子，但根据任务类型的不同，这些文件差异较大。第三个文件和超参有关，第四个文件主要是和超参无关的其他配置，这两个文件在各个任务类型之间差异较小。</p>
-<p>实际上我们也可以直接将四个配置文件写在一起，或只载入部分配置文件，也能组成一个完整的配置文件。比如在Faster R-CNN上运行一个口罩识别数据集：</p>
-<details data-markdown>
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># model</span></span><br><span class="line">model = <span class="built_in">dict</span>(</span><br><span class="line">    <span class="built_in">type</span>=<span class="string">&#x27;FasterRCNN&#x27;</span>,</span><br><span class="line">    pretrained=<span class="string">&#x27;torchvision://resnet50&#x27;</span>,</span><br><span class="line">    backbone=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;ResNet&#x27;</span>,</span><br><span class="line">        depth=<span class="number">50</span>,</span><br><span class="line">        num_stages=<span class="number">4</span>,</span><br><span class="line">        out_indices=(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>),</span><br><span class="line">        frozen_stages=<span class="number">1</span>,</span><br><span class="line">        norm_cfg=<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;BN&#x27;</span>, requires_grad=<span class="literal">True</span>),</span><br><span class="line">        norm_eval=<span class="literal">True</span>,</span><br><span class="line">        style=<span class="string">&#x27;pytorch&#x27;</span>),</span><br><span class="line">    neck=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;FPN&#x27;</span>,</span><br><span class="line">        in_channels=[<span class="number">256</span>, <span class="number">512</span>, <span class="number">1024</span>, <span class="number">2048</span>],</span><br><span class="line">        out_channels=<span class="number">256</span>,</span><br><span class="line">        num_outs=<span class="number">5</span>),</span><br><span class="line">    rpn_head=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;RPNHead&#x27;</span>,</span><br><span class="line">        in_channels=<span class="number">256</span>,</span><br><span class="line">        feat_channels=<span class="number">256</span>,</span><br><span class="line">        anchor_generator=<span class="built_in">dict</span>(</span><br><span class="line">            <span class="built_in">type</span>=<span class="string">&#x27;AnchorGenerator&#x27;</span>,</span><br><span class="line">            scales=[<span class="number">8</span>],</span><br><span class="line">            ratios=[<span class="number">0.5</span>, <span class="number">1.0</span>, <span class="number">2.0</span>],</span><br><span class="line">            strides=[<span class="number">4</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">32</span>, <span class="number">64</span>]),</span><br><span class="line">        bbox_coder=<span class="built_in">dict</span>(</span><br><span class="line">            <span class="built_in">type</span>=<span class="string">&#x27;DeltaXYWHBBoxCoder&#x27;</span>,</span><br><span class="line">            target_means=[<span class="number">.0</span>, <span class="number">.0</span>, <span class="number">.0</span>, <span class="number">.0</span>],</span><br><span class="line">            target_stds=[<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>]),</span><br><span class="line">        loss_cls=<span class="built_in">dict</span>(</span><br><span class="line">            <span class="built_in">type</span>=<span class="string">&#x27;CrossEntropyLoss&#x27;</span>, use_sigmoid=<span class="literal">True</span>, loss_weight=<span class="number">1.0</span>),</span><br><span class="line">        loss_bbox=<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;L1Loss&#x27;</span>, loss_weight=<span class="number">1.0</span>)),</span><br><span class="line">    roi_head=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;StandardRoIHead&#x27;</span>,</span><br><span class="line">        bbox_roi_extractor=<span class="built_in">dict</span>(</span><br><span class="line">            <span class="built_in">type</span>=<span class="string">&#x27;SingleRoIExtractor&#x27;</span>,</span><br><span class="line">            roi_layer=<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;RoIAlign&#x27;</span>, output_size=<span class="number">7</span>, sampling_ratio=<span class="number">0</span>),</span><br><span class="line">            out_channels=<span class="number">256</span>,</span><br><span class="line">            featmap_strides=[<span class="number">4</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">32</span>]),</span><br><span class="line">        bbox_head=<span class="built_in">dict</span>(</span><br><span class="line">            <span class="built_in">type</span>=<span class="string">&#x27;Shared2FCBBoxHead&#x27;</span>,</span><br><span class="line">            in_channels=<span class="number">256</span>,</span><br><span class="line">            fc_out_channels=<span class="number">1024</span>,</span><br><span class="line">            roi_feat_size=<span class="number">7</span>,</span><br><span class="line">            num_classes=<span class="number">2</span>,</span><br><span class="line">            bbox_coder=<span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;DeltaXYWHBBoxCoder&#x27;</span>,</span><br><span class="line">                target_means=[<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">                target_stds=[<span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.2</span>, <span class="number">0.2</span>]),</span><br><span class="line">            reg_class_agnostic=<span class="literal">False</span>,</span><br><span class="line">            loss_cls=<span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;CrossEntropyLoss&#x27;</span>, use_sigmoid=<span class="literal">False</span>, loss_weight=<span class="number">1.0</span>),</span><br><span class="line">            loss_bbox=<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;L1Loss&#x27;</span>, loss_weight=<span class="number">1.0</span>))),</span><br><span class="line">    <span class="comment"># model training and testing settings</span></span><br><span class="line">    train_cfg=<span class="built_in">dict</span>(</span><br><span class="line">        rpn=<span class="built_in">dict</span>(</span><br><span class="line">            assigner=<span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;MaxIoUAssigner&#x27;</span>,</span><br><span class="line">                pos_iou_thr=<span class="number">0.7</span>,</span><br><span class="line">                neg_iou_thr=<span class="number">0.3</span>,</span><br><span class="line">                min_pos_iou=<span class="number">0.3</span>,</span><br><span class="line">                match_low_quality=<span class="literal">True</span>,</span><br><span class="line">                ignore_iof_thr=-<span class="number">1</span>),</span><br><span class="line">            sampler=<span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;RandomSampler&#x27;</span>,</span><br><span class="line">                num=<span class="number">256</span>,</span><br><span class="line">                pos_fraction=<span class="number">0.5</span>,</span><br><span class="line">                neg_pos_ub=-<span class="number">1</span>,</span><br><span class="line">                add_gt_as_proposals=<span class="literal">False</span>),</span><br><span class="line">            allowed_border=-<span class="number">1</span>,</span><br><span class="line">            pos_weight=-<span class="number">1</span>,</span><br><span class="line">            debug=<span class="literal">False</span>),</span><br><span class="line">        rpn_proposal=<span class="built_in">dict</span>(</span><br><span class="line">            nms_pre=<span class="number">2000</span>,</span><br><span class="line">            max_per_img=<span class="number">1000</span>,</span><br><span class="line">            nms=<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;nms&#x27;</span>, iou_threshold=<span class="number">0.7</span>),</span><br><span class="line">            min_bbox_size=<span class="number">0</span>),</span><br><span class="line">        rcnn=<span class="built_in">dict</span>(</span><br><span class="line">            assigner=<span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;MaxIoUAssigner&#x27;</span>,</span><br><span class="line">                pos_iou_thr=<span class="number">0.5</span>,</span><br><span class="line">                neg_iou_thr=<span class="number">0.5</span>,</span><br><span class="line">                min_pos_iou=<span class="number">0.5</span>,</span><br><span class="line">                match_low_quality=<span class="literal">False</span>,</span><br><span class="line">                ignore_iof_thr=-<span class="number">1</span>),</span><br><span class="line">            sampler=<span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;RandomSampler&#x27;</span>,</span><br><span class="line">                num=<span class="number">512</span>,</span><br><span class="line">                pos_fraction=<span class="number">0.25</span>,</span><br><span class="line">                neg_pos_ub=-<span class="number">1</span>,</span><br><span class="line">                add_gt_as_proposals=<span class="literal">True</span>),</span><br><span class="line">            pos_weight=-<span class="number">1</span>,</span><br><span class="line">            debug=<span class="literal">False</span>)),</span><br><span class="line">    test_cfg=<span class="built_in">dict</span>(</span><br><span class="line">        rpn=<span class="built_in">dict</span>(</span><br><span class="line">            nms_pre=<span class="number">1000</span>,</span><br><span class="line">            max_per_img=<span class="number">1000</span>,</span><br><span class="line">            nms=<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;nms&#x27;</span>, iou_threshold=<span class="number">0.7</span>),</span><br><span class="line">            min_bbox_size=<span class="number">0</span>),</span><br><span class="line">        rcnn=<span class="built_in">dict</span>(</span><br><span class="line">            score_thr=<span class="number">0.05</span>,</span><br><span class="line">            nms=<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;nms&#x27;</span>, iou_threshold=<span class="number">0.5</span>),</span><br><span class="line">            max_per_img=<span class="number">100</span>)</span><br><span class="line">        <span class="comment"># soft-nms is also supported for rcnn testing</span></span><br><span class="line">        <span class="comment"># e.g., nms=dict(type=&#x27;soft_nms&#x27;, iou_threshold=0.5, min_score=0.05)</span></span><br><span class="line">    ))</span><br><span class="line"><span class="comment"># dataset settings</span></span><br><span class="line">data = <span class="built_in">dict</span>(</span><br><span class="line">    samples_per_gpu=<span class="number">16</span>,</span><br><span class="line">    workers_per_gpu=<span class="number">2</span>,</span><br><span class="line">    train=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;VOCStyleDataset&#x27;</span>,</span><br><span class="line">        CLASSES = (<span class="string">&#x27;face&#x27;</span>, <span class="string">&#x27;face_mask&#x27;</span>),</span><br><span class="line">        ann_file=<span class="string">&#x27;data/VOCdevkit/VOCFaceMask/ImageSets/Main/train.txt&#x27;</span>,</span><br><span class="line">        img_prefix=<span class="string">&#x27;data/VOCdevkit/VOCFaceMask/&#x27;</span>,</span><br><span class="line">        pipeline=[</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadImageFromFile&#x27;</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadAnnotations&#x27;</span>, with_bbox=<span class="literal">True</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Resize&#x27;</span>, img_scale=(<span class="number">1000</span>, <span class="number">600</span>), keep_ratio=<span class="literal">True</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;RandomFlip&#x27;</span>, flip_ratio=<span class="number">0.5</span>),</span><br><span class="line">            <span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;Normalize&#x27;</span>,</span><br><span class="line">                mean=[<span class="number">123.675</span>, <span class="number">116.28</span>, <span class="number">103.53</span>],</span><br><span class="line">                std=[<span class="number">58.395</span>, <span class="number">57.12</span>, <span class="number">57.375</span>],</span><br><span class="line">                to_rgb=<span class="literal">True</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Pad&#x27;</span>, size_divisor=<span class="number">32</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;DefaultFormatBundle&#x27;</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Collect&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>, <span class="string">&#x27;gt_bboxes&#x27;</span>, <span class="string">&#x27;gt_labels&#x27;</span>])</span><br><span class="line">        ]),</span><br><span class="line">    val=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;VOCStyleDataset&#x27;</span>,</span><br><span class="line">        CLASSES = (<span class="string">&#x27;face&#x27;</span>, <span class="string">&#x27;face_mask&#x27;</span>),</span><br><span class="line">        ann_file=<span class="string">&#x27;data/VOCdevkit/VOCFaceMask/ImageSets/Main/val.txt&#x27;</span>,</span><br><span class="line">        img_prefix=<span class="string">&#x27;data/VOCdevkit/VOCFaceMask/&#x27;</span>,</span><br><span class="line">        pipeline=[</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadImageFromFile&#x27;</span>),</span><br><span class="line">            <span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;MultiScaleFlipAug&#x27;</span>,</span><br><span class="line">                img_scale=(<span class="number">1000</span>, <span class="number">600</span>),</span><br><span class="line">                flip=<span class="literal">False</span>,</span><br><span class="line">                transforms=[</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Resize&#x27;</span>, keep_ratio=<span class="literal">True</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;RandomFlip&#x27;</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(</span><br><span class="line">                        <span class="built_in">type</span>=<span class="string">&#x27;Normalize&#x27;</span>,</span><br><span class="line">                        mean=[<span class="number">123.675</span>, <span class="number">116.28</span>, <span class="number">103.53</span>],</span><br><span class="line">                        std=[<span class="number">58.395</span>, <span class="number">57.12</span>, <span class="number">57.375</span>],</span><br><span class="line">                        to_rgb=<span class="literal">True</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Pad&#x27;</span>, size_divisor=<span class="number">32</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;ImageToTensor&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>]),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Collect&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>])</span><br><span class="line">                ])</span><br><span class="line">        ]),</span><br><span class="line">    test=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;VOCStyleDataset&#x27;</span>,</span><br><span class="line">        CLASSES = (<span class="string">&#x27;face&#x27;</span>, <span class="string">&#x27;face_mask&#x27;</span>),</span><br><span class="line">        ann_file=<span class="string">&#x27;data/VOCdevkit/VOCFaceMask/ImageSets/Main/val.txt&#x27;</span>,</span><br><span class="line">        img_prefix=<span class="string">&#x27;data/VOCdevkit/VOCFaceMask/&#x27;</span>,</span><br><span class="line">        pipeline=[</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadImageFromFile&#x27;</span>),</span><br><span class="line">            <span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;MultiScaleFlipAug&#x27;</span>,</span><br><span class="line">                img_scale=(<span class="number">1000</span>, <span class="number">600</span>),</span><br><span class="line">                flip=<span class="literal">False</span>,</span><br><span class="line">                transforms=[</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Resize&#x27;</span>, keep_ratio=<span class="literal">True</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;RandomFlip&#x27;</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(</span><br><span class="line">                        <span class="built_in">type</span>=<span class="string">&#x27;Normalize&#x27;</span>,</span><br><span class="line">                        mean=[<span class="number">123.675</span>, <span class="number">116.28</span>, <span class="number">103.53</span>],</span><br><span class="line">                        std=[<span class="number">58.395</span>, <span class="number">57.12</span>, <span class="number">57.375</span>],</span><br><span class="line">                        to_rgb=<span class="literal">True</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Pad&#x27;</span>, size_divisor=<span class="number">32</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;ImageToTensor&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>]),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Collect&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>])</span><br><span class="line">                ])</span><br><span class="line">        ]))</span><br><span class="line">evaluation = <span class="built_in">dict</span>(interval=<span class="number">1</span>, metric=<span class="string">&#x27;mAP&#x27;</span>)    </span><br><span class="line"><span class="comment"># optimizer</span></span><br><span class="line">optimizer = <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;SGD&#x27;</span>, lr=<span class="number">0.01</span>, momentum=<span class="number">0.9</span>, weight_decay=<span class="number">0.0001</span>)</span><br><span class="line">optimizer_config = <span class="built_in">dict</span>(grad_clip=<span class="literal">None</span>)</span><br><span class="line"><span class="comment"># learning policy</span></span><br><span class="line">lr_config = <span class="built_in">dict</span>(policy=<span class="string">&#x27;step&#x27;</span>, step=[<span class="number">3</span>])</span><br><span class="line"><span class="comment"># runtime settings</span></span><br><span class="line">runner = <span class="built_in">dict</span>(</span><br><span class="line">    <span class="built_in">type</span>=<span class="string">&#x27;EpochBasedRunner&#x27;</span>, max_epochs=<span class="number">20</span>)</span><br><span class="line">checkpoint_config = <span class="built_in">dict</span>(interval=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">log_config = <span class="built_in">dict</span>(</span><br><span class="line">    interval=<span class="number">50</span>,</span><br><span class="line">    hooks=[</span><br><span class="line">        <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;TextLoggerHook&#x27;</span>),</span><br><span class="line">    ])</span><br><span class="line"></span><br><span class="line">custom_hooks = [<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;NumClassCheckHook&#x27;</span>)]</span><br><span class="line">dist_params = <span class="built_in">dict</span>(backend=<span class="string">&#x27;nccl&#x27;</span>)</span><br><span class="line">log_level = <span class="string">&#x27;INFO&#x27;</span></span><br><span class="line">load_from = <span class="literal">None</span></span><br><span class="line">resume_from = <span class="literal">None</span></span><br><span class="line">workflow = [(<span class="string">&#x27;train&#x27;</span>, <span class="number">1</span>)]</span><br></pre></td></tr></table></figure>
-
-</details>
-
-<h4 id="4-3-3-任务的文件架构"><a href="#4-3-3-任务的文件架构" class="headerlink" title="4.3.3 任务的文件架构"></a>4.3.3 任务的文件架构</h4><p>关于任务方面，初始创建任务时，我们现在先在task文件夹下创建一个以任务ID为名称的文件夹。然后进行配置文件<code>config.py</code>的组装。</p>
-<p>只要文件夹下有一个完整的<code>config.py</code>文件，就可以开始执行“训练-测试-log分析-结果分析”流程。</p>
-<p>当一个完整的“训练-测试-log分析-结果分析”流程结束后，预计文件架构如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">task</span><br><span class="line">├─1nKxh2gtYKNRZpYbmfZGpkchamY</span><br><span class="line">│  ├─config.py</span><br><span class="line">│  ├─training</span><br><span class="line">│  │  ├─20210324_144228.log</span><br><span class="line">│  │  ├─20210324_144228.log.json</span><br><span class="line">│  │  ├─latest.pth</span><br><span class="line">│  ├─result.pkl</span><br><span class="line">│  ├─log_analysis</span><br><span class="line">│  │  ├─mAP_epoch.png</span><br><span class="line">│  │  ├─...</span><br><span class="line">│  ├─result_analysis</span><br><span class="line">│  │  ├─bad</span><br><span class="line">│  │  │  ├─0001.jpg</span><br><span class="line">│  │  │  ├─...</span><br><span class="line">│  │  ├─good</span><br><span class="line">│  │  │  ├─1001.jpg</span><br><span class="line">│  │  │  ├─...</span><br></pre></td></tr></table></figure>
-
-<p>其中各个文件夹内容为：</p>
-<ul>
-<li><code>config.py</code> 包含了调用的数据集、模型等信息的配置文件。是初始任务创建的必要文件，该文件制定完整后则可以进行训练。</li>
-<li><code>training</code> 包含了训练产生的临时文件、log文件、以及训练好的模型参数的文件夹。该文件夹在训练开始后产生。<ul>
-<li>log文件以训练开始的时间为名称，存储了每一个epoch/iter的训练及验证信息</li>
-<li><code>latest.pth</code>即为每一个epoch/iter结束后训练好的参数文件保存</li>
-</ul>
-</li>
-<li><code>result.pkl</code> 由测试进程产生，包含了验证/测试集图片上的测试信息，应当包括每张图片的得分/类别，以及整个模型的性能信息等。</li>
-<li><code>log_analysis</code> 包含对log进行分析产生的结果存放，目前主要是各种度量关于epoch/iter的变化曲线。</li>
-<li><code>result_analysis</code> 包含测试结果。其中得分最差的20个图片放在<code>bad</code>文件夹下，得分最好的20个图片放在<code>good</code>文件夹下。对于目标检测/实例分割任务，这里的所有图片都标注了预测框（橙色）和ground truth（蓝色）。对于不同任务可能有所差异（比如对于图像编辑将直接存放测试结果）</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/11/group_report/mmtrack_default_configs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -8466,6 +8017,455 @@ pip install -v -e .
 <td><code>mmlab/mmdetection/checkpoints/yolo/yolov3_d53_mstrain-608_273e_coco/yolov3_d53_mstrain-608_273e_coco-139f5633.pth</code></td>
 </tr>
 </tbody></table>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/10/group_report/Generalized_CV/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="杨熊">
+      <meta itemprop="description" content="善恶到头终有报，只争来早与来迟">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="暴走白熊的小窝">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/10/group_report/Generalized_CV/" class="post-title-link" itemprop="url">人工智能普适化平台（CV+深度模型）详细设计文档v0.0</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-10 15:48:37" itemprop="dateCreated datePublished" datetime="2021-04-10T15:48:37+08:00">2021-04-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-12 13:47:48" itemprop="dateModified" datetime="2021-04-12T13:47:48+08:00">2021-04-12</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="人工智能普适化平台（CV-深度模型）详细设计文档v0-0"><a href="#人工智能普适化平台（CV-深度模型）详细设计文档v0-0" class="headerlink" title="人工智能普适化平台（CV+深度模型）详细设计文档v0.0"></a>人工智能普适化平台（CV+深度模型）详细设计文档v0.0</h1><h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h2><p>目前已有的数据集、模型等都已经部署于超算平台183.129.217.214:20156。</p>
+<p>暂时只能支持PyTorch框架下编写的深度模型。</p>
+<h3 id="1-1-编写目的"><a href="#1-1-编写目的" class="headerlink" title="1.1 编写目的"></a>1.1 编写目的</h3><p>本文档是人工智能普适化平台（CV+深度模型）的设计文档，<br>其目的是明确平台的需求和支持项目组内部的研发工作。<br>该文档描述了人工智能普适化——CV深度模型管理平台DEMO的功能设计，<br>平台的DEMO将按照这个设计文档进行开发，<br>适用于本平台的设计人员和开发人员。</p>
+<p><strong>为了简便起见，目前仅描述后端运行任务时实现的一些工作。与前端相关的功能暂时省略，有关前端的功能仅提供一些构想。</strong></p>
+<p>本设计文档应涵盖人工智能普适化（CV+深度模型）管理平台DEMO的所有功能设计、系统架构设计、接口设计、数据库设计等具体内容。</p>
+<h3 id="1-2-功能资料"><a href="#1-2-功能资料" class="headerlink" title="1.2 功能资料"></a>1.2 功能资料</h3><p><span id="Function_Document"></span>交互稿待补充。目前暂时用博客代替，预计主要包含以下六大模块(预计仍将继续补充一些模块，打勾的表明该框架下所有任务类型跑通，未打勾则表明该框架下部分任务仍未跑通)：</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/03/15/group_report/mmcls/">图像分类</a></li>
+<li><input checked="" disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/03/15/group_report/mmdet/">目标检测</a></li>
+<li><input checked="" disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/03/22/group_report/mmseg/">语义分割</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/03/25/group_report/mmedit/">图像编辑</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/03/26/group_report/mmtrack/">目标跟踪</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://polarbearyang.github.io/2021/03/26/group_report/mmact/">动作检测</a></li>
+</ul>
+<p>以上六个模块分别对应留个大类任务，每个任务下还有对应的子任务，如下：</p>
+<ul>
+<li>mmclassification（图像分类）<ul>
+<li>单标签分类</li>
+<li>多标签分类</li>
+</ul>
+</li>
+<li>mmdetection（目标检测）<ul>
+<li>Object Detection</li>
+<li>Instance Segmentation</li>
+</ul>
+</li>
+<li>mmsegmentation（语义分割）<ul>
+<li>Semantic Segmentation（语义分割）</li>
+</ul>
+</li>
+<li>mmediting（图像编辑）<ul>
+<li>Super-Resolution（超分辨率）</li>
+<li>Image Generation（图像生成，目前只有风格迁移）</li>
+<li>Image Inpainting（图像修复）</li>
+<li>Image Matting（抠图）</li>
+</ul>
+</li>
+<li>mmtracking（目标追踪）<ul>
+<li>Video Object Detection（视频目标检测）</li>
+<li>Single Object Tracking（单目标追踪）</li>
+<li>Multi Object Tracking（多目标追踪）</li>
+</ul>
+</li>
+<li>mmaction2（动作检测）<ul>
+<li>Action Recognition（动作识别）</li>
+<li>Action Localization（动作定位）</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-3-软硬件环境"><a href="#1-3-软硬件环境" class="headerlink" title="1.3 软硬件环境"></a>1.3 软硬件环境</h3><p>由于项目处于起步阶段，软硬件条件均较为有限。目前使用的硬件仅有一张Tesla V100。目前使用CUDA 11.0、PyTorch 1.7与mmcv 1.2.7。</p>
+<h3 id="1-4-准备工作（仅第一次配置环境时使用）"><a href="#1-4-准备工作（仅第一次配置环境时使用）" class="headerlink" title="1.4 准备工作（仅第一次配置环境时使用）"></a>1.4 准备工作（仅第一次配置环境时使用）</h3><h4 id="安装PyTorch"><a href="#安装PyTorch" class="headerlink" title="安装PyTorch"></a>安装PyTorch</h4><pre><code>pip install torch==1.7.0 torchvision==0.8.0 torchaudio==0.7.0
+</code></pre>
+<h4 id="建立mmcv基本库"><a href="#建立mmcv基本库" class="headerlink" title="建立mmcv基本库"></a>建立mmcv基本库</h4><pre><code>pip install mmcv-full==1.2.7 -f https://download.openmmlab.com/mmcv/dist/cu102/torch1.7.0/index.html
+</code></pre>
+<h4 id="建立mmcls本地库"><a href="#建立mmcls本地库" class="headerlink" title="建立mmcls本地库"></a>建立mmcls本地库</h4><pre><code>cd mmlab/mmclassification
+pip install -e .
+</code></pre>
+<h4 id="建立mmdet本地库"><a href="#建立mmdet本地库" class="headerlink" title="建立mmdet本地库"></a>建立mmdet本地库</h4><pre><code>cd mmlab/mmdetection
+pip install -r requirements/build.txt
+pip install -v -e .
+</code></pre>
+<h4 id="建立mmsegmentation本地库"><a href="#建立mmsegmentation本地库" class="headerlink" title="建立mmsegmentation本地库"></a>建立mmsegmentation本地库</h4><pre><code>cd /mmlab/mmsegmentation
+pip install -e .
+</code></pre>
+<h3 id="建立mmedit本地库"><a href="#建立mmedit本地库" class="headerlink" title="建立mmedit本地库"></a>建立mmedit本地库</h3><pre><code>cd mmlab/mmediting
+pip install -v -e .
+</code></pre>
+<h4 id="建立mmaction2本地库"><a href="#建立mmaction2本地库" class="headerlink" title="建立mmaction2本地库"></a>建立mmaction2本地库</h4><pre><code>cd mmlab/mmaction2
+pip install -r requirements/build.txt
+pip install -v -e .
+</code></pre>
+<h3 id="建立mmtrack本地库"><a href="#建立mmtrack本地库" class="headerlink" title="建立mmtrack本地库"></a>建立mmtrack本地库</h3><pre><code>cd mmlab/mmtracking
+pip install -r requirements.txt
+pip install -v -e .
+</code></pre>
+<hr>
+<h2 id="2-功能设计"><a href="#2-功能设计" class="headerlink" title="2. 功能设计"></a>2. 功能设计</h2><p>系统目标是提供计算机视觉相关深度模型和数据集的构建、管理和服务能力。</p>
+<p>目前个人能想到的可能要实现的模块主要包括：</p>
+<ul>
+<li><input disabled="" type="checkbox"> 用户和登录模块</li>
+<li><input disabled="" type="checkbox"> 用户主页模块</li>
+<li><input disabled="" type="checkbox"> 帮助模块</li>
+<li><input disabled="" type="checkbox"> 数据集管理模块</li>
+<li><input disabled="" type="checkbox"> 深度模型管理模块</li>
+<li><input disabled="" type="checkbox"> 任务管理模块</li>
+</ul>
+<p>其中任务流水线构造模块是核心功能，它提供了用户选择数据集、构造模型，以及最终装配一个任务的全部流程步骤的交互，提供了结果的查看、分析功能。</p>
+<table>
+<thead>
+<tr>
+<th>功能模块</th>
+<th>功能点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>用户和登录模块</td>
+<td>1. 用户登录</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>2. 用户注册</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td>用户主页和帮助模块</td>
+<td>1. 首页</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>2. 数据集上传说明</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>3. 模型/模型组件上传说明</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>4. 任务制定说明</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>5. 知识蒸馏说明</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>6. 模型发布/共享说明</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td>数据集管理模块</td>
+<td>1. 数据集列表</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>2. 数据集预览</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>3. 默认配置列表</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>4. 数据集编辑</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>5. 数据集导入</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>6. 数据集导出</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>7. 数据集删除</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>8. 数据标注模块</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td>深度模型管理模块</td>
+<td>1. 组件信息列表</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>2. 默认配置列表</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>3. 组件编辑模块</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>4. 组件导入模块</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>5. 模型导入模块</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>6. 模型构建模块</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td>任务管理模块</td>
+<td>1. 配置创建模块</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>2. 样板任务列表</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>3. 配置编辑模块</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>4. log分析模块</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>5. 结果分析模块</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>6. 迁移模块</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>7. 知识蒸馏模块</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>8. 模型发布模块</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>9. 自动调参模块</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>10. 正在运行/未配置完成的任务列表及信息展示</td>
+<td>暂未实现</td>
+</tr>
+<tr>
+<td></td>
+<td>11. 已运行完成的任务列表及信息展示</td>
+<td>暂未实现</td>
+</tr>
+</tbody></table>
+<p>以上内容为本人想像的可能需要具体实现的一些内容，其中的细节暂时省略。</p>
+<h2 id="3-系统架构设计"><a href="#3-系统架构设计" class="headerlink" title="3. 系统架构设计"></a>3. 系统架构设计</h2><h3 id="3-1-设计目标、原则和约束"><a href="#3-1-设计目标、原则和约束" class="headerlink" title="3.1 设计目标、原则和约束"></a>3.1 设计目标、原则和约束</h3><p>本项目系统架构设计主要目标在于完成项目业务的需求，实现CV+深度模型普适化平台的基本功能。<br>这些基本功能包括：数据集的上传与管理、模型的推荐与管理、任务配置制定和运行。</p>
+<h3 id="3-2-逻辑架构设计"><a href="#3-2-逻辑架构设计" class="headerlink" title="3.2 逻辑架构设计"></a>3.2 逻辑架构设计</h3><h4 id="3-2-1-设计思想"><a href="#3-2-1-设计思想" class="headerlink" title="3.2.1 设计思想"></a>3.2.1 设计思想</h4><p>由于在不同任务中，模型的架构和运行流水线、使用的tricks、能够产生的输出，甚至要求数据集提供的信息相差均较大，<br>我们使用mmlab的方式，先按照运行流程的相似性将任务分为若干个大类，然后再具体细分至每一个任务。这样各个大类任务之间的调整是相互独立的，不会影响相关性较低的任务，便于拓展和维护。</p>
+<h4 id="3-2-2-整体框架"><a href="#3-2-2-整体框架" class="headerlink" title="3.2.2 整体框架"></a>3.2.2 整体框架</h4><p>本项目整体模块图如图所示，主要包含数据集管理、模型管理、任务管理三个大模块，其中模型管理下又分为六大类任务。一个较为简单的文件存储系统如下：</p>
+<p><img src="https://huawei.best/2021/04/10/61243b017adf4.png" alt="系统架构"></p>
+<h2 id="4-调用配置"><a href="#4-调用配置" class="headerlink" title="4. 调用配置"></a>4. 调用配置</h2><p>比起接口，这一节主要介绍与我们运行完整的任务流程相关的内容。</p>
+<p>为了便于前端想向后端传递信息，配置文件都写成了字典的形式。</p>
+<p>有些不便展开的细节我们将按照任务大类分文档维护。</p>
+<p>对于所有模块，<code>type</code>即调用的python类名，同一模块下的其他参数均是该类的初始化参数。</p>
+<h3 id="4-1-数据集"><a href="#4-1-数据集" class="headerlink" title="4.1 数据集"></a>4.1 数据集</h3><p>暂未将其制成数据库。我们目前用一个json文件存储数据集信息。</p>
+<p>这些信息主要包括程序运行必要的信息，如数据集ID(id)、解析类型(type)、数据集类别(categories)、可用的任务类型(task)、数据集路径(path)、额外参数(CLASSES)。</p>
+<p>以下是一个自定义口罩识别数据集信息的例子：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;id&quot;</span>: <span class="number">4</span>,</span><br><span class="line">    <span class="attr">&quot;dataset_name&quot;</span>: <span class="string">&quot;VOCFaceMask&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;categories&quot;</span>: [<span class="string">&quot;Computer Vision&quot;</span>],</span><br><span class="line">    <span class="attr">&quot;task&quot;</span>: [<span class="string">&quot;Object_Detection&quot;</span>],</span><br><span class="line">    <span class="attr">&quot;type&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;Object_Detection&quot;</span>: <span class="string">&quot;VOCStyleDataset&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;path&quot;</span>: <span class="string">&quot;./data/VOCdevkit/VOCFaceMask&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;additional_args&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;CLASSES&quot;</span>: [<span class="string">&quot;face&quot;</span>, <span class="string">&quot;face_mask&quot;</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;tags&quot;</span>: [<span class="string">&quot;图像&quot;</span>, <span class="string">&quot;目标检测&quot;</span>],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这些信息中：</p>
+<ul>
+<li><code>id</code>是数据集的唯一标识符</li>
+<li><code>dataset_name</code>是数据集的名称</li>
+<li><code>categories</code>表示数据集可用于哪个领域。目前这个值没用，只是为拓展到自然语言处理等其他任务做准备。</li>
+<li><code>task</code>表示该数据集可用的任务类型。这个值可用于决定使用哪个框架下的训练流程。</li>
+<li><code>type</code>表示对应不同任务，解析该数据集用的python类的名称。</li>
+<li><code>path</code>表示数据集的存储路径</li>
+<li><code>additional_args</code>表示一些可能额外输入的参数。比如自定义的数据集是需要输入类名的。</li>
+<li><code>tags</code>仅仅是用于展示给用户看的一些标签</li>
+</ul>
+<p>每个数据集都有一些对应的默认配置，这些默认配置会涉及一些数据预处理手段。由于全部列出会导致篇幅过大，这里不列出所有配置。这些配置主要是为了加入一些数据预处理手段，设定batch_size等。其中一个例子(COCO2017用于实例分割)如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">dataset_type = <span class="string">&#x27;CocoDataset&#x27;</span>    <span class="comment"># 解析该数据集的python类名</span></span><br><span class="line">data_root = <span class="string">&#x27;data/coco/&#x27;</span>    <span class="comment"># 该数据集所在的位置</span></span><br><span class="line">img_norm_cfg = <span class="built_in">dict</span>(</span><br><span class="line">    mean=[<span class="number">123.675</span>, <span class="number">116.28</span>, <span class="number">103.53</span>], std=[<span class="number">58.395</span>, <span class="number">57.12</span>, <span class="number">57.375</span>], to_rgb=<span class="literal">True</span>)   <span class="comment"># 图像正则化参数</span></span><br><span class="line">train_pipeline = [</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadImageFromFile&#x27;</span>),    <span class="comment"># 读取图像数据</span></span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadAnnotations&#x27;</span>, with_bbox=<span class="literal">True</span>, with_mask=<span class="literal">True</span>),    <span class="comment"># 读取标注</span></span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Resize&#x27;</span>, img_scale=(<span class="number">1333</span>, <span class="number">800</span>), keep_ratio=<span class="literal">True</span>),    <span class="comment"># 缩放选项</span></span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;RandomFlip&#x27;</span>, flip_ratio=<span class="number">0.5</span>),    <span class="comment"># 以0.5概率随机反转</span></span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Normalize&#x27;</span>, **img_norm_cfg),    <span class="comment"># 图像正则化</span></span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Pad&#x27;</span>, size_divisor=<span class="number">32</span>),    <span class="comment"># 通过padding将图像长宽补足为32的倍数</span></span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;DefaultFormatBundle&#x27;</span>),</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Collect&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>, <span class="string">&#x27;gt_bboxes&#x27;</span>, <span class="string">&#x27;gt_labels&#x27;</span>, <span class="string">&#x27;gt_masks&#x27;</span>]),    <span class="comment"># 使用的信息</span></span><br><span class="line">]   <span class="comment"># 使用list决定训练流水线</span></span><br><span class="line">test_pipeline = [</span><br><span class="line">    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadImageFromFile&#x27;</span>),</span><br><span class="line">    <span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;MultiScaleFlipAug&#x27;</span>,</span><br><span class="line">        img_scale=(<span class="number">1333</span>, <span class="number">800</span>),</span><br><span class="line">        flip=<span class="literal">False</span>,</span><br><span class="line">        transforms=[</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Resize&#x27;</span>, keep_ratio=<span class="literal">True</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;RandomFlip&#x27;</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Normalize&#x27;</span>, **img_norm_cfg),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Pad&#x27;</span>, size_divisor=<span class="number">32</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;ImageToTensor&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>]),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Collect&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>]),</span><br><span class="line">        ])</span><br><span class="line">]   <span class="comment"># 使用list决定测试流水线</span></span><br><span class="line">data = <span class="built_in">dict</span>(</span><br><span class="line">    samples_per_gpu=<span class="number">8</span>,   <span class="comment"># 每个GPU的样本数量，实际batch_size未实际使用的GPU数乘以此数</span></span><br><span class="line">    workers_per_gpu=<span class="number">2</span>,   <span class="comment"># 每个GPU上布置的worker数量</span></span><br><span class="line">    train=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=dataset_type,</span><br><span class="line">        ann_file=data_root + <span class="string">&#x27;annotations/instances_train2017.json&#x27;</span>,    <span class="comment"># 训练集标注文件指定</span></span><br><span class="line">        img_prefix=data_root + <span class="string">&#x27;train2017/&#x27;</span>,    <span class="comment"># 训练集所在文件夹</span></span><br><span class="line">        pipeline=train_pipeline),</span><br><span class="line">    val=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=dataset_type,</span><br><span class="line">        ann_file=data_root + <span class="string">&#x27;annotations/instances_val2017.json&#x27;</span>,    <span class="comment"># 验证集标注文件指定</span></span><br><span class="line">        img_prefix=data_root + <span class="string">&#x27;val2017/&#x27;</span>,    <span class="comment"># 验证集所在文件夹</span></span><br><span class="line">        pipeline=test_pipeline),</span><br><span class="line">    test=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=dataset_type,</span><br><span class="line">        ann_file=data_root + <span class="string">&#x27;annotations/instances_val2017.json&#x27;</span>,    <span class="comment"># 测试机标注文件指定</span></span><br><span class="line">        img_prefix=data_root + <span class="string">&#x27;val2017/&#x27;</span>,    <span class="comment"># 测试集所在文件夹</span></span><br><span class="line">        pipeline=test_pipeline))</span><br><span class="line">evaluation = <span class="built_in">dict</span>(metric=[<span class="string">&#x27;bbox&#x27;</span>, <span class="string">&#x27;segm&#x27;</span>])    <span class="comment"># 使用的度量类型</span></span><br></pre></td></tr></table></figure>
+
+<p>由于对应每一个任务的数据集配置可能略有差异，将另建一个文档来逐任务描述配置文件中的更多细节。并列表说明数据集部分每一个模块对应的参数。</p>
+<h3 id="4-2-模型"><a href="#4-2-模型" class="headerlink" title="4.2 模型"></a>4.2 模型</h3><p>模型根据不同的任务，有不同的组装方式。若要对模型进行配置，需要根据不同任务类型，将模型的各个部件以dict的形式组装起来。</p>
+<p>这些内容将分文档描述。由于各人物间模型配置文件差异较大，难以寻找统一格式，这里不再展开细节，详情请见<a href="#Function_Document">功能资料</a>中的文档说明。</p>
+<h3 id="4-3-任务"><a href="#4-3-任务" class="headerlink" title="4.3 任务"></a>4.3 任务</h3><p>在数据集和模型都准备完成后，可以开始进行最终任务配置的组装了。不过我们还需要指定一些超参，以及一些其他的配置才能获得一个完整的配置。在配置文件完成之后，我们依次进行训练、测试、log分析、结果分析四个步骤，来获得我们完成一个任务所需要记录的所有信息。接下来我们将逐步介绍每一步应当如何完成。</p>
+<p>由于模型结构差异较大，不同类型的任务调用的接口是不同的。</p>
+<ul>
+<li>图像分类(mmcls)<ul>
+<li>训练<code>mmlab/mmclassification/tools/dist_train.sh</code></li>
+<li>测试<code>mmlab/mmclassification/tools/dist_test.sh</code></li>
+<li>log分析<code>mmlab/mmclassification/tools/analyze_logs.py</code>(有BUG)</li>
+<li>结果分析<code>mmlab/mmclassification/tools/analyze_results.py</code>(有BUG)</li>
+</ul>
+</li>
+<li>目标检测(mmdet)<ul>
+<li>训练<code>mmlab/mmdetection/tools/dist_train.sh</code></li>
+<li>测试<code>mmlab/mmdetection/tools/dist_test.sh</code></li>
+<li>log分析<code>mmlab/mmdetection/tools/analysis_tools/analyze_logs.py</code></li>
+<li>结果分析<code>mmlab/mmdetection/tools/analysis_tools/analyze_results.py</code></li>
+</ul>
+</li>
+<li>语义分割(mmseg)<ul>
+<li>训练<code>mmlab/mmsegmentation/tools/dist_train.sh</code></li>
+<li>测试<code>mmlab/mmsegmentation/tools/dist_test.sh</code></li>
+<li>log分析<code>mmlab/mmsegmentation/tools/analysis_tools/analyze_logs.py</code>(有BUG)</li>
+<li>结果分析(未制定，可暂用demo推断代替)</li>
+</ul>
+</li>
+<li>图像编辑(mmedit)<ul>
+<li>训练<code>mmlab/mmediting/tools/dist_train.sh</code></li>
+<li>测试<code>mmlab/mmediting/tools/dist_test.sh</code></li>
+<li>log分析(未制定)</li>
+<li>结果分析(其功能已经融合在“测试”功能中)</li>
+</ul>
+</li>
+<li>其他任务接口还未调通，暂不列出</li>
+</ul>
+<p>具体参数根据不同的人物将略有差异，分文档列出。以下需要解释的是配置文件如何组装，以及任务运行后将得到的文件架构。</p>
+<h4 id="4-3-1-任务所应当包含的信息"><a href="#4-3-1-任务所应当包含的信息" class="headerlink" title="4.3.1 任务所应当包含的信息"></a>4.3.1 任务所应当包含的信息</h4><p>虽然目前尚未制定，直接使用命令行调用程序。考虑到为了方便前端和后端的通讯，把一些可能必要的信息列为json文件格式。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;id&quot;</span>: <span class="string">&quot;1nKxh2gtYKNRZpYbmfZGpkchamY&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;Object_Detection&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;dataset_id&quot;</span>: <span class="number">4</span>,</span><br><span class="line">    <span class="attr">&quot;model_name&quot;</span>: <span class="string">&quot;faster_rcnn&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>各个参数解释如下：</p>
+<ul>
+<li>id是对应于每个任务的唯一标识, 任务所包含的所有信息都在task/{ID}这个文件夹下</li>
+<li>type用于表明应该用哪个任务大类的训练/测试/log分析/结果分析程序来执行这个配置</li>
+<li>dataset_id和model_name没有实际作用，主要是为了辨认该任务对应于何种数据集和模型</li>
+</ul>
+<h4 id="4-3-2-一个完整的配置文件的组装"><a href="#4-3-2-一个完整的配置文件的组装" class="headerlink" title="4.3.2 一个完整的配置文件的组装"></a>4.3.2 一个完整的配置文件的组装</h4><h5 id="4-3-2-1-超参相关配置"><a href="#4-3-2-1-超参相关配置" class="headerlink" title="4.3.2.1 超参相关配置"></a>4.3.2.1 超参相关配置</h5><p><span id="Hyperparameters"></span>和超参有关的主要为优化器的选择，learning rate schedule的选择等。其中优化器的选择对应<code>optimizer</code>、<code>optimizer_config</code>两项，learning rate schedule的选择对应<code>lr_config</code>，一个具体例子如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># optimizer</span></span><br><span class="line">optimizer = <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;SGD&#x27;</span>, lr=<span class="number">0.02</span>, momentum=<span class="number">0.9</span>, weight_decay=<span class="number">0.0001</span>)</span><br><span class="line">optimizer_config = <span class="built_in">dict</span>(grad_clip=<span class="literal">None</span>)</span><br><span class="line"><span class="comment"># learning policy</span></span><br><span class="line">lr_config = <span class="built_in">dict</span>(</span><br><span class="line">    policy=<span class="string">&#x27;step&#x27;</span>,</span><br><span class="line">    warmup=<span class="string">&#x27;linear&#x27;</span>,</span><br><span class="line">    warmup_iters=<span class="number">500</span>,</span><br><span class="line">    warmup_ratio=<span class="number">0.001</span>,</span><br><span class="line">    step=[<span class="number">16</span>, <span class="number">22</span>])</span><br><span class="line">runner = <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;EpochBasedRunner&#x27;</span>, max_epochs=<span class="number">24</span>)</span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li><code>optimizer</code>/<code>optimizer_config</code>对应的是优化器的配置，<code>optimizer</code>中的<code>type</code>对应的是优化器类型，其他参数均对应该优化器的参数。</li>
+<li><code>lr_config</code>对应的是learning rate schedule，其中<code>policy</code>对应的是选择的schedule类型，其他参数对应该schedule的参数。</li>
+<li><code>runner</code>主要对应<code>EpochBasedRunner</code>和<code>IterBaseRunner</code>两项，除了图像编辑任务外，其他任务主要使用<code>EpochBasedRunner</code>。</li>
+</ul>
+<h5 id="4-3-2-2-其他参数配置"><a href="#4-3-2-2-其他参数配置" class="headerlink" title="4.3.2.2 其他参数配置"></a>4.3.2.2 其他参数配置</h5><p><span id="Otherparameters"></span>用户需要干涉的主要参数主要包括：</p>
+<ul>
+<li>训练几代或几个iter需要存储一次参数</li>
+<li>训练几个iter后更新一次log文件</li>
+<li>训练之前需要载入哪个参数文件（迁移学习相关）</li>
+<li>任务意外/人为中断后若要继续训练，从哪个参数文件开始</li>
+</ul>
+<p>一个例子如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">checkpoint_config = <span class="built_in">dict</span>(interval=<span class="number">1</span>)  <span class="comment"># 多少个epoch/iter之后存储一次*.pth参数文件</span></span><br><span class="line">log_config = <span class="built_in">dict</span>(</span><br><span class="line">    interval=<span class="number">50</span>,</span><br><span class="line">    hooks=[</span><br><span class="line">        <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;TextLoggerHook&#x27;</span>),</span><br><span class="line">    ])  <span class="comment"># 记录log文件的配置</span></span><br><span class="line">custom_hooks = [<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;NumClassCheckHook&#x27;</span>)]</span><br><span class="line">dist_params = <span class="built_in">dict</span>(backend=<span class="string">&#x27;nccl&#x27;</span>)</span><br><span class="line">log_level = <span class="string">&#x27;INFO&#x27;</span></span><br><span class="line">load_from = <span class="literal">None</span>  <span class="comment"># 载入哪个文件的参数（迁移学习时使用，实际上每个模型组件也有对应的功能）</span></span><br><span class="line">resume_from = <span class="literal">None</span>  <span class="comment"># 从哪个文件继续训练（训练意外中断时使用）</span></span><br><span class="line">workflow = [(<span class="string">&#x27;train&#x27;</span>, <span class="number">1</span>)]</span><br><span class="line">work_dir = <span class="string">&#x27;task/1nKxh2gtYKNRZpYbmfZGpkchamY/training&#x27;</span></span><br><span class="line">gpu_ids = <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>work_dir</code>应当根据任务ID制定，<code>gpu_ids</code>应当由系统自动分配。</p>
+<h5 id="4-3-2-3-关于数据集配置和模型配置的说明"><a href="#4-3-2-3-关于数据集配置和模型配置的说明" class="headerlink" title="4.3.2.3 关于数据集配置和模型配置的说明"></a>4.3.2.3 关于数据集配置和模型配置的说明</h5><p>数据集配置和模型配置较多，将单独列出。不过还有很大一部分已有的配置文件，由于数据集和模型高度相关，写在了同一个配置文件中，这些配置也将单独列出。</p>
+<h5 id="4-3-2-4-一个完整的配置文件的组装"><a href="#4-3-2-4-一个完整的配置文件的组装" class="headerlink" title="4.3.2.4 一个完整的配置文件的组装"></a>4.3.2.4 一个完整的配置文件的组装</h5><p>mmlab框架提供了一个完善的继承机制，可以将各个分离的config模块组装成一个完整的可以调用的config文件。</p>
+<p>实际上只需使用<code>_base_=[...]</code>的形式，即可组装配置文件。一个例子如下（在COCO2017上执行实例分割）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">_base_ = [</span><br><span class="line">    <span class="string">&#x27;mmlab/mmdetection/configs/_base_/models/mask_rcnn_r50_fpn.py&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;mmlab/mmdetection/configs/_base_/datasets/coco_instance.py&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;mmlab/mmdetection/configs/_base_/schedules/schedule_1x.py&#x27;</span>, </span><br><span class="line">    <span class="string">&#x27;mmlab/mmdetection/configs/_base_/default_runtime.py&#x27;</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>前两个文件分别代表模型和数据集的配置，虽然之前已经列出了两个例子，但根据任务类型的不同，这些文件差异较大。第三个文件和超参有关，第四个文件主要是和超参无关的其他配置，这两个文件在各个任务类型之间差异较小。</p>
+<p>实际上我们也可以直接将四个配置文件写在一起，或只载入部分配置文件，也能组成一个完整的配置文件。比如在Faster R-CNN上运行一个口罩识别数据集：</p>
+<details data-markdown>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># model</span></span><br><span class="line">model = <span class="built_in">dict</span>(</span><br><span class="line">    <span class="built_in">type</span>=<span class="string">&#x27;FasterRCNN&#x27;</span>,</span><br><span class="line">    pretrained=<span class="string">&#x27;torchvision://resnet50&#x27;</span>,</span><br><span class="line">    backbone=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;ResNet&#x27;</span>,</span><br><span class="line">        depth=<span class="number">50</span>,</span><br><span class="line">        num_stages=<span class="number">4</span>,</span><br><span class="line">        out_indices=(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>),</span><br><span class="line">        frozen_stages=<span class="number">1</span>,</span><br><span class="line">        norm_cfg=<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;BN&#x27;</span>, requires_grad=<span class="literal">True</span>),</span><br><span class="line">        norm_eval=<span class="literal">True</span>,</span><br><span class="line">        style=<span class="string">&#x27;pytorch&#x27;</span>),</span><br><span class="line">    neck=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;FPN&#x27;</span>,</span><br><span class="line">        in_channels=[<span class="number">256</span>, <span class="number">512</span>, <span class="number">1024</span>, <span class="number">2048</span>],</span><br><span class="line">        out_channels=<span class="number">256</span>,</span><br><span class="line">        num_outs=<span class="number">5</span>),</span><br><span class="line">    rpn_head=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;RPNHead&#x27;</span>,</span><br><span class="line">        in_channels=<span class="number">256</span>,</span><br><span class="line">        feat_channels=<span class="number">256</span>,</span><br><span class="line">        anchor_generator=<span class="built_in">dict</span>(</span><br><span class="line">            <span class="built_in">type</span>=<span class="string">&#x27;AnchorGenerator&#x27;</span>,</span><br><span class="line">            scales=[<span class="number">8</span>],</span><br><span class="line">            ratios=[<span class="number">0.5</span>, <span class="number">1.0</span>, <span class="number">2.0</span>],</span><br><span class="line">            strides=[<span class="number">4</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">32</span>, <span class="number">64</span>]),</span><br><span class="line">        bbox_coder=<span class="built_in">dict</span>(</span><br><span class="line">            <span class="built_in">type</span>=<span class="string">&#x27;DeltaXYWHBBoxCoder&#x27;</span>,</span><br><span class="line">            target_means=[<span class="number">.0</span>, <span class="number">.0</span>, <span class="number">.0</span>, <span class="number">.0</span>],</span><br><span class="line">            target_stds=[<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>]),</span><br><span class="line">        loss_cls=<span class="built_in">dict</span>(</span><br><span class="line">            <span class="built_in">type</span>=<span class="string">&#x27;CrossEntropyLoss&#x27;</span>, use_sigmoid=<span class="literal">True</span>, loss_weight=<span class="number">1.0</span>),</span><br><span class="line">        loss_bbox=<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;L1Loss&#x27;</span>, loss_weight=<span class="number">1.0</span>)),</span><br><span class="line">    roi_head=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;StandardRoIHead&#x27;</span>,</span><br><span class="line">        bbox_roi_extractor=<span class="built_in">dict</span>(</span><br><span class="line">            <span class="built_in">type</span>=<span class="string">&#x27;SingleRoIExtractor&#x27;</span>,</span><br><span class="line">            roi_layer=<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;RoIAlign&#x27;</span>, output_size=<span class="number">7</span>, sampling_ratio=<span class="number">0</span>),</span><br><span class="line">            out_channels=<span class="number">256</span>,</span><br><span class="line">            featmap_strides=[<span class="number">4</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">32</span>]),</span><br><span class="line">        bbox_head=<span class="built_in">dict</span>(</span><br><span class="line">            <span class="built_in">type</span>=<span class="string">&#x27;Shared2FCBBoxHead&#x27;</span>,</span><br><span class="line">            in_channels=<span class="number">256</span>,</span><br><span class="line">            fc_out_channels=<span class="number">1024</span>,</span><br><span class="line">            roi_feat_size=<span class="number">7</span>,</span><br><span class="line">            num_classes=<span class="number">2</span>,</span><br><span class="line">            bbox_coder=<span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;DeltaXYWHBBoxCoder&#x27;</span>,</span><br><span class="line">                target_means=[<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">                target_stds=[<span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.2</span>, <span class="number">0.2</span>]),</span><br><span class="line">            reg_class_agnostic=<span class="literal">False</span>,</span><br><span class="line">            loss_cls=<span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;CrossEntropyLoss&#x27;</span>, use_sigmoid=<span class="literal">False</span>, loss_weight=<span class="number">1.0</span>),</span><br><span class="line">            loss_bbox=<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;L1Loss&#x27;</span>, loss_weight=<span class="number">1.0</span>))),</span><br><span class="line">    <span class="comment"># model training and testing settings</span></span><br><span class="line">    train_cfg=<span class="built_in">dict</span>(</span><br><span class="line">        rpn=<span class="built_in">dict</span>(</span><br><span class="line">            assigner=<span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;MaxIoUAssigner&#x27;</span>,</span><br><span class="line">                pos_iou_thr=<span class="number">0.7</span>,</span><br><span class="line">                neg_iou_thr=<span class="number">0.3</span>,</span><br><span class="line">                min_pos_iou=<span class="number">0.3</span>,</span><br><span class="line">                match_low_quality=<span class="literal">True</span>,</span><br><span class="line">                ignore_iof_thr=-<span class="number">1</span>),</span><br><span class="line">            sampler=<span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;RandomSampler&#x27;</span>,</span><br><span class="line">                num=<span class="number">256</span>,</span><br><span class="line">                pos_fraction=<span class="number">0.5</span>,</span><br><span class="line">                neg_pos_ub=-<span class="number">1</span>,</span><br><span class="line">                add_gt_as_proposals=<span class="literal">False</span>),</span><br><span class="line">            allowed_border=-<span class="number">1</span>,</span><br><span class="line">            pos_weight=-<span class="number">1</span>,</span><br><span class="line">            debug=<span class="literal">False</span>),</span><br><span class="line">        rpn_proposal=<span class="built_in">dict</span>(</span><br><span class="line">            nms_pre=<span class="number">2000</span>,</span><br><span class="line">            max_per_img=<span class="number">1000</span>,</span><br><span class="line">            nms=<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;nms&#x27;</span>, iou_threshold=<span class="number">0.7</span>),</span><br><span class="line">            min_bbox_size=<span class="number">0</span>),</span><br><span class="line">        rcnn=<span class="built_in">dict</span>(</span><br><span class="line">            assigner=<span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;MaxIoUAssigner&#x27;</span>,</span><br><span class="line">                pos_iou_thr=<span class="number">0.5</span>,</span><br><span class="line">                neg_iou_thr=<span class="number">0.5</span>,</span><br><span class="line">                min_pos_iou=<span class="number">0.5</span>,</span><br><span class="line">                match_low_quality=<span class="literal">False</span>,</span><br><span class="line">                ignore_iof_thr=-<span class="number">1</span>),</span><br><span class="line">            sampler=<span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;RandomSampler&#x27;</span>,</span><br><span class="line">                num=<span class="number">512</span>,</span><br><span class="line">                pos_fraction=<span class="number">0.25</span>,</span><br><span class="line">                neg_pos_ub=-<span class="number">1</span>,</span><br><span class="line">                add_gt_as_proposals=<span class="literal">True</span>),</span><br><span class="line">            pos_weight=-<span class="number">1</span>,</span><br><span class="line">            debug=<span class="literal">False</span>)),</span><br><span class="line">    test_cfg=<span class="built_in">dict</span>(</span><br><span class="line">        rpn=<span class="built_in">dict</span>(</span><br><span class="line">            nms_pre=<span class="number">1000</span>,</span><br><span class="line">            max_per_img=<span class="number">1000</span>,</span><br><span class="line">            nms=<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;nms&#x27;</span>, iou_threshold=<span class="number">0.7</span>),</span><br><span class="line">            min_bbox_size=<span class="number">0</span>),</span><br><span class="line">        rcnn=<span class="built_in">dict</span>(</span><br><span class="line">            score_thr=<span class="number">0.05</span>,</span><br><span class="line">            nms=<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;nms&#x27;</span>, iou_threshold=<span class="number">0.5</span>),</span><br><span class="line">            max_per_img=<span class="number">100</span>)</span><br><span class="line">        <span class="comment"># soft-nms is also supported for rcnn testing</span></span><br><span class="line">        <span class="comment"># e.g., nms=dict(type=&#x27;soft_nms&#x27;, iou_threshold=0.5, min_score=0.05)</span></span><br><span class="line">    ))</span><br><span class="line"><span class="comment"># dataset settings</span></span><br><span class="line">data = <span class="built_in">dict</span>(</span><br><span class="line">    samples_per_gpu=<span class="number">16</span>,</span><br><span class="line">    workers_per_gpu=<span class="number">2</span>,</span><br><span class="line">    train=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;VOCStyleDataset&#x27;</span>,</span><br><span class="line">        CLASSES = (<span class="string">&#x27;face&#x27;</span>, <span class="string">&#x27;face_mask&#x27;</span>),</span><br><span class="line">        ann_file=<span class="string">&#x27;data/VOCdevkit/VOCFaceMask/ImageSets/Main/train.txt&#x27;</span>,</span><br><span class="line">        img_prefix=<span class="string">&#x27;data/VOCdevkit/VOCFaceMask/&#x27;</span>,</span><br><span class="line">        pipeline=[</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadImageFromFile&#x27;</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadAnnotations&#x27;</span>, with_bbox=<span class="literal">True</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Resize&#x27;</span>, img_scale=(<span class="number">1000</span>, <span class="number">600</span>), keep_ratio=<span class="literal">True</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;RandomFlip&#x27;</span>, flip_ratio=<span class="number">0.5</span>),</span><br><span class="line">            <span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;Normalize&#x27;</span>,</span><br><span class="line">                mean=[<span class="number">123.675</span>, <span class="number">116.28</span>, <span class="number">103.53</span>],</span><br><span class="line">                std=[<span class="number">58.395</span>, <span class="number">57.12</span>, <span class="number">57.375</span>],</span><br><span class="line">                to_rgb=<span class="literal">True</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Pad&#x27;</span>, size_divisor=<span class="number">32</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;DefaultFormatBundle&#x27;</span>),</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Collect&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>, <span class="string">&#x27;gt_bboxes&#x27;</span>, <span class="string">&#x27;gt_labels&#x27;</span>])</span><br><span class="line">        ]),</span><br><span class="line">    val=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;VOCStyleDataset&#x27;</span>,</span><br><span class="line">        CLASSES = (<span class="string">&#x27;face&#x27;</span>, <span class="string">&#x27;face_mask&#x27;</span>),</span><br><span class="line">        ann_file=<span class="string">&#x27;data/VOCdevkit/VOCFaceMask/ImageSets/Main/val.txt&#x27;</span>,</span><br><span class="line">        img_prefix=<span class="string">&#x27;data/VOCdevkit/VOCFaceMask/&#x27;</span>,</span><br><span class="line">        pipeline=[</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadImageFromFile&#x27;</span>),</span><br><span class="line">            <span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;MultiScaleFlipAug&#x27;</span>,</span><br><span class="line">                img_scale=(<span class="number">1000</span>, <span class="number">600</span>),</span><br><span class="line">                flip=<span class="literal">False</span>,</span><br><span class="line">                transforms=[</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Resize&#x27;</span>, keep_ratio=<span class="literal">True</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;RandomFlip&#x27;</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(</span><br><span class="line">                        <span class="built_in">type</span>=<span class="string">&#x27;Normalize&#x27;</span>,</span><br><span class="line">                        mean=[<span class="number">123.675</span>, <span class="number">116.28</span>, <span class="number">103.53</span>],</span><br><span class="line">                        std=[<span class="number">58.395</span>, <span class="number">57.12</span>, <span class="number">57.375</span>],</span><br><span class="line">                        to_rgb=<span class="literal">True</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Pad&#x27;</span>, size_divisor=<span class="number">32</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;ImageToTensor&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>]),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Collect&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>])</span><br><span class="line">                ])</span><br><span class="line">        ]),</span><br><span class="line">    test=<span class="built_in">dict</span>(</span><br><span class="line">        <span class="built_in">type</span>=<span class="string">&#x27;VOCStyleDataset&#x27;</span>,</span><br><span class="line">        CLASSES = (<span class="string">&#x27;face&#x27;</span>, <span class="string">&#x27;face_mask&#x27;</span>),</span><br><span class="line">        ann_file=<span class="string">&#x27;data/VOCdevkit/VOCFaceMask/ImageSets/Main/val.txt&#x27;</span>,</span><br><span class="line">        img_prefix=<span class="string">&#x27;data/VOCdevkit/VOCFaceMask/&#x27;</span>,</span><br><span class="line">        pipeline=[</span><br><span class="line">            <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;LoadImageFromFile&#x27;</span>),</span><br><span class="line">            <span class="built_in">dict</span>(</span><br><span class="line">                <span class="built_in">type</span>=<span class="string">&#x27;MultiScaleFlipAug&#x27;</span>,</span><br><span class="line">                img_scale=(<span class="number">1000</span>, <span class="number">600</span>),</span><br><span class="line">                flip=<span class="literal">False</span>,</span><br><span class="line">                transforms=[</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Resize&#x27;</span>, keep_ratio=<span class="literal">True</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;RandomFlip&#x27;</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(</span><br><span class="line">                        <span class="built_in">type</span>=<span class="string">&#x27;Normalize&#x27;</span>,</span><br><span class="line">                        mean=[<span class="number">123.675</span>, <span class="number">116.28</span>, <span class="number">103.53</span>],</span><br><span class="line">                        std=[<span class="number">58.395</span>, <span class="number">57.12</span>, <span class="number">57.375</span>],</span><br><span class="line">                        to_rgb=<span class="literal">True</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Pad&#x27;</span>, size_divisor=<span class="number">32</span>),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;ImageToTensor&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>]),</span><br><span class="line">                    <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;Collect&#x27;</span>, keys=[<span class="string">&#x27;img&#x27;</span>])</span><br><span class="line">                ])</span><br><span class="line">        ]))</span><br><span class="line">evaluation = <span class="built_in">dict</span>(interval=<span class="number">1</span>, metric=<span class="string">&#x27;mAP&#x27;</span>)    </span><br><span class="line"><span class="comment"># optimizer</span></span><br><span class="line">optimizer = <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;SGD&#x27;</span>, lr=<span class="number">0.01</span>, momentum=<span class="number">0.9</span>, weight_decay=<span class="number">0.0001</span>)</span><br><span class="line">optimizer_config = <span class="built_in">dict</span>(grad_clip=<span class="literal">None</span>)</span><br><span class="line"><span class="comment"># learning policy</span></span><br><span class="line">lr_config = <span class="built_in">dict</span>(policy=<span class="string">&#x27;step&#x27;</span>, step=[<span class="number">3</span>])</span><br><span class="line"><span class="comment"># runtime settings</span></span><br><span class="line">runner = <span class="built_in">dict</span>(</span><br><span class="line">    <span class="built_in">type</span>=<span class="string">&#x27;EpochBasedRunner&#x27;</span>, max_epochs=<span class="number">20</span>)</span><br><span class="line">checkpoint_config = <span class="built_in">dict</span>(interval=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">log_config = <span class="built_in">dict</span>(</span><br><span class="line">    interval=<span class="number">50</span>,</span><br><span class="line">    hooks=[</span><br><span class="line">        <span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;TextLoggerHook&#x27;</span>),</span><br><span class="line">    ])</span><br><span class="line"></span><br><span class="line">custom_hooks = [<span class="built_in">dict</span>(<span class="built_in">type</span>=<span class="string">&#x27;NumClassCheckHook&#x27;</span>)]</span><br><span class="line">dist_params = <span class="built_in">dict</span>(backend=<span class="string">&#x27;nccl&#x27;</span>)</span><br><span class="line">log_level = <span class="string">&#x27;INFO&#x27;</span></span><br><span class="line">load_from = <span class="literal">None</span></span><br><span class="line">resume_from = <span class="literal">None</span></span><br><span class="line">workflow = [(<span class="string">&#x27;train&#x27;</span>, <span class="number">1</span>)]</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h4 id="4-3-3-任务的文件架构"><a href="#4-3-3-任务的文件架构" class="headerlink" title="4.3.3 任务的文件架构"></a>4.3.3 任务的文件架构</h4><p>关于任务方面，初始创建任务时，我们现在先在task文件夹下创建一个以任务ID为名称的文件夹。然后进行配置文件<code>config.py</code>的组装。</p>
+<p>只要文件夹下有一个完整的<code>config.py</code>文件，就可以开始执行“训练-测试-log分析-结果分析”流程。</p>
+<p>当一个完整的“训练-测试-log分析-结果分析”流程结束后，预计文件架构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">task</span><br><span class="line">├─1nKxh2gtYKNRZpYbmfZGpkchamY</span><br><span class="line">│  ├─config.py</span><br><span class="line">│  ├─training</span><br><span class="line">│  │  ├─20210324_144228.log</span><br><span class="line">│  │  ├─20210324_144228.log.json</span><br><span class="line">│  │  ├─latest.pth</span><br><span class="line">│  ├─result.pkl</span><br><span class="line">│  ├─log_analysis</span><br><span class="line">│  │  ├─mAP_epoch.png</span><br><span class="line">│  │  ├─...</span><br><span class="line">│  ├─result_analysis</span><br><span class="line">│  │  ├─bad</span><br><span class="line">│  │  │  ├─0001.jpg</span><br><span class="line">│  │  │  ├─...</span><br><span class="line">│  │  ├─good</span><br><span class="line">│  │  │  ├─1001.jpg</span><br><span class="line">│  │  │  ├─...</span><br></pre></td></tr></table></figure>
+
+<p>其中各个文件夹内容为：</p>
+<ul>
+<li><code>config.py</code> 包含了调用的数据集、模型等信息的配置文件。是初始任务创建的必要文件，该文件制定完整后则可以进行训练。</li>
+<li><code>training</code> 包含了训练产生的临时文件、log文件、以及训练好的模型参数的文件夹。该文件夹在训练开始后产生。<ul>
+<li>log文件以训练开始的时间为名称，存储了每一个epoch/iter的训练及验证信息</li>
+<li><code>latest.pth</code>即为每一个epoch/iter结束后训练好的参数文件保存</li>
+</ul>
+</li>
+<li><code>result.pkl</code> 由测试进程产生，包含了验证/测试集图片上的测试信息，应当包括每张图片的得分/类别，以及整个模型的性能信息等。</li>
+<li><code>log_analysis</code> 包含对log进行分析产生的结果存放，目前主要是各种度量关于epoch/iter的变化曲线。</li>
+<li><code>result_analysis</code> 包含测试结果。其中得分最差的20个图片放在<code>bad</code>文件夹下，得分最好的20个图片放在<code>good</code>文件夹下。对于目标检测/实例分割任务，这里的所有图片都标注了预测框（橙色）和ground truth（蓝色）。对于不同任务可能有所差异（比如对于图像编辑将直接存放测试结果）</li>
+</ul>
 
       
     </div>
